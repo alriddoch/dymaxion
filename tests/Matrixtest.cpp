@@ -2,7 +2,7 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2009 Alistair Riddoch
 
-#include <Mercator/Matrix.h>
+#include <dymaxion/Matrix.h>
 
 int main()
 {

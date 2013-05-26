@@ -1,15 +1,15 @@
-Mercator: a procedural terrain library
+Dymaxion: a procedural terrain library
 ======================================
 
 This is a development release. The API is currently not frozen. Stable
 releases of other packages should not be made against this software.
 
-Mercator is primarily aimed at terrain for multiplayer online games and
+Dymaxion is primarily aimed at terrain for multiplayer online games and
 forms one of the WorldForge (http://www.worldforge.org) core libraries.
 It is intended to be used as a terrain library on both the client, and the
 server.
 
-Mercator is designed in such a way that individual tiles can be
+Dymaxion is designed in such a way that individual tiles can be
 generated on-the-fly from a very small source data set.  Each tile uses
 a fast deterministic random number generation to ensure that identical
 results are produced "anytime, anywhere".  This enables transmission of
@@ -71,26 +71,3 @@ Currently incomplete and has hardcoded parameters
 Current Limitations
 -------------------
 * multiple resolutions in the one terrain are unsupported
-
-Implementations
----------------
-As of September 2003, Mercator is used in:
-Equator - allows editing of base points
-Apogee - implements shaders
-Stage
-Cyphesis
-
-Screenshots 
------------
-(bear in mind that some of these shots may have terrain with somewhat
-unrealistic parameters for more interesting demos)
-
-* Equator showing part of a terrain
-http://members.austarmetro.com.au/~mcginnes/snapshot8.png
-* Apogee showing shaders in action
-http://www.ecs.soton.ac.uk/~ajr/WF/apogee_terrain_shaders.png
-* Equator showing some modifiers applied
-http://members.austarmetro.com.au/~mcginnes/snapshot8.png
-http://members.austarmetro.com.au/~mcginnes/mercatorMesa.jpg
-
-                   

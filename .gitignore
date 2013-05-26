@@ -19,9 +19,14 @@ depcomp
 install-sh
 libtool
 ltmain.sh
-mercator-0.3.pc
-mercator.spec
-mingw32-mercator.spec
+m4/libtool.m4
+m4/ltoptions.m4
+m4/ltsugar.m4
+m4/ltversion.m4
+m4/lt~obsolete.m4
+dymaxion-0.3.pc
+dymaxion.spec
+mingw32-dymaxion.spec
 missing
 stamp-h1
 tests/mercatortest

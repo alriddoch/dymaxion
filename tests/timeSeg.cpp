@@ -2,11 +2,11 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2003 Damien McGinnes
 
-#include <Mercator/Terrain.h>
-#include <Mercator/Segment.h>
-#include <Mercator/Intersect.h>
-#include <Mercator/Forest.h>
-#include <Mercator/Area.h>
+#include <dymaxion/Terrain.h>
+#include <dymaxion/Segment.h>
+#include <dymaxion/Intersect.h>
+#include <dymaxion/Forest.h>
+#include <dymaxion/Area.h>
 #include "util_timer.h"
 #include <iostream>
 

@@ -3,9 +3,9 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2009 Alistair Riddoch
 
-#include <Mercator/Terrain.h>
-#include <Mercator/FillShader.h>
-#include <Mercator/Segment.h>
+#include <dymaxion/Terrain.h>
+#include <dymaxion/FillShader.h>
+#include <dymaxion/Segment.h>
 
 #include <cassert>
 

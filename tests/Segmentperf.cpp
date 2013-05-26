@@ -3,7 +3,7 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2009 Alistair Riddoch
 
-#include <Mercator/Segment.h>
+#include <dymaxion/Segment.h>
 
 #include <wfmath/point.h>
 #include <wfmath/axisbox.h>
@@ -37,8 +37,8 @@ int main(int argc, char ** argv)
 
 // stubs
 
-#include <Mercator/Shader.h>
-#include <Mercator/Surface.h>
+#include <dymaxion/Shader.h>
+#include <dymaxion/Surface.h>
 
 namespace Mercator {
 

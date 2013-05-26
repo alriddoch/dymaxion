@@ -2,12 +2,12 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2005 Alistair Riddoch
 
-#include <Mercator/ShaderFactory.h>
+#include <dymaxion/ShaderFactory.h>
 
-#include <Mercator/FillShader.h>
-#include <Mercator/ThresholdShader.h>
-#include <Mercator/DepthShader.h>
-#include <Mercator/GrassShader.h>
+#include <dymaxion/FillShader.h>
+#include <dymaxion/ThresholdShader.h>
+#include <dymaxion/DepthShader.h>
+#include <dymaxion/GrassShader.h>
 
 #include <iostream>
 

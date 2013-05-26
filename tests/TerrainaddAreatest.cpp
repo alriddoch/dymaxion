@@ -2,12 +2,12 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2010 Alistair Riddoch
 
-#include <Mercator/Terrain.h>
+#include <dymaxion/Terrain.h>
 
-#include <Mercator/Area.h>
-#include <Mercator/Segment.h>
-#include <Mercator/Shader.h>
-#include <Mercator/Surface.h>
+#include <dymaxion/Area.h>
+#include <dymaxion/Segment.h>
+#include <dymaxion/Shader.h>
+#include <dymaxion/Surface.h>
 
 #include <wfmath/point.h>
 
@@ -113,10 +113,10 @@ int main()
 
 // stubs
 
-#include <Mercator/Area.h>
-#include <Mercator/Buffer_impl.h>
-#include <Mercator/Shader.h>
-#include <Mercator/TerrainMod.h>
+#include <dymaxion/Area.h>
+#include <dymaxion/Buffer_impl.h>
+#include <dymaxion/Shader.h>
+#include <dymaxion/TerrainMod.h>
 
 namespace Mercator {
 

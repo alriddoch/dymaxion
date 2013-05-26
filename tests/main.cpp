@@ -2,10 +2,10 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2003 Damien McGinnes, Alistair Riddoch
 
-#include <Mercator/Segment.h>
-#include <Mercator/Terrain.h>
-#include <Mercator/Matrix.h>
-#include <Mercator/BasePoint.h>
+#include <dymaxion/Segment.h>
+#include <dymaxion/Terrain.h>
+#include <dymaxion/Matrix.h>
+#include <dymaxion/BasePoint.h>
 
 #include <iostream>
 

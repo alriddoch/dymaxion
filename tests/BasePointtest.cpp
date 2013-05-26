@@ -2,7 +2,7 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2009 Alistair Riddoch
 
-#include <Mercator/BasePoint.h>
+#include <dymaxion/BasePoint.h>
 
 int main()
 {

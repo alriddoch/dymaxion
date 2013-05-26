@@ -2,9 +2,9 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2004 Alistair Riddoch
 
-#include <Mercator/Forest.h>
-#include <Mercator/Plant.h>
-#include <Mercator/Area.h>
+#include <dymaxion/Forest.h>
+#include <dymaxion/Plant.h>
+#include <dymaxion/Area.h>
 
 #include <iostream>
 

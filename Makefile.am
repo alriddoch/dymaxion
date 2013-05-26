@@ -1,11 +1,11 @@
-SUBDIRS = Mercator tests
+SUBDIRS = dymaxion tests
 
 ACLOCAL_AMFLAGS = -I m4
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = mercator-0.3.pc
+pkgconfig_DATA = dymaxion-0.3.pc
 
-EXTRA_DIST = mercator.spec Doxyfile autogen.sh
+EXTRA_DIST = dymaxion.spec Doxyfile autogen.sh
 
 docs:
 	@echo "running doxygen..."

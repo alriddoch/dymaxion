@@ -2,9 +2,9 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2003 Damien McGinnes
 
-#include <Mercator/Terrain.h>
-#include <Mercator/Segment.h>
-#include <Mercator/Intersect.h>
+#include <dymaxion/Terrain.h>
+#include <dymaxion/Segment.h>
+#include <dymaxion/Intersect.h>
 
 #include <iostream>
 

@@ -7,7 +7,7 @@ TESTS = mercatortest Terraintest Shadertest TerrainModtest Intersecttest \
 
 AM_CPPFLAGS = -I$(top_srcdir)
 
-LDADD = $(top_builddir)/Mercator/libmercator-0.3.la
+LDADD = $(top_builddir)/dymaxion/libmercator-0.3.la
 
 DISTCLEANFILES = test1.pgm test2.pgm
 
@@ -25,22 +25,22 @@ TerrainModtest_SOURCES = TerrainModtest.cpp
 
 Intersecttest_SOURCES = Intersecttest.cpp
 Intersecttest_LDADD = \
-    $(top_builddir)/Mercator/Area.lo \
-    $(top_builddir)/Mercator/BasePoint.lo \
-    $(top_builddir)/Mercator/Buffer.lo \
-    $(top_builddir)/Mercator/Effector.lo \
-    $(top_builddir)/Mercator/Intersect.lo \
-    $(top_builddir)/Mercator/Segment.lo \
-    $(top_builddir)/Mercator/Shader.lo \
-    $(top_builddir)/Mercator/Surface.lo \
-    $(top_builddir)/Mercator/Terrain.lo
+    $(top_builddir)/dymaxion/Area.lo \
+    $(top_builddir)/dymaxion/BasePoint.lo \
+    $(top_builddir)/dymaxion/Buffer.lo \
+    $(top_builddir)/dymaxion/Effector.lo \
+    $(top_builddir)/dymaxion/Intersect.lo \
+    $(top_builddir)/dymaxion/Segment.lo \
+    $(top_builddir)/dymaxion/Shader.lo \
+    $(top_builddir)/dymaxion/Surface.lo \
+    $(top_builddir)/dymaxion/Terrain.lo
 
 testPhys_SOURCES = testPhys.cpp
 
 timeSeg_SOURCES = timeSeg.cpp util_timer.h util_timer.cpp
 
 Planttest_SOURCES = Planttest.cpp
-Planttest_LDADD = $(top_builddir)/Mercator/Plant.lo
+Planttest_LDADD = $(top_builddir)/dymaxion/Plant.lo
 
 Foresttest_SOURCES = Foresttest.cpp
 
@@ -55,15 +55,15 @@ ShaderFactorytest_SOURCES = ShaderFactorytest.cpp
 testWFMath_SOURCES = testWFMath.cpp
 
 Buffertest_SOURCES = Buffertest.cpp
-Buffertest_LDADD = $(top_builddir)/Mercator/Buffer.lo
+Buffertest_LDADD = $(top_builddir)/dymaxion/Buffer.lo
 
 Segmenttest_SOURCES = Segmenttest.cpp
-Segmenttest_LDADD = $(top_builddir)/Mercator/Segment.lo
+Segmenttest_LDADD = $(top_builddir)/dymaxion/Segment.lo
 
 AreaShadertest_SOURCES = AreaShadertest.cpp
 
 BasePointtest_SOURCES = BasePointtest.cpp
-BasePointtest_LDADD = $(top_builddir)/Mercator/BasePoint.lo
+BasePointtest_LDADD = $(top_builddir)/dymaxion/BasePoint.lo
 
 DepthShadertest_SOURCES = DepthShadertest.cpp
 
@@ -74,13 +74,13 @@ GrassShadertest_SOURCES = GrassShadertest.cpp
 ThresholdShadertest_SOURCES = ThresholdShadertest.cpp
 
 Matrixtest_SOURCES = Matrixtest.cpp
-Matrixtest_LDADD = $(top_builddir)/Mercator/Matrix.lo
+Matrixtest_LDADD = $(top_builddir)/dymaxion/Matrix.lo
 
 TerrainaddAreatest_SOURCES = TerrainaddAreatest.cpp
-TerrainaddAreatest_LDADD = $(top_builddir)/Mercator/Terrain.lo \
-                           $(top_builddir)/Mercator/Segment.lo \
-                           $(top_builddir)/Mercator/Area.lo
+TerrainaddAreatest_LDADD = $(top_builddir)/dymaxion/Terrain.lo \
+                           $(top_builddir)/dymaxion/Segment.lo \
+                           $(top_builddir)/dymaxion/Area.lo
 
 Segmentperf_SOURCES = Segmentperf.cpp
-Segmentperf_LDADD = $(top_builddir)/Mercator/Segment.lo
+Segmentperf_LDADD = $(top_builddir)/dymaxion/Segment.lo
 

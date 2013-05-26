@@ -2,8 +2,8 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2009 Alistair Riddoch
 
-#include <Mercator/Buffer.h>
-#include <Mercator/Segment.h>
+#include <dymaxion/Buffer.h>
+#include <dymaxion/Segment.h>
 
 int main()
 {

@@ -1,19 +1,19 @@
 /** @page index
 
-<H1>Mercator</H1>
+<H1>Dymaxion</H1>
 
-Welcome to the Mercator documentation.
+Welcome to the Dymaxion documentation.
 
 <H2>Links</H2>
 
 <UL>
 <LI><a href="http://www.worldforge.org/">The WorldForge Project</a></LI>
-<LI><a hreF="http://www.worldforge.org/dev/eng/libs/mercator">Mercator</a></LI>
+<LI><a hreF="http://www.worldforge.org/dev/eng/libs/mercator">Dymaxion</a></LI>
 </UL>
 
 <H2>Contact</H2>
 
-The current maintainer and main author for Mercator is Al Riddoch
+The current maintainer and main author for Dymaxion is Al Riddoch
 <alriddoch@zepler.org>.
 
 */

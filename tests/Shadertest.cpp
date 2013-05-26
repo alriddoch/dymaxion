@@ -2,12 +2,12 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2003 Alistair Riddoch
 
-#include <Mercator/Segment.h>
-#include <Mercator/Surface.h>
-#include <Mercator/FillShader.h>
-#include <Mercator/ThresholdShader.h>
-#include <Mercator/DepthShader.h>
-#include <Mercator/GrassShader.h>
+#include <dymaxion/Segment.h>
+#include <dymaxion/Surface.h>
+#include <dymaxion/FillShader.h>
+#include <dymaxion/ThresholdShader.h>
+#include <dymaxion/DepthShader.h>
+#include <dymaxion/GrassShader.h>
 
 template <class ShaderType>
 int shadeTest(Mercator::Segment & segment)

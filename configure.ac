@@ -1,7 +1,7 @@
 dnl Initialise autoconf
 
-AC_INIT([mercator], [0.3.2], [alriddoch@googlemail.com])
-AC_CONFIG_SRCDIR([Mercator/Mercator.cpp])
+AC_INIT([dymaxion], [0.3.2], [alriddoch@googlemail.com])
+AC_CONFIG_SRCDIR([dymaxion/dymaxion.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 dnl Detect the canonical host and target environment
@@ -14,16 +14,16 @@ AM_INIT_AUTOMAKE([nostdinc dist-bzip2 check-news color-tests parallel-tests no-d
 AM_SILENT_RULES([yes])
 
 dnl versioning info for libtool
-MERCATOR_CURRENT=3
-MERCATOR_REVISION=0
-MERCATOR_AGE=0
-MERCATOR_VERSION_INFO=$MERCATOR_CURRENT:$MERCATOR_REVISION:$MERCATOR_AGE
+DYMAXION_CURRENT=3
+DYMAXION_REVISION=0
+DYMAXION_AGE=0
+DYMAXION_VERSION_INFO=$DYMAXION_CURRENT:$DYMAXION_REVISION:$DYMAXION_AGE
 
-MERCATOR_LIB_SUFFIX="-0.3"
-MERCATOR_LIBS="-lmercator$MERCATOR_LIB_SUFFIX"
-MERCATOR_REQUIRES=""
+DYMAXION_LIB_SUFFIX="-0.3"
+DYMAXION_LIBS="-ldymaxion$DYMAXION_LIB_SUFFIX"
+DYMAXION_REQUIRES=""
 
-AC_SUBST(MERCATOR_VERSION_INFO)
+AC_SUBST(DYMAXION_VERSION_INFO)
 
 dnl Test for GNU libtool
 
@@ -65,7 +65,7 @@ PKG_CHECK_MODULES(WF, wfmath-1.0 >= 1.0.0,
     [
         CPPFLAGS="$CPPFLAGS $WF_CFLAGS"
         LIBS="$LIBS $WF_LIBS"
-        MERCATOR_REQUIRES="$MERCATOR_REQUIRES wfmath-1.0"
+        DYMAXION_REQUIRES="$DYMAXION_REQUIRES wfmath-1.0"
     ],
     [
         AC_MSG_ERROR([
@@ -73,24 +73,24 @@ Cannot find valid versions of required WorldForge maths library, wfmath:
 $WF_PKG_ERRORS
 Perhaps you should add the directory containing the missing libraries to the
 PKG_CONFIG_PATH environment variable.
-Please see http://www.worldforge.org/dev/eng/libraries/mercator for details of
+Please see dymaxion for details of
 the libraries required and where to obtain them.])
     ])
 
 SYSTEM_LIBS=""
-MERCATOR_CFLAGS=""
+DYMAXION_CFLAGS=""
 AC_SUBST(SYSTEM_LIBS)
-AC_SUBST(MERCATOR_LIB_SUFFIX)
-AC_SUBST(MERCATOR_LIBS)
-AC_SUBST(MERCATOR_CFLAGS)
-AC_SUBST(MERCATOR_REQUIRES)
+AC_SUBST(DYMAXION_LIB_SUFFIX)
+AC_SUBST(DYMAXION_LIBS)
+AC_SUBST(DYMAXION_CFLAGS)
+AC_SUBST(DYMAXION_REQUIRES)
 
 AC_CONFIG_FILES([
 	Makefile
-	Mercator/Makefile
+	dymaxion/Makefile
 	tests/Makefile
-	mercator.spec
-	mingw32-mercator.spec
-	mercator-0.3.pc
+	dymaxion.spec
+	mingw32-dymaxion.spec
+	dymaxion-0.3.pc
 ])
 AC_OUTPUT

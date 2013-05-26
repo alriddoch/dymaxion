@@ -1,9 +1,9 @@
-#include <Mercator/Area.h>
-#include <Mercator/Terrain.h>
-#include <Mercator/Segment.h>
-#include <Mercator/Surface.h>
-#include <Mercator/AreaShader.h>
-#include <Mercator/FillShader.h>
+#include <dymaxion/Area.h>
+#include <dymaxion/Terrain.h>
+#include <dymaxion/Segment.h>
+#include <dymaxion/Surface.h>
+#include <dymaxion/AreaShader.h>
+#include <dymaxion/FillShader.h>
 
 #include <cstdlib>
 #include <cassert>
