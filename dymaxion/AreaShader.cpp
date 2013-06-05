@@ -20,7 +20,7 @@
 
 #include <cassert>
 
-namespace Mercator
+namespace dymaxion
 {
 
 typedef WFMath::Point<2> Point2;

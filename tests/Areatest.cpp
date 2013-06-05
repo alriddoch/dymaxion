@@ -12,7 +12,7 @@
 
 typedef WFMath::Point<2> Point2;
 
-void writePGMForSurface(const std::string& fileName, int sz, Mercator::Surface* s)
+void writePGMForSurface(const std::string& fileName, int sz, dymaxion::Surface* s)
 {
     assert(s);
     
@@ -27,7 +27,7 @@ void writePGMForSurface(const std::string& fileName, int sz, Mercator::Surface* 
 
 void testAreaShader()
 {
-    Mercator::Area* a1 = new Mercator::Area(1, false);
+    dymaxion::Area* a1 = new dymaxion::Area(1, false);
     
     WFMath::Polygon<2> p;
     p.addCorner(p.numCorners(), Point2(3, 4));
@@ -41,7 +41,7 @@ void testAreaShader()
     
     a1->setShape(p);
     
-    Mercator::Area* a2 = new Mercator::Area(1, false);
+    dymaxion::Area* a2 = new dymaxion::Area(1, false);
     
     WFMath::Polygon<2> p2;
     p2.addCorner(p2.numCorners(), Point2(25, 18));
@@ -53,13 +53,13 @@ void testAreaShader()
     p2.addCorner(p2.numCorners(), Point2(-2, 20));
     a2->setShape(p2);
     
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, 16);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
     
-    Mercator::Shader * base_shader =
-          new Mercator::FillShader(Mercator::Shader::Parameters());
+    dymaxion::Shader * base_shader =
+          new dymaxion::FillShader(dymaxion::Shader::Parameters());
     terrain.addShader(base_shader, 0);
 
-    Mercator::AreaShader* ashade = new Mercator::AreaShader(1);
+    dymaxion::AreaShader* ashade = new dymaxion::AreaShader(1);
     terrain.addShader(ashade, 1);
     
     terrain.setBasePoint(0, 0, -1);
@@ -72,7 +72,7 @@ void testAreaShader()
     terrain.addArea(a1);
    // terrain.addArea(a2);
     
-    Mercator::Segment* seg = terrain.getSegment(0,0);
+    dymaxion::Segment* seg = terrain.getSegment(0,0);
     assert(a1->checkIntersects(*seg));
     
     seg->populateSurfaces();
@@ -88,7 +88,7 @@ static const unsigned int seg_size = 8;
     
 void testAddToSegment()
 {
-    Mercator::Area* a1 = new Mercator::Area(1, false);
+    dymaxion::Area* a1 = new dymaxion::Area(1, false);
     
     WFMath::Polygon<2> p;
     p.addCorner(p.numCorners(), Point2(1, 1));
@@ -98,12 +98,12 @@ void testAddToSegment()
     
     a1->setShape(p);
     
-    Mercator::Segment * seg1 = new Mercator::Segment(0,0,seg_size);
+    dymaxion::Segment * seg1 = new dymaxion::Segment(0,0,seg_size);
 
     int success = a1->addToSegment(*seg1);
     assert(success == 0);
 
-    Mercator::Segment * seg2 = new Mercator::Segment(1 * seg_size,0,seg_size);
+    dymaxion::Segment * seg2 = new dymaxion::Segment(1 * seg_size,0,seg_size);
 
     success = a1->addToSegment(*seg2);
     assert(success != 0);
@@ -111,7 +111,7 @@ void testAddToSegment()
 
 int main(int argc, char* argv[])
 {
-    Mercator::Area* a1 = new Mercator::Area(1, false);
+    dymaxion::Area* a1 = new dymaxion::Area(1, false);
     
     WFMath::Polygon<2> p;
     p.addCorner(p.numCorners(), Point2(3, 4));
@@ -121,9 +121,9 @@ int main(int argc, char* argv[])
     
     a1->setShape(p);
     
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, seg_size);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, seg_size);
 
-    Mercator::AreaShader* ashade = new Mercator::AreaShader(1);
+    dymaxion::AreaShader* ashade = new dymaxion::AreaShader(1);
     terrain.addShader(ashade, 0);
     
     terrain.setBasePoint(-2, -1, 5);
@@ -154,7 +154,7 @@ int main(int argc, char* argv[])
     
     terrain.addArea(a1);
     
-    Mercator::Segment* seg = terrain.getSegment(0,0);
+    dymaxion::Segment* seg = terrain.getSegment(0,0);
     assert(seg->getAreas().size() == 1);
     assert(seg->getAreas().count(1) == 1);
     assert(a1->checkIntersects(*seg));

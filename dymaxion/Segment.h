@@ -19,7 +19,7 @@ namespace WFMath {
 class MTRand;
 }
 
-namespace Mercator {
+namespace dymaxion {
 
 class Terrain;
 class Surface;
@@ -218,6 +218,6 @@ class Segment {
 
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_SEGMENT_H

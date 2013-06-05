@@ -7,7 +7,7 @@
 #include <dymaxion/Segment.h>
 #include <dymaxion/Surface.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 FillShader::FillShader()
 {
@@ -38,4 +38,4 @@ void FillShader::shade(Surface & s) const
     }
 }
 
-} // namespace Mercator
+} // namespace dymaxion

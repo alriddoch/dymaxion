@@ -11,7 +11,7 @@
 
 #include <cassert>
 
-namespace Mercator {
+namespace dymaxion {
 
 ShaderKit::ShaderKit()
 {
@@ -70,4 +70,4 @@ Shader * ShaderFactories::newShader(const std::string & type,
     return I->second->newShader(params);
 }
 
-} // namespace Mercator
+} // namespace dymaxion

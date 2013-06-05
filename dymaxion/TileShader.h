@@ -9,7 +9,7 @@
 
 #include <map>
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief Shader agregating surface data.
 ///
@@ -38,6 +38,6 @@ class TileShader : public Shader {
     virtual void shade(Surface &) const;
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_TILE_SHADER_H

@@ -12,7 +12,7 @@
 
 #include <map>
 
-namespace Mercator {
+namespace dymaxion {
 
 class Plant;
 class Area;

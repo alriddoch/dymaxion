@@ -10,13 +10,13 @@
 
 #include <cassert>
 
-int terrain_mod_context_test(Mercator::Terrain & terrain)
+int terrain_mod_context_test(dymaxion::Terrain & terrain)
 {
     const WFMath::Ball<2> circ2(WFMath::Point<2>(0.0,0.0), 12.0);
-    Mercator::TerrainMod * mp = new Mercator::LevelTerrainMod<WFMath::Ball>(10.0f, circ2);
+    dymaxion::TerrainMod * mp = new dymaxion::LevelTerrainMod<WFMath::Ball>(10.0f, circ2);
     terrain.addMod(mp);
 
-    mp->setContext(new Mercator::TerrainMod::Context);
+    mp->setContext(new dymaxion::TerrainMod::Context);
     mp->context()->setId("foo");
 
     terrain.removeMod(mp);
@@ -28,7 +28,7 @@ int terrain_mod_context_test(Mercator::Terrain & terrain)
 
 int main()
 {
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED);
 
     terrain.setBasePoint(0, 0, 2.8);
     terrain.setBasePoint(1, 0, 7.1);
@@ -41,21 +41,21 @@ int main()
     terrain.setBasePoint(2, 2, 14.7);
 
     const WFMath::Ball<2> circ2(WFMath::Point<2>(0.0,0.0), 12.0);
-    Mercator::TerrainMod * mp1 = new Mercator::LevelTerrainMod<WFMath::Ball>(10.0f, circ2);
+    dymaxion::TerrainMod * mp1 = new dymaxion::LevelTerrainMod<WFMath::Ball>(10.0f, circ2);
     terrain.addMod(mp1);
 
     const WFMath::RotBox<2> rot(
           WFMath::Point<2>(-80.,-130.) ,
           WFMath::Vector<2>(150.0,120.0),
           WFMath::RotMatrix<2>().rotation(WFMath::numeric_constants<WFMath::CoordType>::pi()/4));
-    Mercator::TerrainMod * mp2 = new Mercator::LevelTerrainMod<WFMath::RotBox>(10.0f, rot);
+    dymaxion::TerrainMod * mp2 = new dymaxion::LevelTerrainMod<WFMath::RotBox>(10.0f, rot);
     terrain.addMod(mp2);
 
     const WFMath::Ball<2> ball(WFMath::Point<2>(80, 80), 10);
-    Mercator::CraterTerrainMod<WFMath::Ball> * mp3 = new Mercator::CraterTerrainMod<WFMath::Ball>(-5.f, ball);
+    dymaxion::CraterTerrainMod<WFMath::Ball> * mp3 = new dymaxion::CraterTerrainMod<WFMath::Ball>(-5.f, ball);
     terrain.addMod(mp3);
 
-    Mercator::Segment * segment = terrain.getSegment(0, 0);
+    dymaxion::Segment * segment = terrain.getSegment(0, 0);
 
     if (segment == 0) {
         std::cerr << "Segment not created by addition of required basepoints"

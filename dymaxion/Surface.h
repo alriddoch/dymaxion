@@ -9,7 +9,7 @@
 
 #include <climits>
 
-namespace Mercator {
+namespace dymaxion {
 
 class Shader;
 
@@ -32,6 +32,6 @@ class Surface : public Buffer<ColorT> {
     // Do we need an accessor presenting the array in colour form?
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_SURFACE_H

@@ -12,14 +12,14 @@ typedef WFMath::Point<2> Point2;
 
 void testHighShader()
 {
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, 16);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    Mercator::Shader::Parameters params;
-    params[Mercator::HighShader::key_threshold] = 5.f;
+    dymaxion::Shader::Parameters params;
+    params[dymaxion::HighShader::key_threshold] = 5.f;
     
-    Mercator::HighShader* dshade = new Mercator::HighShader();
+    dymaxion::HighShader* dshade = new dymaxion::HighShader();
     delete dshade;
-    dshade = new Mercator::HighShader(params);
+    dshade = new dymaxion::HighShader(params);
     terrain.addShader(dshade, 0);
     
     terrain.setBasePoint(0, 0, 20);
@@ -29,7 +29,7 @@ void testHighShader()
     terrain.setBasePoint(2, 0, 2);
     terrain.setBasePoint(2, 1, 0.5);
     
-    Mercator::Segment* seg = terrain.getSegment(0,0);
+    dymaxion::Segment* seg = terrain.getSegment(0,0);
     
     seg->populateSurfaces();
     seg->populate();
@@ -41,14 +41,14 @@ void testHighShader()
 
 void testLowShader()
 {
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, 16);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    Mercator::Shader::Parameters params;
-    params[Mercator::LowShader::key_threshold] = 5.f;
+    dymaxion::Shader::Parameters params;
+    params[dymaxion::LowShader::key_threshold] = 5.f;
     
-    Mercator::LowShader* dshade = new Mercator::LowShader();
+    dymaxion::LowShader* dshade = new dymaxion::LowShader();
     delete dshade;
-    dshade = new Mercator::LowShader(params);
+    dshade = new dymaxion::LowShader(params);
     terrain.addShader(dshade, 0);
     
     terrain.setBasePoint(0, 0, 2);
@@ -58,7 +58,7 @@ void testLowShader()
     terrain.setBasePoint(2, 0, 15);
     terrain.setBasePoint(2, 1, 19);
     
-    Mercator::Segment* seg = terrain.getSegment(0,0);
+    dymaxion::Segment* seg = terrain.getSegment(0,0);
     
     seg->populateSurfaces();
     seg->populate();
@@ -70,15 +70,15 @@ void testLowShader()
 
 void testBandShader()
 {
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, 16);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    Mercator::Shader::Parameters params;
-    params[Mercator::BandShader::key_lowThreshold] = 2.f;
-    params[Mercator::BandShader::key_highThreshold] = 8.f;
+    dymaxion::Shader::Parameters params;
+    params[dymaxion::BandShader::key_lowThreshold] = 2.f;
+    params[dymaxion::BandShader::key_highThreshold] = 8.f;
     
-    Mercator::BandShader* dshade = new Mercator::BandShader();
+    dymaxion::BandShader* dshade = new dymaxion::BandShader();
     delete dshade;
-    dshade = new Mercator::BandShader(params);
+    dshade = new dymaxion::BandShader(params);
     terrain.addShader(dshade, 0);
     
     terrain.setBasePoint(0, 0, 2);
@@ -88,7 +88,7 @@ void testBandShader()
     terrain.setBasePoint(2, 0, 15);
     terrain.setBasePoint(2, 1, 19);
     
-    Mercator::Segment* seg = terrain.getSegment(0,0);
+    dymaxion::Segment* seg = terrain.getSegment(0,0);
     
     seg->populateSurfaces();
     seg->populate();

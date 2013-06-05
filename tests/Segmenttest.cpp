@@ -9,7 +9,7 @@
 
 int main()
 {
-    Mercator::Segment s(0,0,64);
+    dymaxion::Segment s(0,0,64);
 
     s.populate();
     s.populateNormals();
@@ -37,7 +37,7 @@ int main()
 #include <dymaxion/Shader.h>
 #include <dymaxion/Surface.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 constexpr float BasePoint::HEIGHT;
 constexpr float BasePoint::ROUGHNESS;

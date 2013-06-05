@@ -16,7 +16,7 @@
 int main()
 {
     {
-        Mercator::Plant a, b;
+        dymaxion::Plant a, b;
 
         const WFMath::Point<2> & p1 = a.getDisplacement();
         assert(!p1.isValid());
@@ -34,11 +34,11 @@ int main()
         const WFMath::Quaternion & q3 = b.getOrientation();
         assert(q3.isValid());
 
-        Mercator::Plant * c = new Mercator::Plant();
+        dymaxion::Plant * c = new dymaxion::Plant();
         c->setHeight(5.5f);
         delete c;
 
-        Mercator::Plant * d = new Mercator::Plant[10];
+        dymaxion::Plant * d = new dymaxion::Plant[10];
         d->setHeight(15.5f);
         delete [] d;
     }

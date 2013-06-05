@@ -6,7 +6,7 @@
 
 int main()
 {
-    Mercator::BasePoint bp1;
+    dymaxion::BasePoint bp1;
 
     return 0;
 }

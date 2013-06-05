@@ -13,7 +13,7 @@ typedef WFMath::Point<2> Point2;
 
 void testAreaShader()
 {
-    Mercator::Area* a1 = new Mercator::Area(1, false);
+    dymaxion::Area* a1 = new dymaxion::Area(1, false);
     
     WFMath::Polygon<2> p;
     p.addCorner(p.numCorners(), Point2(3, 4));
@@ -27,9 +27,9 @@ void testAreaShader()
     
     a1->setShape(p);
     
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, 16);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
     
-    Mercator::AreaShader* ashade = new Mercator::AreaShader(1);
+    dymaxion::AreaShader* ashade = new dymaxion::AreaShader(1);
     terrain.addShader(ashade, 0);
     
     terrain.setBasePoint(0, 0, -1);
@@ -39,7 +39,7 @@ void testAreaShader()
     
     terrain.addArea(a1);
     
-    Mercator::Segment* seg = terrain.getSegment(0,0);
+    dymaxion::Segment* seg = terrain.getSegment(0,0);
     assert(a1->checkIntersects(*seg));
     
     seg->populateSurfaces();

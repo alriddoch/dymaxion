@@ -18,7 +18,7 @@
 #include <iostream>
 #include <cmath>
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief Construct a new forest with the given seed.
 Forest::Forest(unsigned long seed) : 

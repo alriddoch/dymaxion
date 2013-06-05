@@ -12,14 +12,14 @@
 //this drops a particle onto the terrain and it bounces around a bit
 int main()
 {
-    Mercator::Terrain terrain;
+    dymaxion::Terrain terrain;
     
     terrain.setBasePoint(0, 0, 2.8);
     terrain.setBasePoint(1, 0, 7.1);
     terrain.setBasePoint(0, 1, 0.2);
     terrain.setBasePoint(1, 1, 14.7);
 
-    Mercator::Segment * segment = terrain.getSegment(0, 0);
+    dymaxion::Segment * segment = terrain.getSegment(0, 0);
 
     if (segment == 0) {
         std::cerr << "Segment not created by addition of required basepoints"
@@ -44,7 +44,7 @@ int main()
 
     while (totalT > timestep) {
         vel += t * grav;
-        if (Mercator::Intersect(terrain, pos, vel * t, intersection, intnormal, par)) {
+        if (dymaxion::Intersect(terrain, pos, vel * t, intersection, intnormal, par)) {
             //set pos to collision time, 
             //less a small amout to keep objects apart
             pos = intersection - (vel * .01 * t); 

@@ -9,7 +9,7 @@
 
 #include <dymaxion/Segment.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 template <template <int> class Shape>
 ShapeTerrainMod<Shape>::ShapeTerrainMod(const Shape<2> &s) : m_shape(s)
@@ -118,6 +118,6 @@ void CraterTerrainMod<Shape>::setShape(float level, const Shape<2> & s)
 }
 
 
-} //namespace Mercator
+} //namespace dymaxion
 
 #endif // DYMAXION_TERRAIN_MOD_IMPL_H

@@ -21,7 +21,7 @@
 
 #include <cstdio>
 
-namespace Mercator {
+namespace dymaxion {
 
 const unsigned int Terrain::DEFAULT;
 const unsigned int Terrain::SHADED;
@@ -495,4 +495,4 @@ void Terrain::removeArea(const Area * area)
     removeEffector(area);
 }
 
-} // namespace Mercator
+} // namespace dymaxion

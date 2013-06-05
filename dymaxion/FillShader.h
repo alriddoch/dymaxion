@@ -7,7 +7,7 @@
 
 #include <dymaxion/Shader.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief Shader that fills the surface.
 ///
@@ -27,6 +27,6 @@ class FillShader : public Shader {
     virtual void shade(Surface &) const;
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_FILL_SHADER_H

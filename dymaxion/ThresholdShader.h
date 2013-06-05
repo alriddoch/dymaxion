@@ -7,7 +7,7 @@
 
 #include <dymaxion/Shader.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief Surface shader that defines the surface above a given level.
 class HighShader : public Shader {
@@ -106,6 +106,6 @@ class BandShader : public Shader {
     virtual void shade(Surface &) const;
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_FILL_THRESHOLD_SHADER_H

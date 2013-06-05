@@ -10,7 +10,7 @@
 
 #include <string>
 
-namespace Mercator
+namespace dymaxion
 {
 
 class Segment;

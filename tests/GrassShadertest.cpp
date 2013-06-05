@@ -13,17 +13,17 @@ typedef WFMath::Point<2> Point2;
 
 void testGrassShader()
 {
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, 16);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    Mercator::Shader::Parameters params;
-    params[Mercator::GrassShader::key_lowThreshold] = 2.f;
-    params[Mercator::GrassShader::key_highThreshold] = 15.f;
-    params[Mercator::GrassShader::key_cutoff] = 0.4f;
-    params[Mercator::GrassShader::key_intercept] = 4.f;
+    dymaxion::Shader::Parameters params;
+    params[dymaxion::GrassShader::key_lowThreshold] = 2.f;
+    params[dymaxion::GrassShader::key_highThreshold] = 15.f;
+    params[dymaxion::GrassShader::key_cutoff] = 0.4f;
+    params[dymaxion::GrassShader::key_intercept] = 4.f;
     
-    Mercator::GrassShader* dshade = new Mercator::GrassShader();
+    dymaxion::GrassShader* dshade = new dymaxion::GrassShader();
     delete dshade;
-    dshade = new Mercator::GrassShader(params);
+    dshade = new dymaxion::GrassShader(params);
     terrain.addShader(dshade, 0);
     
     terrain.setBasePoint(0, 0, 20);
@@ -33,7 +33,7 @@ void testGrassShader()
     terrain.setBasePoint(2, 0, 2);
     terrain.setBasePoint(2, 1, 0.5);
     
-    Mercator::Segment* seg = terrain.getSegment(0,0);
+    dymaxion::Segment* seg = terrain.getSegment(0,0);
     
     seg->populateSurfaces();
     seg->populate();

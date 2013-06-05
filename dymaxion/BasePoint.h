@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-namespace Mercator { 
+namespace dymaxion { 
 
 /// \brief Point on the fundamental grid that is used as the basis for terrain.
 ///
@@ -63,6 +63,6 @@ class BasePoint {
     unsigned int seed() const;
 };
 
-} //namespace Mercator
+} //namespace dymaxion
 
 #endif // DYMAXION_BASE_POINT_H

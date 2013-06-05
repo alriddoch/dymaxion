@@ -7,7 +7,7 @@
 
 #include <dymaxion/Shader.h>
 
-namespace Mercator
+namespace dymaxion
 {
 
 class Area;

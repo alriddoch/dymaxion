@@ -6,8 +6,8 @@
 
 int main()
 {
-    Mercator::Matrix<2,2> m;
-    Mercator::Matrix<4,4> n;
+    dymaxion::Matrix<2,2> m;
+    dymaxion::Matrix<4,4> n;
 
     m(0,0) = 1.f;
 

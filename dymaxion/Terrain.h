@@ -16,7 +16,7 @@
 #include <list>
 #include <cmath>
 
-namespace Mercator {
+namespace dymaxion {
 
 class Segment;
 class Shader;
@@ -181,6 +181,6 @@ class Terrain {
     void removeArea(const Area* a);
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_TERRAIN_H

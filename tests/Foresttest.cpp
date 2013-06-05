@@ -19,13 +19,13 @@
 
 typedef WFMath::Point<2> Point2;
 
-void dumpPlants(const Mercator::Forest::PlantStore & plants)
+void dumpPlants(const dymaxion::Forest::PlantStore & plants)
 {
-    Mercator::Forest::PlantStore::const_iterator I = plants.begin();
+    dymaxion::Forest::PlantStore::const_iterator I = plants.begin();
     for(; I != plants.end(); ++I) {
-        Mercator::Forest::PlantColumn::const_iterator J = I->second.begin();
+        dymaxion::Forest::PlantColumn::const_iterator J = I->second.begin();
         for(; J != I->second.end(); ++J) {
-            const Mercator::Plant & p = J->second;
+            const dymaxion::Plant & p = J->second;
             std::cout << "Query found plant at [" << I->first
                       << ", " << J->first << "] with height "
                       << p.getHeight();
@@ -37,10 +37,10 @@ void dumpPlants(const Mercator::Forest::PlantStore & plants)
     }
 }
 
-int countPlants(const Mercator::Forest::PlantStore & plants)
+int countPlants(const dymaxion::Forest::PlantStore & plants)
 {
     int plant_count = 0;
-    Mercator::Forest::PlantStore::const_iterator I = plants.begin();
+    dymaxion::Forest::PlantStore::const_iterator I = plants.begin();
     for(; I != plants.end(); ++I) {
         plant_count += I->second.size();
     }
@@ -51,38 +51,38 @@ int main()
 {
     // Test constructor
     {
-        Mercator::Forest mf;
+        dymaxion::Forest mf;
     }
 
     // Test constructor
     {
-        Mercator::Forest mf(23);
+        dymaxion::Forest mf(23);
     }
 
     // Test getArea()
     {
-        Mercator::Forest mf;
+        dymaxion::Forest mf;
 
-        Mercator::Area * a = mf.getArea();
+        dymaxion::Area * a = mf.getArea();
 
         assert(a == 0);
     }
 
     // Test species()
     {
-        Mercator::Forest mf;
+        dymaxion::Forest mf;
 
-        Mercator::Forest::PlantSpecies & mps = mf.species();
+        dymaxion::Forest::PlantSpecies & mps = mf.species();
 
         assert(mps.empty());
     }
 
     {
-        Mercator::Forest forest(4249162ul);
+        dymaxion::Forest forest(4249162ul);
 
-        Mercator::Forest::PlantSpecies & species = forest.species();
+        dymaxion::Forest::PlantSpecies & species = forest.species();
 
-        const Mercator::Forest::PlantStore & plants = forest.getPlants();
+        const dymaxion::Forest::PlantStore & plants = forest.getPlants();
 
         // Forest is not yet populated
         assert(plants.empty());
@@ -92,7 +92,7 @@ int main()
         assert(plants.empty());
         assert(species.empty());
 
-        Mercator::Area* ar = new Mercator::Area(1, false);
+        dymaxion::Area* ar = new dymaxion::Area(1, false);
         WFMath::Polygon<2> p;
         
         p.addCorner(p.numCorners(), Point2(5, 8));
@@ -111,7 +111,7 @@ int main()
         assert(species.empty());
 
         {
-            Mercator::Species pine;
+            dymaxion::Species pine;
             pine.m_probability = 0.04;
             pine.m_deviation = 1.f;
 
@@ -127,7 +127,7 @@ int main()
         int plant_count = countPlants(plants);
 
         {
-            Mercator::Species oak;
+            dymaxion::Species oak;
             oak.m_probability = 0.02;
             oak.m_deviation = 1.f;
 

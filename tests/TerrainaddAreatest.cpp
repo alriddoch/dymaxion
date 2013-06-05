@@ -19,28 +19,28 @@
 // by [] are inefficient, and I wanted to verify consistent bahviour before
 // checking to use std::map::find()
 
-class TestShader : public Mercator::Shader {
+class TestShader : public dymaxion::Shader {
   public:
-    virtual bool checkIntersect(const Mercator::Segment &) const
+    virtual bool checkIntersect(const dymaxion::Segment &) const
     {
         return true;
     }
 
     /// \brief Populate a Surface with data.
-    virtual void shade(Mercator::Surface &) const { }
+    virtual void shade(dymaxion::Surface &) const { }
 };
 
 int main()
 {
-    Mercator::Terrain t;
+    dymaxion::Terrain t;
 
     // Add a null test shader to the terrain
-    Mercator::Shader * shader = new TestShader;
+    dymaxion::Shader * shader = new TestShader;
     t.addShader(shader, 0);
 
     // Create a test area with a shape which intersects
     // the Segment at 0,0
-    Mercator::Area* a1 = new Mercator::Area(0, false);
+    dymaxion::Area* a1 = new dymaxion::Area(0, false);
     
     WFMath::Polygon<2> p;
     p.addCorner(p.numCorners(), WFMath::Point<2>(3, 4));
@@ -61,16 +61,16 @@ int main()
     t.setBasePoint(1, 1, 11);
 
     // Get the Segment at 0,0
-    Mercator::Segment * seg = t.getSegment(0,0);
+    dymaxion::Segment * seg = t.getSegment(0,0);
 
     assert(seg != 0);
 
     // Get the surfaces, and add one corresponding to the shader we added.
     // We need to do this as the functions that would normally make it happen
     // have been stubbed out.
-    Mercator::Segment::Surfacestore & sss = seg->getSurfaces();
+    dymaxion::Segment::Surfacestore & sss = seg->getSurfaces();
 
-    Mercator::Surface * sfce = new Mercator::Surface(*seg, *shader);
+    dymaxion::Surface * sfce = new dymaxion::Surface(*seg, *shader);
 
     // Force allocation of the surface buffer so we can check later that it
     // gets destroyed when the area is added to the terrain.
@@ -118,7 +118,7 @@ int main()
 #include <dymaxion/Shader.h>
 #include <dymaxion/TerrainMod.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 Shader::Shader(bool color, bool alpha) : m_color(color), m_alpha(alpha)
 {

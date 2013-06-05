@@ -10,14 +10,14 @@
 
 int main()
 {
-    Mercator::Terrain terrain;
+    dymaxion::Terrain terrain;
     
     terrain.setBasePoint(0, 0, 2.8);
     terrain.setBasePoint(1, 0, 7.1);
     terrain.setBasePoint(0, 1, 0.2);
     terrain.setBasePoint(1, 1, 14.7);
 
-    Mercator::Segment * segment = terrain.getSegment(0, 0);
+    dymaxion::Segment * segment = terrain.getSegment(0, 0);
 
     if (segment == 0) {
         std::cerr << "Segment not created by addition of required basepoints"
@@ -31,7 +31,7 @@ int main()
     WFMath::AxisBox<3> highab(WFMath::Point<3> (10.0, 10.0, segment->getMax() + 3.0), 
                           WFMath::Point<3> (20.0, 20.0, segment->getMax() + 6.1));
 
-    if (Mercator::Intersect(terrain, highab)) {
+    if (dymaxion::Intersect(terrain, highab)) {
         std::cerr << "axisbox intersects with terrain even though it should be above it"
             << std::endl;
         return 1;
@@ -41,7 +41,7 @@ int main()
     WFMath::AxisBox<3> lowab(WFMath::Point<3> (10.0, 10.0, segment->getMin() - 6.1), 
                           WFMath::Point<3> (20.0, 20.0, segment->getMax() - 3.0));
 
-    if (!Mercator::Intersect(terrain, lowab)) {
+    if (!dymaxion::Intersect(terrain, lowab)) {
         std::cerr << "axisbox does not intersect with terrain even though it should be below it"
             << std::endl;
         return 1;
@@ -53,7 +53,7 @@ int main()
     float dz = highab.highCorner()[2] - highab.lowCorner()[2] - 0.1;
     while (highab.highCorner()[2] > segment->getMin()) {
         highab.shift(WFMath::Vector<3>(0.0, 0.0, -dz));
-        if (Mercator::Intersect(terrain, highab)) {
+        if (dymaxion::Intersect(terrain, highab)) {
             inter=true;
             break;
         }
@@ -70,7 +70,7 @@ int main()
     terrain.setBasePoint(0, 2, 4.8);
     terrain.setBasePoint(1, 2, 3.7);
 
-    Mercator::Segment *segment2 = terrain.getSegment(0, 1);
+    dymaxion::Segment *segment2 = terrain.getSegment(0, 1);
     segment2->populate();
 
     float segmax=std::max(segment->getMax(), segment2->getMax());
@@ -79,7 +79,7 @@ int main()
     WFMath::AxisBox<3> ab(WFMath::Point<3> (50.0, 10.0, segmax + 3.0), 
                           WFMath::Point<3> (70.0, 20.0, segmax + 6.1));
 
-    if (Mercator::Intersect(terrain, ab)) {
+    if (dymaxion::Intersect(terrain, ab)) {
         std::cerr << "axisbox2 intersects with terrain even though it should be above it"
             << std::endl;
         return 1;
@@ -88,7 +88,7 @@ int main()
     WFMath::AxisBox<3> ab2(WFMath::Point<3> (50.0, 10.0, segmin - 6.1), 
                           WFMath::Point<3> (70.0, 20.0, segmin + 3.0));
 
-    if (!Mercator::Intersect(terrain, ab2)) {
+    if (!dymaxion::Intersect(terrain, ab2)) {
         std::cerr << "axisbox2 does not intersect with terrain even though it should be below it"
             << std::endl;
         return 1;
@@ -99,70 +99,70 @@ int main()
     WFMath::Vector<3> intNorm;
     float par;
     //test vertical ray
-    if (Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(0.0,0.0,50.0), intPoint, intNorm, par)) {
         std::cerr << "vertical ray intersected when it shouldnt" << std::endl;
         return 1;
     }
     
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(0.0,0.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "vertical ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
     //test each quadrant
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(10.0,10.0,-100.0), intPoint, intNorm, par)) {
         std::cerr << "quad1 ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(10.0,-15.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "quad2 ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(-10.0,-10.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "quad3 ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(-10.0,10.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "quad4 ray didnt intersect when it should" << std::endl;
         return 1;
     }
     
     //test dx==0 and dy==0
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(0.0,10.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "y+ ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(0.0,-10.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "y- ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(-10.0,0.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "x- ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
                                WFMath::Vector<3>(10.0,0.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "x+ ray didnt intersect when it should" << std::endl;
         return 1;
     }
     
     //test a longer ray
-    if (!Mercator::Intersect(terrain, WFMath::Point<3>(-10.08, -20.37, segmax + 3), 
+    if (!dymaxion::Intersect(terrain, WFMath::Point<3>(-10.08, -20.37, segmax + 3), 
                                WFMath::Vector<3>(100.0,183.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "long ray didnt intersect when it should" << std::endl;
         return 1;

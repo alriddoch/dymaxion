@@ -7,7 +7,7 @@
 
 #include <dymaxion/Shader.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief Interface for shader factory objects.
 class ShaderKit {
@@ -57,6 +57,6 @@ class ShaderFactories {
                        const Shader::Parameters &) const;
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_SHADER_FACTORY_H

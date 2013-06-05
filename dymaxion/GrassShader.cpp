@@ -15,7 +15,7 @@
 
 #include <cassert>
 
-namespace Mercator {
+namespace dymaxion {
 
 const std::string GrassShader::key_lowThreshold("lowThreshold");
 const std::string GrassShader::key_highThreshold("highThreshold");
@@ -145,4 +145,4 @@ void GrassShader::shade(Surface & s) const
     }
 }
 
-} // namespace Mercator
+} // namespace dymaxion

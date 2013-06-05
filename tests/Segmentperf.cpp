@@ -18,9 +18,9 @@ int main(int argc, char ** argv)
         iterations = strtol(argv[1], 0, 10);
     }
 
-    Mercator::Segment s(0,0,64);
+    dymaxion::Segment s(0,0,64);
 
-    Mercator::Matrix<2,2,Mercator::BasePoint> & points = s.getControlPoints();
+    dymaxion::Matrix<2,2,dymaxion::BasePoint> & points = s.getControlPoints();
     points(0, 0).roughness() = 1.85;
     points(1, 0).roughness() = 1.75;
     points(0, 1).roughness() = 1.65;
@@ -40,7 +40,7 @@ int main(int argc, char ** argv)
 #include <dymaxion/Shader.h>
 #include <dymaxion/Surface.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 constexpr float BasePoint::HEIGHT;
 constexpr float BasePoint::ROUGHNESS;

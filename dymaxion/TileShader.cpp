@@ -9,7 +9,7 @@
 
 #include <cassert>
 
-namespace Mercator {
+namespace dymaxion {
 
 TileShader::TileShader()
 {
@@ -55,4 +55,4 @@ void TileShader::shade(Surface & surface) const
     }
 }
 
-} // namespace Mercator
+} // namespace dymaxion

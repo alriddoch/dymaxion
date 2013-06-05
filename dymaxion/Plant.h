@@ -10,7 +10,7 @@
 
 #include <string>
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief This is the simple class for representing instances of vegetation.
 ///

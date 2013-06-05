@@ -13,15 +13,15 @@ typedef WFMath::Point<2> Point2;
 
 void testDepthShader()
 {
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, 16);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    Mercator::Shader::Parameters params;
-    params[Mercator::DepthShader::key_waterLevel] = 0.f;
-    params[Mercator::DepthShader::key_murkyDepth] = -12.f;
+    dymaxion::Shader::Parameters params;
+    params[dymaxion::DepthShader::key_waterLevel] = 0.f;
+    params[dymaxion::DepthShader::key_murkyDepth] = -12.f;
     
-    Mercator::DepthShader* dshade = new Mercator::DepthShader();
+    dymaxion::DepthShader* dshade = new dymaxion::DepthShader();
     delete dshade;
-    dshade = new Mercator::DepthShader(params);
+    dshade = new dymaxion::DepthShader(params);
     terrain.addShader(dshade, 0);
     
     terrain.setBasePoint(0, 0, -20);
@@ -31,7 +31,7 @@ void testDepthShader()
     terrain.setBasePoint(2, 0, 2);
     terrain.setBasePoint(2, 1, 0.5);
     
-    Mercator::Segment* seg = terrain.getSegment(0,0);
+    dymaxion::Segment* seg = terrain.getSegment(0,0);
     
     seg->populateSurfaces();
     seg->populate();

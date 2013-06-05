@@ -13,13 +13,13 @@ typedef WFMath::Point<2> Point2;
 
 void testFillShader()
 {
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, 16);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    Mercator::Shader::Parameters params;
+    dymaxion::Shader::Parameters params;
     
-    Mercator::FillShader* dshade = new Mercator::FillShader();
+    dymaxion::FillShader* dshade = new dymaxion::FillShader();
     delete dshade;
-    dshade = new Mercator::FillShader(params);
+    dshade = new dymaxion::FillShader(params);
     terrain.addShader(dshade, 0);
     
     terrain.setBasePoint(0, 0, -20);
@@ -27,7 +27,7 @@ void testFillShader()
     terrain.setBasePoint(1, 0, 2);
     terrain.setBasePoint(1, 1, 0.5);
     
-    Mercator::Segment* seg = terrain.getSegment(0,0);
+    dymaxion::Segment* seg = terrain.getSegment(0,0);
     
     seg->populate();
     seg->populateSurfaces();

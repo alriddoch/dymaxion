@@ -9,7 +9,7 @@
 
 #include <cassert>
 
-namespace Mercator {
+namespace dymaxion {
 
 const std::string HighShader::key_threshold("threshold");
 
@@ -183,4 +183,4 @@ void BandShader::shade(Surface & s) const
     }
 }
 
-} // namespace Mercator
+} // namespace dymaxion

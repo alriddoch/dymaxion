@@ -4,7 +4,7 @@
 
 #include <dymaxion/Effector.h>
 
-namespace Mercator
+namespace dymaxion
 {
 
 Effector::Context::Context()

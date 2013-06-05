@@ -17,7 +17,7 @@
 
 #include <cassert>
 
-namespace Mercator {
+namespace dymaxion {
 
 const std::string DepthShader::key_waterLevel("waterLevel");
 const std::string DepthShader::key_murkyDepth("murkyDepth");
@@ -90,4 +90,4 @@ void DepthShader::shade(Surface & s) const
     }
 }
 
-} // namespace Mercator
+} // namespace dymaxion

@@ -7,7 +7,7 @@
 
 #include <dymaxion/ShaderFactory.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 template <class T>
 ShaderFactory<T>::ShaderFactory()
@@ -25,6 +25,6 @@ Shader * ShaderFactory<T>::newShader(const Shader::Parameters & params) const
     return new T(params);
 }
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_SHADER_FACTORY_IMPL_H

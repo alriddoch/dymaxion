@@ -13,19 +13,19 @@
 
 #include <cassert>
 
-using Mercator::GrassShader;
-using Mercator::DepthShader;
-using Mercator::FillShader;
-using Mercator::HighShader;
-using Mercator::LowShader;
-using Mercator::BandShader;
+using dymaxion::GrassShader;
+using dymaxion::DepthShader;
+using dymaxion::FillShader;
+using dymaxion::HighShader;
+using dymaxion::LowShader;
+using dymaxion::BandShader;
 
 int main()
 {
-    Mercator::ShaderFactories & factories = Mercator::ShaderFactories::instance();
+    dymaxion::ShaderFactories & factories = dymaxion::ShaderFactories::instance();
 
-    Mercator::Shader::Parameters params;
-    Mercator::Shader * shader;
+    dymaxion::Shader::Parameters params;
+    dymaxion::Shader * shader;
 
     //////////////////////// Grass Shader //////////////////////////////
 

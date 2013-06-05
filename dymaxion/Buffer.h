@@ -5,7 +5,7 @@
 #ifndef DYMAXION_BUFFER_H
 #define DYMAXION_BUFFER_H
 
-namespace Mercator {
+namespace dymaxion {
 
 class Segment;
 
@@ -96,6 +96,6 @@ class Buffer {
 
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_BUFFER_H

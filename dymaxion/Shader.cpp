@@ -7,7 +7,7 @@
 #include <dymaxion/Segment.h>
 #include <dymaxion/Surface.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief Protected constructor for classes which inherit from this
 /// one.
@@ -31,4 +31,4 @@ Surface * Shader::newSurface(const Segment & segment) const
     return new Surface(segment, *this, m_color, m_alpha);
 }
 
-} // namespace Mercator
+} // namespace dymaxion

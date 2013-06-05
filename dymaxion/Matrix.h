@@ -5,7 +5,7 @@
 #ifndef DYMAXION_MATRIX_H
 #define DYMAXION_MATRIX_H
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief A fixed sized array of objects.
 ///

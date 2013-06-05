@@ -21,7 +21,7 @@
 #include <cmath>
 #include <cassert>
 
-namespace Mercator {
+namespace dymaxion {
 
 unsigned int BasePoint::seed() const
 {
@@ -763,4 +763,4 @@ WFMath::AxisBox<3> Segment::getBox() const
     return WFMath::AxisBox<3>(lp, hp);
 }
 
-} // namespace Mercator
+} // namespace dymaxion

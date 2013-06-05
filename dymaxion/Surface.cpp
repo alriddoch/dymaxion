@@ -7,7 +7,7 @@
 #include <dymaxion/Shader.h>
 #include <cassert>
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief Constructor
 ///
@@ -36,4 +36,4 @@ void Surface::populate()
     m_shader.shade(*this);
 }
 
-} // namespace Mercator
+} // namespace dymaxion

@@ -14,14 +14,14 @@
 int main()
 {
     {
-        Mercator::Terrain::Pointcolumn mtpc;
-        Mercator::Terrain::Segmentcolumn mtsc;
-        Mercator::Terrain::Pointstore mtps;
-        Mercator::Terrain::Segmentstore mtss;
+        dymaxion::Terrain::Pointcolumn mtpc;
+        dymaxion::Terrain::Segmentcolumn mtsc;
+        dymaxion::Terrain::Pointstore mtps;
+        dymaxion::Terrain::Segmentstore mtss;
     }
 
     {
-        Mercator::Terrain fineTerrain(Mercator::Terrain::DEFAULT, 8);
+        dymaxion::Terrain fineTerrain(dymaxion::Terrain::DEFAULT, 8);
 
         unsigned int res = fineTerrain.getResolution();
 
@@ -35,14 +35,14 @@ int main()
         }
     }
 
-    Mercator::Terrain terrain(Mercator::Terrain::SHADED, 64);
+    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 64);
 
     unsigned int res = terrain.getResolution();
 
-    if (res != Mercator::defaultResolution) {
+    if (res != dymaxion::defaultResolution) {
         std::cerr << "Terrain with no res specified does not have default"
                   << std::endl << std::flush;
-        std::cerr << "Resolution " << Mercator::defaultResolution
+        std::cerr << "Resolution " << dymaxion::defaultResolution
                   << " is default, but " << res << " was returned."
                   << std::endl << std::flush;
         return 1;
@@ -50,26 +50,26 @@ int main()
 
     for (int i = 0; i < 100; ++i) {
         float testHeight = terrain.get((float)rand(), (float)rand());
-        if (testHeight != Mercator::Terrain::defaultLevel) {
+        if (testHeight != dymaxion::Terrain::defaultLevel) {
             std::cerr << "Randomly selected point in empty terrain object was not default height"
                       << std::endl << std::flush;
             std::cerr << "Point had height " << testHeight
-                      << " but default is " << Mercator::Terrain::defaultLevel
+                      << " but default is " << dymaxion::Terrain::defaultLevel
                       << std::endl << std::flush;
             return 1;
         }
     }
 
-    Mercator::Segment * seg = terrain.getSegment(rand(), rand());
+    dymaxion::Segment * seg = terrain.getSegment(rand(), rand());
     if (seg != 0) {
         std::cerr << "Randomly selected segment position did not return NULL segment pointer on empty terrain"
                   << std::endl << std::flush;
         return 1;
     }
 
-    const Mercator::Terrain::Segmentstore & tSegments = terrain.getTerrain();
-    const Mercator::Terrain::Pointstore & tPoints = terrain.getPoints();
-    const Mercator::Terrain::Shaderstore & tShaders = terrain.getShaders();
+    const dymaxion::Terrain::Segmentstore & tSegments = terrain.getTerrain();
+    const dymaxion::Terrain::Pointstore & tPoints = terrain.getPoints();
+    const dymaxion::Terrain::Shaderstore & tShaders = terrain.getShaders();
 
     if (!tSegments.empty()) {
         std::cerr << "Segment store for empty terrain is not empty"
@@ -89,7 +89,7 @@ int main()
         return 1;
     }
 
-    terrain.addShader(new Mercator::FillShader(), 0);
+    terrain.addShader(new dymaxion::FillShader(), 0);
 
     if (tShaders.empty()) {
         std::cerr << "Shader store for terrain is empty after shader was added"
@@ -114,7 +114,7 @@ int main()
         return 1;
     }
 
-    Mercator::BasePoint bp;
+    dymaxion::BasePoint bp;
     terrain.getBasePoint(0, 0, bp);
     if (bp.seed() != 2800) {
         std::cerr << "BasePoint seed calculation is incorrect."
@@ -140,7 +140,7 @@ int main()
         return 1;
     }
 
-    Mercator::Segment * segment = terrain.getSegment(0, 0);
+    dymaxion::Segment * segment = terrain.getSegment(0, 0);
 
     if (segment == 0) {
         std::cerr << "Segment not created by addition of required basepoints"
@@ -148,7 +148,7 @@ int main()
         return 1;
     }
 
-    Mercator::Segment::Surfacestore & surfaces = segment->getSurfaces();
+    dymaxion::Segment::Surfacestore & surfaces = segment->getSurfaces();
     
     if (surfaces.size() != tShaders.size()) {
         std::cerr << "Number of surfaces in the Segment does not match number of shaders on the terrain"

@@ -9,7 +9,7 @@
 #include <dymaxion/Intersect.h>
 #include <dymaxion/Segment.h>
 
-namespace Mercator {
+namespace dymaxion {
 //floor and ceil functions that return d-1 and d+1
 //respectively if d is integral
 static inline float gridceil(float d) 
@@ -307,4 +307,4 @@ bool Intersect(const Terrain &t, const WFMath::Point<3> &sPt, const WFMath::Vect
     return false;
 }
 
-} // namespace Mercator
+} // namespace dymaxion

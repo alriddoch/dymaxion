@@ -4,9 +4,9 @@
 
 #include <dymaxion/Buffer_impl.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 template class Buffer<float>;
 template class Buffer<unsigned char>;
 
-} // namespace Mercator
+} // namespace dymaxion

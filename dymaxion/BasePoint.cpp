@@ -4,10 +4,10 @@
 
 #include <dymaxion/BasePoint.h>
 
-namespace Mercator { 
+namespace dymaxion { 
 
 constexpr float BasePoint::HEIGHT;
 constexpr float BasePoint::ROUGHNESS;
 constexpr float BasePoint::FALLOFF;
 
-} //namespace Mercator
+} //namespace dymaxion

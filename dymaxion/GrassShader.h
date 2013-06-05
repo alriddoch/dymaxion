@@ -37,7 +37,7 @@
  * covering.
  */
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief Shader for adding grass to the terrain.
 ///
@@ -113,6 +113,6 @@ class GrassShader : public Shader {
     virtual void shade(Surface &) const;
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_FILL_GRASS_SHADER_H

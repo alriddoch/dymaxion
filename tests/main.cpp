@@ -12,13 +12,13 @@
 int main() 
 {
     int size = 64;
-    Mercator::Segment *s = new Mercator::Segment(0, 0, size);
+    dymaxion::Segment *s = new dymaxion::Segment(0, 0, size);
 
-    Mercator::Matrix<2, 2, Mercator::BasePoint> & base = s->getControlPoints();
-    base[0] = Mercator::BasePoint(10.f, 3.f);
+    dymaxion::Matrix<2, 2, dymaxion::BasePoint> & base = s->getControlPoints();
+    base[0] = dymaxion::BasePoint(10.f, 3.f);
     base[1].height() = 15.f;
-    base[2] = Mercator::BasePoint(10.f, 10.f);
-    base[3] = Mercator::BasePoint(9.32f, 1.9f);
+    base[2] = dymaxion::BasePoint(10.f, 10.f);
+    base[3] = dymaxion::BasePoint(9.32f, 1.9f);
     
     s->populate();
 /*    s->populateNormals(); 
@@ -40,7 +40,7 @@ i*/    //for (int i=0; i<=size; ++i) {
     }
 */
 
-    Mercator::Terrain t;
+    dymaxion::Terrain t;
     t.setBasePoint(0,0,10.0);
     t.setBasePoint(0,1,12.0);
     t.setBasePoint(1,0,14.0);

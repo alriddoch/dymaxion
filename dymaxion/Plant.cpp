@@ -4,7 +4,7 @@
 
 #include <dymaxion/Plant.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 Plant::Plant() : m_height(0.f)
 {

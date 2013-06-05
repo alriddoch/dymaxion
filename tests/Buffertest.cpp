@@ -7,15 +7,15 @@
 
 int main()
 {
-    Mercator::Segment s(0,0,64);
-    Mercator::Buffer<float> b(s);
+    dymaxion::Segment s(0,0,64);
+    dymaxion::Buffer<float> b(s);
 
     return 0;
 }
 
 // stubs
 
-namespace Mercator {
+namespace dymaxion {
 
 Segment::Segment(int x, int y, unsigned int resolution) :
                  m_res(resolution),

@@ -6,7 +6,7 @@
 
 #include <dymaxion/Segment.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 template <typename DataType>
 Buffer<DataType>::Buffer(const Segment & segment, unsigned int channels) :
@@ -23,4 +23,4 @@ Buffer<DataType>::~Buffer()
     }
 }
 
-} // namespace Mercator
+} // namespace dymaxion

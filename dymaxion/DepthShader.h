@@ -7,7 +7,7 @@
 
 #include <dymaxion/Shader.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 /// \brief Shader to give the appearance of deep murky water.
 ///
@@ -54,6 +54,6 @@ class DepthShader : public Shader {
     virtual void shade(Surface &) const;
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_FILL_DEPTH_SHADER_H

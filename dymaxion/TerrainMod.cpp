@@ -6,7 +6,7 @@
 
 #include <dymaxion/Segment.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 TerrainMod::TerrainMod() : m_function(set)
 {
@@ -60,4 +60,4 @@ template class CraterTerrainMod<WFMath::Ball >;
 template class CraterTerrainMod<WFMath::Polygon >;
 template class CraterTerrainMod<WFMath::RotBox >;
 
-} // namespace Mercator
+} // namespace dymaxion

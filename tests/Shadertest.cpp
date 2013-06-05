@@ -10,10 +10,10 @@
 #include <dymaxion/GrassShader.h>
 
 template <class ShaderType>
-int shadeTest(Mercator::Segment & segment)
+int shadeTest(dymaxion::Segment & segment)
 {
     ShaderType shader;
-    Mercator::Surface surface(segment, shader);
+    dymaxion::Surface surface(segment, shader);
 
     if (surface.getChannels() != 4) {
         std::cerr << "Surface does not have 4 channels."
@@ -29,16 +29,16 @@ int shadeTest(Mercator::Segment & segment)
 
 int main()
 {
-    Mercator::Segment segment(0,0,Mercator::defaultResolution);
+    dymaxion::Segment segment(0,0,dymaxion::defaultResolution);
     segment.populate();
 
     int errorCount = 0;
-    errorCount += shadeTest<Mercator::FillShader>(segment);
-    errorCount += shadeTest<Mercator::HighShader>(segment);
-    errorCount += shadeTest<Mercator::LowShader>(segment);
-    errorCount += shadeTest<Mercator::BandShader>(segment);
-    errorCount += shadeTest<Mercator::DepthShader>(segment);
-    errorCount += shadeTest<Mercator::GrassShader>(segment);
+    errorCount += shadeTest<dymaxion::FillShader>(segment);
+    errorCount += shadeTest<dymaxion::HighShader>(segment);
+    errorCount += shadeTest<dymaxion::LowShader>(segment);
+    errorCount += shadeTest<dymaxion::BandShader>(segment);
+    errorCount += shadeTest<dymaxion::DepthShader>(segment);
+    errorCount += shadeTest<dymaxion::GrassShader>(segment);
 
     return (errorCount ? 1 : 0);
 }

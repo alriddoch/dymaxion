@@ -5,10 +5,10 @@
 #ifndef DYMAXION_DYMAXION_H
 #define DYMAXION_DYMAXION_H
 
-namespace Mercator {
+namespace dymaxion {
 
     static const unsigned int defaultResolution = 64;
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_DYMAXION_H

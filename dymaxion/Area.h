@@ -10,7 +10,7 @@
 #include <wfmath/axisbox.h>
 #include <wfmath/polygon.h>
 
-namespace Mercator
+namespace dymaxion
 {
 
 class Segment;

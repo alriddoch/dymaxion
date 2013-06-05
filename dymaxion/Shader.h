@@ -8,7 +8,7 @@
 #include <string>
 #include <map>
 
-namespace Mercator {
+namespace dymaxion {
 
 class Surface;
 class Segment;
@@ -63,6 +63,6 @@ class Shader {
     typedef std::map<std::string, float> Parameters;
 };
 
-} // namespace Mercator
+} // namespace dymaxion
 
 #endif // DYMAXION_SHADER_H

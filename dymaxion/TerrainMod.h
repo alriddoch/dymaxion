@@ -10,7 +10,7 @@
 #include <wfmath/intersect.h>
 #include <wfmath/ball.h>
 
-namespace Mercator {
+namespace dymaxion {
 
 class Segment;
 
@@ -193,6 +193,6 @@ protected:
     float m_level;
 };
 
-} //namespace Mercator
+} //namespace dymaxion
 
 #endif // DYMAXION_TERRAIN_MOD_H
