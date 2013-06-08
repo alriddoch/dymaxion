@@ -7,6 +7,6 @@
 
 #include <cmath>
 
-#define I_ROUND(_x) (std::rint(_x))
+#define I_ROUND(_x) (std::lrint(_x))
 
 #endif // DYMAXION_IROUND_H

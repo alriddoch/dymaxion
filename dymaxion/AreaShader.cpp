@@ -118,7 +118,7 @@ static void contribute(Surface& s,
     if ((y == 0) || (y == sz))
         amount *= 2;
         
-    s(x, y, 0) = std::min(static_cast<ColorT>(I_ROUND(amount * 255)) + s(x,y,0), 255);
+    s(x, y, 0) = std::min(std::lrint(amount * 255) + s(x,y,0), 255l);
 }
 
 static void span(Surface& s,
@@ -129,9 +129,9 @@ static void span(Surface& s,
     assert(xStart <= xEnd); 
 
     // quantize and accumulate into the buffer data
-    unsigned int row = I_ROUND(y),
-        ixStart = I_ROUND(xStart),
-        ixEnd = I_ROUND(xEnd);
+    unsigned int row = std::lrint(y),
+        ixStart = std::lrint(xStart),
+        ixEnd = std::lrint(xEnd);
  
     //std::cout << "span @ y=" << row << ", " << ixStart << " -> " << ixEnd << std::endl;
     

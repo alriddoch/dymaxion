@@ -75,10 +75,10 @@ void Forest::populate()
     m_plants.clear();
     WFMath::MTRand rng;
 
-    int lx = I_ROUND(bbox.lowCorner().x()),
-        ly = I_ROUND(bbox.lowCorner().y()),
-        hx = I_ROUND(bbox.highCorner().x()),
-        hy = I_ROUND(bbox.highCorner().y());
+    int lx = std::lrint(bbox.lowCorner().x()),
+        ly = std::lrint(bbox.lowCorner().y()),
+        hx = std::lrint(bbox.highCorner().x()),
+        hy = std::lrint(bbox.highCorner().y());
 
     PlantSpecies::const_iterator I;
     PlantSpecies::const_iterator Iend = m_species.end();

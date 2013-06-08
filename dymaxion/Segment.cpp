@@ -25,7 +25,7 @@ namespace dymaxion {
 
 unsigned int BasePoint::seed() const
 {
-    return I_ROUND(m_height * 1000.0);
+    return std::lrint(m_height * 1000.0);
 }
 
 /// \brief Helper to interpolate on a line.
@@ -536,8 +536,8 @@ void Segment::getHeightAndNormal(float x, float y, float& h,
     assert(y >= 0.0f);
     
     // get index of the actual tile in the segment
-    int tile_x = I_ROUND(std::floor(x));
-    int tile_y = I_ROUND(std::floor(y));
+    int tile_x = std::lrint(std::floor(x));
+    int tile_y = std::lrint(std::floor(y));
 
     // work out the offset into that tile
     float off_x = x - tile_x;
@@ -580,19 +580,19 @@ void Segment::getHeightAndNormal(float x, float y, float& h,
 bool Segment::clipToSegment(const WFMath::AxisBox<2> &bbox,
                             int &lx, int &hx, int &ly, int &hy) const
 {
-    lx = I_ROUND(bbox.lowCorner()[0]); 
+    lx = std::lrint(bbox.lowCorner()[0]); 
     if (lx > m_res) return false;
     if (lx < 0) lx = 0;
     
-    hx = I_ROUND(bbox.highCorner()[0]); 
+    hx = std::lrint(bbox.highCorner()[0]); 
     if (hx < 0) return false;
     if (hx > m_res) hx = m_res;
     
-    ly = I_ROUND(bbox.lowCorner()[1]); 
+    ly = std::lrint(bbox.lowCorner()[1]); 
     if (ly > m_res) return false;
     if (ly < 0) ly = 0;
     
-    hy = I_ROUND(bbox.highCorner()[1]); 
+    hy = std::lrint(bbox.highCorner()[1]); 
     if (hy < 0) return false;
     if (hy > m_res) hy = m_res;
 

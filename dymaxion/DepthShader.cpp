@@ -84,7 +84,7 @@ void DepthShader::shade(Surface & s) const
         } else if (depth < m_murkyDepth) {
             data[++j] = colorMax;
         } else {
-            data[++j] = colorMax - I_ROUND(colorMax * ((depth - m_murkyDepth)
+            data[++j] = colorMax - std::lrint(colorMax * ((depth - m_murkyDepth)
                                               / (m_waterLevel - m_murkyDepth)));
         }
     }

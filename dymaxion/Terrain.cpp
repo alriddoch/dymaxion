@@ -168,14 +168,14 @@ void Terrain::shadeSurfaces(Segment & seg)
 /// accurate results see Terrain::getHeightAndNormal.
 float Terrain::get(float x, float y) const
 {
-    int ix = I_ROUND(std::floor(x / m_spacing));
-    int iy = I_ROUND(std::floor(y / m_spacing));
+    int ix = std::lrint(std::floor(x / m_spacing));
+    int iy = std::lrint(std::floor(y / m_spacing));
 
     Segment * s = getSegment(ix, iy);
     if ((s == 0) || (!s->isValid())) {
         return Terrain::defaultLevel;
     }
-    return s->get(I_ROUND(x) - (ix * m_res), I_ROUND(y) - (iy * m_res));
+    return s->get(std::lrint(x) - (ix * m_res), std::lrint(y) - (iy * m_res));
 }
 
 /// \brief Get an accurate height and normal vector at a given coordinate
@@ -199,8 +199,8 @@ float Terrain::get(float x, float y) const
 bool Terrain::getHeightAndNormal(float x, float y, float & h,
                                   WFMath::Vector<3> & n) const
 {
-    int ix = I_ROUND(std::floor(x / m_spacing));
-    int iy = I_ROUND(std::floor(y / m_spacing));
+    int ix = std::lrint(std::floor(x / m_spacing));
+    int iy = std::lrint(std::floor(y / m_spacing));
 
     Segment * s = getSegment(ix, iy);
     if ((s == 0) || (!s->isValid())) {
@@ -331,10 +331,10 @@ void Terrain::addEffector(const Effector * eff)
 
     m_effectors.insert(Effectorstore::value_type(eff, eff->bbox()));
 
-    int lx=I_ROUND(std::floor((eff->bbox().lowCorner()[0] - 1.f) / m_spacing));
-    int ly=I_ROUND(std::floor((eff->bbox().lowCorner()[1] - 1.f) / m_spacing));
-    int hx=I_ROUND(std::ceil((eff->bbox().highCorner()[0] + 1.f) / m_spacing));
-    int hy=I_ROUND(std::ceil((eff->bbox().highCorner()[1] + 1.f) / m_spacing));
+    int lx=std::lrint(std::floor((eff->bbox().lowCorner()[0] - 1.f) / m_spacing));
+    int ly=std::lrint(std::floor((eff->bbox().lowCorner()[1] - 1.f) / m_spacing));
+    int hx=std::lrint(std::ceil((eff->bbox().highCorner()[0] + 1.f) / m_spacing));
+    int hy=std::lrint(std::ceil((eff->bbox().highCorner()[1] + 1.f) / m_spacing));
 
     for (int i=lx;i<hx;++i) {
         for (int j=ly;j<hy;++j) {
@@ -359,10 +359,10 @@ Terrain::Rect Terrain::updateEffector(const Effector * eff)
 
     std::set<Segment*> removed, added, updated;
 
-    int lx=I_ROUND(std::floor((old_box.lowCorner()[0] - 1.f) / m_spacing));
-    int ly=I_ROUND(std::floor((old_box.lowCorner()[1] - 1.f) / m_spacing));
-    int hx=I_ROUND(std::ceil((old_box.highCorner()[0] + 1.f) / m_spacing));
-    int hy=I_ROUND(std::ceil((old_box.highCorner()[1] + 1.f) / m_spacing));
+    int lx=std::lrint(std::floor((old_box.lowCorner()[0] - 1.f) / m_spacing));
+    int ly=std::lrint(std::floor((old_box.lowCorner()[1] - 1.f) / m_spacing));
+    int hx=std::lrint(std::ceil((old_box.highCorner()[0] + 1.f) / m_spacing));
+    int hy=std::lrint(std::ceil((old_box.highCorner()[1] + 1.f) / m_spacing));
 
     for (int i=lx;i<hx;++i) {
         for (int j=ly;j<hy;++j) {
@@ -376,10 +376,10 @@ Terrain::Rect Terrain::updateEffector(const Effector * eff)
         } // of y loop
     } // of x loop
 
-    lx=I_ROUND(std::floor((eff->bbox().lowCorner()[0] - 1.f) / m_spacing));
-    ly=I_ROUND(std::floor((eff->bbox().lowCorner()[1] - 1.f) / m_spacing));
-    hx=I_ROUND(std::ceil((eff->bbox().highCorner()[0] + 1.f) / m_spacing));
-    hy=I_ROUND(std::ceil((eff->bbox().highCorner()[1] + 1.f) / m_spacing));
+    lx=std::lrint(std::floor((eff->bbox().lowCorner()[0] - 1.f) / m_spacing));
+    ly=std::lrint(std::floor((eff->bbox().lowCorner()[1] - 1.f) / m_spacing));
+    hx=std::lrint(std::ceil((eff->bbox().highCorner()[0] + 1.f) / m_spacing));
+    hy=std::lrint(std::ceil((eff->bbox().highCorner()[1] + 1.f) / m_spacing));
 
     for (int i=lx;i<hx;++i) {
         for (int j=ly;j<hy;++j) {
@@ -427,10 +427,10 @@ void Terrain::removeEffector(const Effector * eff)
 
     const Rect & eff_box = eff->bbox();
 
-    int lx=I_ROUND(std::floor((eff_box.lowCorner()[0] - 1.f) / m_spacing));
-    int ly=I_ROUND(std::floor((eff_box.lowCorner()[1] - 1.f) / m_spacing));
-    int hx=I_ROUND(std::ceil((eff_box.highCorner()[0] + 1.f) / m_spacing));
-    int hy=I_ROUND(std::ceil((eff_box.highCorner()[1] + 1.f) / m_spacing));
+    int lx=std::lrint(std::floor((eff_box.lowCorner()[0] - 1.f) / m_spacing));
+    int ly=std::lrint(std::floor((eff_box.lowCorner()[1] - 1.f) / m_spacing));
+    int hx=std::lrint(std::ceil((eff_box.highCorner()[0] + 1.f) / m_spacing));
+    int hy=std::lrint(std::ceil((eff_box.highCorner()[1] + 1.f) / m_spacing));
 
     for (int i=lx;i<hx;++i) {
         for (int j=ly;j<hy;++j) {
