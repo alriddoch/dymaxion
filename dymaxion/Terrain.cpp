@@ -2,12 +2,6 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2003 Alistair Riddoch, Damien McGinnes
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "iround.h"
-
 #include <dymaxion/Terrain.h>
 
 #include <dymaxion/Matrix.h>

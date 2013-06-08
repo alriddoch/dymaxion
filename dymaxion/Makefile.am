@@ -5,7 +5,6 @@ lib_LTLIBRARIES = libdymaxion-0.3.la
 libdymaxion_0_3_la_LDFLAGS = -version-info @DYMAXION_VERSION_INFO@
 
 libdymaxion_0_3_la_SOURCES = \
-	iround.h \
 	dymaxion.cpp \
 	Matrix.cpp \
 	Terrain.cpp \

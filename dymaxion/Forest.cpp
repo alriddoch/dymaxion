@@ -2,12 +2,6 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2004 Alistair Riddoch
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "iround.h"
-
 #include <dymaxion/Forest.h>
 #include <dymaxion/Plant.h>
 #include <dymaxion/Area.h>

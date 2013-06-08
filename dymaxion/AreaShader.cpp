@@ -2,13 +2,8 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2005 Alistair Riddoch
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <dymaxion/AreaShader.h>
 #include <dymaxion/Area.h>
-#include <dymaxion/iround.h>
 #include <dymaxion/Segment.h>
 #include <dymaxion/Surface.h>
 
