@@ -200,9 +200,9 @@ void Segment::invalidateSurfaces()
 /// 2 dimensions to ensure that there is no visible seam between segments.
 void Segment::populateNormals()
 {
-    assert(m_points != NULL);
+    assert(m_points != nullptr);
 
-    if (m_normals == 0) {
+    if (m_normals == nullptr) {
         m_normals = new float[m_size * m_size * 3];
     }
 
