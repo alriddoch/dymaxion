@@ -63,7 +63,7 @@ static const float plant_height_range = 20.f;
 void Forest::populate()
 {
     if (!m_area) return;
-    WFMath::AxisBox<2> bbox(m_area->bbox());
+    auto bbox(m_area->bbox());
     
     // Fill the plant store with plants.
     m_plants.clear();
@@ -82,7 +82,7 @@ void Forest::populate()
             if (!m_area->contains(i,j)) {
                 continue;
             }
-            double prob = m_randCache(i,j);
+            auto prob = m_randCache(i,j);
             I = m_species.begin();
             for (; I != Iend; ++I) {
                 const Species & species = *I;

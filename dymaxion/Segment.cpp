@@ -210,8 +210,8 @@ void Segment::populateNormals()
     
     // Fill in the damn normals
     float h1,h2,h3,h4;
-    for (int j = 1; j < m_res; ++j) {
-        for (int i = 1; i < m_res; ++i) {
+    for (decltype(getResolution()) j = 1; j < m_res; ++j) {
+        for (decltype(getResolution()) i = 1; i < m_res; ++i) {
            h1 = get(i - 1, j);
            h2 = get(i, j + 1);
            h3 = get(i + 1, j);
@@ -227,7 +227,7 @@ void Segment::populateNormals()
     //edges have one axis pegged to 0
     
     //top and bottom boundary
-    for (int i=1; i < m_res; ++i) {
+    for (decltype(getResolution()) i=1; i < m_res; ++i) {
         h1 = get(i - 1, 0);
         h2 = get(i + 1, 0);
         
@@ -244,7 +244,7 @@ void Segment::populateNormals()
     }
     
     //left and right boundary
-    for (int j=1; j < m_res; ++j) {
+    for (decltype(getResolution()) j=1; j < m_res; ++j) {
         h1 = get(0, j - 1);
         h2 = get(0, j + 1);
         
@@ -351,18 +351,18 @@ void Segment::fill1d(const BasePoint& l, const BasePoint &h,
     // effectively we do the 1/2  point, then the 1/4 points, then the 1/8th
     // points etc. this has to be the same order every time because we call
     // on the RNG at every point 
-    int stride = m_res/2;
+    decltype(getResolution()) stride = m_res/2;
 
     // depth is used to indicate what level we are on. the displacement is
     // reduced each time we traverse the array.
     float depth=1;
  
     while (stride) {
-        for (int i=stride;i<m_res;i+=stride*2) {
-            float hh = array[i-stride];
-            float lh = array[i+stride];
-            float hd = std::fabs(hh-lh);
-            float roughness = li.calc(i);
+        for (decltype(getResolution()) i=stride;i<m_res;i+=stride*2) {
+            auto hh = array[i-stride];
+            auto lh = array[i+stride];
+            auto hd = std::fabs(hh-lh);
+            auto roughness = li.calc(i);
 
             //eliminate the problem where hd is nearly zero, leaving a flat section.
             if ((hd*100.f) < roughness) {
@@ -399,28 +399,28 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
     
     // calc top edge and copy into m_points
     fill1d(p1,p2,edge);
-    for (int i=0;i<=m_res;i++) {
+    for (decltype(getResolution()) i=0;i<=m_res;i++) {
         m_points[0*m_size + i] = edge[i];
         checkMaxMin(edge[i]);
     }
 
     // calc left edge and copy into m_points
     fill1d(p1,p4,edge);
-    for (int i=0;i<=m_res;i++) {
+    for (decltype(getResolution()) i=0;i<=m_res;i++) {
         m_points[i*m_size + 0] = edge[i];
         checkMaxMin(edge[i]);
     }
    
     // calc right edge and copy into m_points
     fill1d(p2,p3,edge);
-    for (int i=0;i<=m_res;i++) {
+    for (decltype(getResolution()) i=0;i<=m_res;i++) {
         m_points[i*m_size + m_res] = edge[i];
         checkMaxMin(edge[i]);
     }
 
     // calc bottom edge and copy into m_points
     fill1d(p4,p3,edge);
-    for (int i=0;i<=m_res;i++) {
+    for (decltype(getResolution()) i=0;i<=m_res;i++) {
         m_points[m_res*m_size + i] = edge[i];
         checkMaxMin(edge[i]);
     }
@@ -437,10 +437,10 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
     float depth=0;
     
     // center of m_points is done separately
-    int stride = m_res/2;
+    decltype(getResolution()) stride = m_res/2;
 
     //float roughness = (p1.roughness+p2.roughness+p3.roughness+p4.roughness)/(4.0f);
-    float roughness = qi.calc(stride, stride);
+    auto roughness = qi.calc(stride, stride);
     m_points[stride*m_size + stride] = qRMD(rng, m_points[0 * m_size + stride],
                                         m_points[stride*m_size + 0],
                                         m_points[stride*m_size + m_res],
@@ -461,8 +461,8 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
       //+ . +
       //. X .
       //+ . +
-      for (int i=stride;i<m_res;i+=stride*2) {
-          for (int j=stride;j<m_res;j+=stride*2) {
+      for (decltype(getResolution()) i=stride;i<m_res;i+=stride*2) {
+          for (decltype(getResolution()) j=stride;j<m_res;j+=stride*2) {
               roughness=qi.calc(i,j);
               m_points[j*m_size + i] = qRMD(rng, m_points[(i-stride) + (j+stride) * (m_size)],
                                        m_points[(i+stride) + (j-stride) * (m_size)],
@@ -478,8 +478,8 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
       //. + .
       //+ X +
       //. + .
-      for (int i=stride*2;i<m_res;i+=stride*2) {
-          for (int j=stride;j<m_res;j+=stride*2) {
+      for (decltype(getResolution()) i=stride*2;i<m_res;i+=stride*2) {
+          for (decltype(getResolution()) j=stride;j<m_res;j+=stride*2) {
               roughness=qi.calc(i,j);
               m_points[j*m_size + i] = qRMD(rng, m_points[(i-stride) + (j) * (m_size)],
                                        m_points[(i+stride) + (j) * (m_size)],
@@ -490,8 +490,8 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
           }
       }
                
-      for (int i=stride;i<m_res;i+=stride*2) {
-          for (int j=stride*2;j<m_res;j+=stride*2) {
+      for (decltype(getResolution()) i=stride;i<m_res;i+=stride*2) {
+          for (decltype(getResolution()) j=stride*2;j<m_res;j+=stride*2) {
               roughness=qi.calc(i,j);
               m_points[j*m_size + i] = qRMD(rng, m_points[(i-stride) + (j) * (m_size)],
                                        m_points[(i+stride) + (j) * (m_size)],
@@ -572,7 +572,8 @@ void Segment::getHeightAndNormal(float x, float y, float& h,
 /// @param hy upper y coordinate of intersection area.
 /// @return true if the box intersects with this Segment, false otherwise.
 bool Segment::clipToSegment(const WFMath::AxisBox<2> &bbox,
-                            int &lx, int &hx, int &ly, int &hy) const
+                            unsigned int &lx, unsigned int &hx,
+                            unsigned int &ly, unsigned int &hy) const
 {
     lx = std::lrint(bbox.lowCorner()[0]); 
     if (lx > m_res) return false;
@@ -653,12 +654,12 @@ void Segment::clearMods()
 /// call this function from the application.
 void Segment::applyMod(const TerrainMod *t) 
 {
-    int lx,hx,ly,hy;
+    unsigned int lx,hx,ly,hy;
     WFMath::AxisBox<2> bbox=t->bbox();
     bbox.shift(WFMath::Vector<2>(-m_xRef, -m_yRef));
     if (clipToSegment(bbox, lx, hx, ly, hy)) {
-        for (int i=ly; i<=hy; i++) {
-            for (int j=lx; j<=hx; j++) {
+        for (unsigned int i=ly; i<=hy; i++) {
+            for (unsigned int j=lx; j<=hx; j++) {
                 t->apply(m_points[i * m_size + j], j + m_xRef, i + m_yRef);
             }
         }

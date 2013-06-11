@@ -1,3 +1,8 @@
+Why does segment::getResolution() return int? Should be unisgned,
+and unsigned internally.
+
+Clips in Area.cpp can be awesome template.
+
 Can pulling out the matissa and exponent give us a bit more predictability
 with seeding?
 

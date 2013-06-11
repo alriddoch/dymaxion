@@ -149,9 +149,9 @@ static void scanConvert(const WFMath::Polygon<2>& inPoly, Surface& sf)
     std::list<Edge> pending;
     std::vector<Edge> active;
 
-    Point2 lastPt = inPoly.getCorner(inPoly.numCorners() - 1);
+    auto lastPt = inPoly.getCorner(inPoly.numCorners() - 1);
     for (std::size_t p=0; p < inPoly.numCorners(); ++p) {
-        Point2 curPt = inPoly.getCorner(p);
+        auto curPt = inPoly.getCorner(p);
         
         // skip horizontal edges
         if (curPt.y() != lastPt.y())
@@ -184,7 +184,7 @@ static void scanConvert(const WFMath::Polygon<2>& inPoly, Surface& sf)
         std::sort(active.begin(), active.end(), EdgeAtY(y));
         
         // delete finished edges
-        for (unsigned int i=0; i< active.size(); ) {
+        for (decltype(active.size()) i = 0; i < active.size(); ) {
             if (active[i].end().y() <= y)
                 active.erase(active.begin() + i);
             else
@@ -206,19 +206,19 @@ AreaShader::AreaShader(int layer) :
 
 bool AreaShader::checkIntersect(const Segment& s) const
 {
-    const Segment::Areastore& areas(s.getAreas());
+    auto const & areas(s.getAreas());
     return (areas.count(m_layer) > 0);
 }
 
 void AreaShader::shade(Surface &s) const
 {
-    ColorT * data = s.getData();
-    unsigned int size = s.getSegment().getSize();
+    auto * data = s.getData();
+    auto size = s.getSegment().getSize();
 
-    unsigned int buflen = size * size;
-    for (unsigned int i = 0; i < buflen; ++i) data[i] = 0;
+    decltype(size) buflen = size * size;
+    for (decltype(buflen) i = 0; i < buflen; ++i) data[i] = 0;
 
-    const Segment::Areastore& areas(s.m_segment.getAreas());
+    auto const & areas(s.m_segment.getAreas());
     Segment::Areastore::const_iterator it = areas.lower_bound(m_layer);
     Segment::Areastore::const_iterator itend = areas.upper_bound(m_layer);
     
@@ -233,12 +233,12 @@ void AreaShader::shade(Surface &s) const
 
 void AreaShader::shadeArea(Surface& s, const Area* const ar) const
 {
-    WFMath::Polygon<2> clipped = ar->clipToSegment(s.m_segment);
+    auto clipped = ar->clipToSegment(s.m_segment);
     assert(clipped.isValid());
     
     if (clipped.numCorners() == 0) return;
  
-    Point2 segOrigin = s.m_segment.getRect().lowCorner();
+    auto segOrigin = s.m_segment.getRect().lowCorner();
     clipped.shift(Point2(0,0) - segOrigin);
     scanConvert(clipped, s);
 }

@@ -28,22 +28,22 @@ static inline float gridfloor(float d)
 bool Intersect(const Terrain &t, const WFMath::AxisBox<3> &bbox)
 {
     float max, min=bbox.lowCorner()[2];
-    const int res = t.getResolution();
-    const float spacing = t.getSpacing();
+    auto const res = t.getResolution();
+    auto const spacing = t.getSpacing();
 
     //determine which segments are involved
     //usually will just be one
-    int xlow  = (int) floor(bbox.lowCorner()[0] / spacing);
-    int xhigh = (int) gridceil(bbox.highCorner()[0] / spacing);
-    int ylow  = (int) floor(bbox.lowCorner()[1] / spacing);
-    int yhigh = (int) gridceil(bbox.highCorner()[1] / spacing);
+    int xlow  = std::lrint(std::floor(bbox.lowCorner()[0] / spacing));
+    int xhigh = std::lrint(gridceil(bbox.highCorner()[0] / spacing));
+    int ylow  = std::lrint(std::floor(bbox.lowCorner()[1] / spacing));
+    int yhigh = std::lrint(gridceil(bbox.highCorner()[1] / spacing));
 
     //loop across all tiles covered by this bbox
     for (int x = xlow; x < xhigh; x++) {
         for (int y = ylow; y < yhigh; y++) {
             //check the bbox against the extent of each tile
             //as an early rejection
-            Segment *thisSeg=t.getSegment(x,y);
+            auto *thisSeg=t.getSegment(x,y);
 
             if (thisSeg)
                 max=thisSeg->getMax();
@@ -51,20 +51,20 @@ bool Intersect(const Terrain &t, const WFMath::AxisBox<3> &bbox)
                 max=Terrain::defaultLevel;
 
             if (max > min) {
-	        //entity bbox overlaps with the extents of this tile
-		//now check each tile point covered by the entity bbox
+                //entity bbox overlaps with the extents of this tile
+                //now check each tile point covered by the entity bbox
                 
                 //clip the points to be tested against the bbox
-                int min_x = (int) floor(bbox.lowCorner()[0] - (x * spacing));
+                int min_x = std::lrint(floor(bbox.lowCorner()[0] - (x * spacing)));
                 if (min_x < 0) min_x = 0;
 
-                int max_x = (int) gridceil(bbox.highCorner()[0] - (x * spacing));
+                int max_x = std::lrint(gridceil(bbox.highCorner()[0] - (x * spacing)));
                 if (max_x > res) min_x = res;
                 
-                int min_y = (int) floor(bbox.lowCorner()[1] - (y * spacing));
+                int min_y = std::lrint(std::floor(bbox.lowCorner()[1] - (y * spacing)));
                 if (min_y < 0) min_y = 0;
 
-                int max_y = (int) gridceil(bbox.highCorner()[1] - (y * spacing));
+                int max_y = std::lrint(gridceil(bbox.highCorner()[1] - (y * spacing)));
                 if (max_y > res) min_y = res;
 
                 //loop over each point and see if it is greater than the minimum
@@ -72,11 +72,11 @@ bool Intersect(const Terrain &t, const WFMath::AxisBox<3> &bbox)
                 //intersect. If a single point is above, then the bbox MIGHT 
                 //intersect.
                 for (int xpt = min_x; xpt <= max_x; xpt++) {
-		    for (int ypt = min_y; ypt <= max_y; ypt++) {
-			if (thisSeg) { 
-        	            if (thisSeg->get(xpt,ypt) > min) return true;
-			}
-			else if (Terrain::defaultLevel > min) return true;
+                    for (int ypt = min_y; ypt <= max_y; ypt++) {
+                        if (thisSeg) { 
+                            if (thisSeg->get(xpt,ypt) > min) return true;
+                        }
+                        else if (Terrain::defaultLevel > min) return true;
                     }
                 }
             }
@@ -136,9 +136,9 @@ static bool cellIntersect(float h1, float h2, float h3, float h4, float X, float
     bool topIntersected = false;
     WFMath::Vector<3> topNormal(h2-h3, h1-h2, 1.0);
     topNormal.normalize();
-    float t = Dot(nDir, topNormal);
+    auto t = Dot(nDir, topNormal);
 
-    float topP=0.0;
+    decltype(t) topP=0.0;
 
     if ((t > 1e-7) || (t < -1e-7)) {
         topP = - (Dot((sPt-WFMath::Point<3>(0.,0.,0.)), topNormal) 
@@ -156,8 +156,8 @@ static bool cellIntersect(float h1, float h2, float h3, float h4, float X, float
     bool botIntersected = false;
     WFMath::Vector<3> botNormal(h1-h4, h4-h3, 1.0);
     botNormal.normalize();
-    float b = Dot(nDir, botNormal);
-    float botP=0.0;
+    auto b = Dot(nDir, botNormal);
+    decltype(b) botP=0.0;
 
     if ((b > 1e-7) || (b < -1e-7)) {
         botP = - (Dot((sPt-WFMath::Point<3>(0.,0.,0.)), botNormal) 
@@ -234,7 +234,7 @@ bool Intersect(const Terrain &t, const WFMath::Point<3> &sPt, const WFMath::Vect
     WFMath::Point<3> last(sPt), next(sPt);
     WFMath::Vector<3> nDir(dir);
     nDir.normalize();
-    float dirLen = dir.mag();
+    auto dirLen = dir.mag();
     
     //work out where the ray first crosses an X grid line
     if (dir[0] != 0.0f) {

@@ -89,19 +89,19 @@ bool GrassShader::checkIntersect(const Segment & s) const
 
 void GrassShader::shade(Surface & s) const
 {
-    unsigned int channels = s.getChannels();
+    auto channels = s.getChannels();
     assert(channels > 0);
-    unsigned int chanAlpha = channels - 1;
-    const Segment & seg = s.getSegment();
+    auto chanAlpha = channels - 1;
+    auto const & seg = s.getSegment();
     ColorT * data = s.getData();
-    const float * height_data = seg.getPoints();
+    auto const * height_data = seg.getPoints();
     if (height_data == 0) {
         std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
                   << std::endl << std::flush;
         return;
     }
-    unsigned int size = seg.getSize();
-    unsigned int res = seg.getResolution();
+    auto size = seg.getSize();
+    auto res = seg.getResolution();
 
     unsigned int data_count = size * size * channels;
     for (unsigned int i = 0; i < data_count; ++i) {
@@ -115,7 +115,7 @@ void GrassShader::shade(Surface & s) const
     s(res, res, chanAlpha) = slopeToAlpha(seg.get(res,res), 0.f);
 
     for (unsigned int i = 1; i < res; ++i) {
-        float height = seg.get(i, 0);
+        auto height = seg.get(i, 0);
         float avgSlope = (std::fabs(seg.get(i - 1, 0) - height) +
                           std::fabs(seg.get(i + 1, 0) - height)) / 2.f;
         s(i, 0, chanAlpha) = slopeToAlpha(height, avgSlope);

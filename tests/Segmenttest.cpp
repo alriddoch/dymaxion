@@ -26,7 +26,7 @@ int main()
     s.getHeightAndNormal(17.9, 23.1, h, normal);
     s.getHeightAndNormal(17.1, 23.9, h, normal);
 
-    int lx, ly, hx, hy;
+    unsigned int lx, ly, hx, hy;
     s.clipToSegment(WFMath::AxisBox<2>(WFMath::Point<2>(50,50), WFMath::Point<2>(100,100)), lx, hx, ly, hy);
 
     return 0;

@@ -43,22 +43,22 @@ bool HighShader::checkIntersect(const Segment & s) const
 
 void HighShader::shade(Surface & s) const
 {
-    unsigned int channels = s.getChannels();
+    auto channels = s.getChannels();
     assert(channels > 0);
-    unsigned int colors = channels - 1;
-    ColorT * data = s.getData();
-    const float * height_data = s.getSegment().getPoints();
+    decltype(channels) colours = channels - 1;
+    auto * data = s.getData();
+    auto const * height_data = s.getSegment().getPoints();
     if (height_data == 0) {
         std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
                   << std::endl << std::flush;
         return;
     }
-    unsigned int size = s.getSegment().getSize();
+    auto size = s.getSegment().getSize();
 
-    unsigned int count = size * size;
+    decltype(size) count = size * size;
     int j = -1;
-    for (unsigned int i = 0; i < count; ++i) {
-        for (unsigned int k = 0; k < colors; ++k) {
+    for (decltype(count) i = 0; i < count; ++i) {
+        for (decltype(colours) k = 0; k < colours; ++k) {
             data[++j] = colorMax;
         }
         data[++j] = ((height_data[i] > m_threshold) ? colorMax : colorMin);
@@ -97,22 +97,22 @@ bool LowShader::checkIntersect(const Segment & s) const
 
 void LowShader::shade(Surface & s) const
 {
-    unsigned int channels = s.getChannels();
+    auto channels = s.getChannels();
     assert(channels > 0);
-    unsigned int colors = channels - 1;
-    ColorT * data = s.getData();
-    const float * height_data = s.getSegment().getPoints();
+    decltype(channels) colours = channels - 1;
+    auto * data = s.getData();
+    auto const * height_data = s.getSegment().getPoints();
     if (height_data == 0) {
         std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
                   << std::endl << std::flush;
         return;
     }
-    unsigned int size = s.getSegment().getSize();
+    auto size = s.getSegment().getSize();
 
-    unsigned int count = size * size;
+    decltype(size) count = size * size;
     int j = -1;
-    for (unsigned int i = 0; i < count; ++i) {
-        for (unsigned int k = 0; k < colors; ++k) {
+    for (decltype(count) i = 0; i < count; ++i) {
+        for (decltype(colours) k = 0; k < colours; ++k) {
             data[++j] = colorMax;
         }
         data[++j] = ((height_data[i] < m_threshold) ? colorMax : colorMin);
@@ -160,22 +160,22 @@ bool BandShader::checkIntersect(const Segment & s) const
 
 void BandShader::shade(Surface & s) const
 {
-    unsigned int channels = s.getChannels();
+    auto channels = s.getChannels();
     assert(channels > 0);
-    unsigned int colors = channels - 1;
-    ColorT * data = s.getData();
-    const float * height_data = s.getSegment().getPoints();
+    decltype(channels) colours = channels - 1;
+    auto * data = s.getData();
+    auto const * height_data = s.getSegment().getPoints();
     if (height_data == 0) {
         std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
                   << std::endl << std::flush;
         return;
     }
-    unsigned int size = s.getSegment().getSize();
+    auto size = s.getSegment().getSize();
 
-    unsigned int count = size * size;
+    decltype(size) count = size * size;
     int j = -1;
-    for (unsigned int i = 0; i < count; ++i) {
-        for (unsigned int k = 0; k < colors; ++k) {
+    for (decltype(count) i = 0; i < count; ++i) {
+        for (decltype(colours) k = 0; k < colours; ++k) {
             data[++j] = colorMax;
         }
         data[++j] = (((height_data[i] > m_lowThreshold) &&

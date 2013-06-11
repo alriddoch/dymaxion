@@ -54,25 +54,25 @@ bool DepthShader::checkIntersect(const Segment & s) const
 
 void DepthShader::shade(Surface & s) const
 {
-    unsigned int channels = s.getChannels();
+    auto channels = s.getChannels();
     assert(channels > 0);
-    unsigned int colors = channels - 1;
-    ColorT * data = s.getData();
-    const float * height_data = s.getSegment().getPoints();
+    auto colors = channels - 1;
+    auto * data = s.getData();
+    auto const * height_data = s.getSegment().getPoints();
     if (height_data == 0) {
         std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
                   << std::endl << std::flush;
         return;
     }
-    unsigned int size = s.getSegment().getSize();
+    auto size = s.getSegment().getSize();
 
-    unsigned int count = size * size;
+    auto count = size * size;
     int j = -1;
     for (unsigned int i = 0; i < count; ++i) {
         for (unsigned int k = 0; k < colors; ++k) {
             data[++j] = colorMax;
         }
-        float depth = height_data[i];
+        auto depth = height_data[i];
         if (depth > m_waterLevel) {
             data[++j] = colorMin;
         } else if (depth < m_murkyDepth) {

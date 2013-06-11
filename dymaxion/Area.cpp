@@ -55,15 +55,15 @@ public:
     /// @return a point where the line cross this clip.
     Point2 clip(const Point2& u, const Point2& v) const
     {
-        CoordType dy = v.y() - u.y();
-        CoordType dx = v.x() - u.x();
+        auto dy = v.y() - u.y();
+        auto dx = v.x() - u.x();
         
         // shouldn't every happen - if dy iz zero, the line is horizontal,
         // so either both points should be inside, or both points should be
         // outside. In either case, we should not call clip()
         assert(!isZero(dy));
         
-        CoordType t = (topY - u.y()) / dy;
+        auto t = (topY - u.y()) / dy;
         return Point2(u.x() + t * dx, topY);
     }
 private:
@@ -96,11 +96,11 @@ public:
     /// @return a point where the line cross this clip.
     Point2 clip(const Point2& u, const Point2& v) const
     {
-        CoordType dy = v.y() - u.y();
-        CoordType dx = v.x() - u.x();
+        auto dy = v.y() - u.y();
+        auto dx = v.x() - u.x();
         assert(!isZero(dy));
         
-        CoordType t = (u.y() - bottomY) / -dy;
+        auto t = (u.y() - bottomY) / -dy;
         return Point2(u.x() + t * dx, bottomY);
     }
 private:
@@ -133,13 +133,13 @@ public:
     /// @return a point where the line cross this clip.
     Point2 clip(const Point2& u, const Point2& v) const
     {
-        CoordType dy = v.y() - u.y();
-        CoordType dx = v.x() - u.x();
+        auto dy = v.y() - u.y();
+        auto dx = v.x() - u.x();
         
         // shouldn't every happen
         assert(!isZero(dx));
         
-        CoordType t = (leftX - u.x()) / dx;
+        auto t = (leftX - u.x()) / dx;
         return Point2(leftX, u.y() + t * dy);
     }
 private:
@@ -172,13 +172,13 @@ public:
     /// @return a point where the line cross this clip.
     Point2 clip(const Point2& u, const Point2& v) const
     {
-        CoordType dy = v.y() - u.y();
-        CoordType dx = v.x() - u.x();
+        auto dy = v.y() - u.y();
+        auto dx = v.x() - u.x();
         
         // shouldn't every happen
         assert(!isZero(dx));
         
-        CoordType t = (u.x() - rightX) / -dx;
+        auto t = (u.x() - rightX) / -dx;
         return Point2(rightX, u.y() + t * dy);
     }
 private:
@@ -193,15 +193,15 @@ WFMath::Polygon<2> sutherlandHodgmanKernel(const WFMath::Polygon<2>& inpoly, Cli
     WFMath::Polygon<2> outpoly;
     
     if (!inpoly.isValid()) return inpoly;
-    std::size_t points = inpoly.numCorners();
+    auto points = inpoly.numCorners();
     if (points < 3) return outpoly; // i.e an invalid result
     
-    Point2 lastPt = inpoly.getCorner(points - 1);
+    auto lastPt = inpoly.getCorner(points - 1);
     bool lastInside = clipper.inside(lastPt);
     
     for (std::size_t p = 0; p < points; ++p) {
     
-        Point2 curPt = inpoly.getCorner(p);
+        auto curPt = inpoly.getCorner(p);
         bool inside = clipper.inside(curPt);
         
         if (lastInside) {
@@ -286,8 +286,8 @@ WFMath::Polygon<2> Area::clipToSegment(const Segment& s) const
     // box reject
     if (!checkIntersects(s)) return WFMath::Polygon<2>();
     
-    WFMath::AxisBox<2> segBox(s.getRect());
-    WFMath::Polygon<2> clipped = sutherlandHodgmanKernel(m_shape, TopClip(segBox.lowCorner().y()));
+    auto segBox = s.getRect();
+    auto clipped = sutherlandHodgmanKernel(m_shape, TopClip(segBox.lowCorner().y()));
     
     clipped = sutherlandHodgmanKernel(clipped, BottomClip(segBox.highCorner().y()));
     clipped = sutherlandHodgmanKernel(clipped, LeftClip(segBox.lowCorner().x()));

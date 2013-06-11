@@ -32,8 +32,8 @@ bool TileShader::checkIntersect(const Segment & s) const
 
 void TileShader::shade(Surface & surface) const
 {
-    ColorT * sdata = surface.getData();
-    int sdata_len = surface.getSize() * surface.getSize();
+    auto * sdata = surface.getData();
+    auto sdata_len = surface.getSize() * surface.getSize();
 
     TileShader::Shaderstore::const_iterator I = m_subShaders.begin();
     TileShader::Shaderstore::const_iterator Iend = m_subShaders.end();
@@ -44,9 +44,9 @@ void TileShader::shade(Surface & surface) const
         Surface * subs = I->second->newSurface(surface.getSegment());
         subs->populate();
         ColorT * subsdata = subs->getData();
-        int channels = subs->getChannels();
+        auto channels = subs->getChannels();
         
-        for (int i = 0; i < sdata_len; ++i) {
+        for (decltype(sdata_len) i = 0; i < sdata_len; ++i) {
             if (subsdata[i * channels + channels - 1] > 127) {
                 sdata[i] = I->first;
             }

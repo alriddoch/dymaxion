@@ -42,9 +42,9 @@ class Segment {
     typedef std::multimap<int, const Area *> Areastore;
   private:
     /// Distance between segments
-    const int m_res;
+    const unsigned int m_res;
     /// Size of segment, m_res + 1
-    const int m_size;
+    const unsigned int m_size;
     /// Global x reference of this segment
     const int m_xRef;
     /// Global y reference of this segment
@@ -73,29 +73,29 @@ class Segment {
     ~Segment();
 
     /// \brief Accessor for resolution of this segment.
-    const int getResolution() const {
+    unsigned int getResolution() const {
         return m_res;
     }
 
     /// \brief Accessor for array size of this segment.
-    const int getSize() const {
+    unsigned int getSize() const {
         return m_size;
     }
 
     /// \brief Accessor for Global x reference of this segment
-    const int getXRef() const {
+    int getXRef() const {
         return m_xRef;
     }
 
     /// \brief Accessor for Global y reference of this segment
-    const int getYRef() const {
+    int getYRef() const {
         return m_yRef;
     }
 
     /// \brief Check whether this Segment contains valid point data.
     ///
     /// @return true if this Segment is valid, false otherwise.
-    const bool isValid() const {
+    bool isValid() const {
         return (m_points != 0);
     }
 
@@ -168,7 +168,11 @@ class Segment {
 
     void getHeightAndNormal(float x, float y, float &h, 
                     WFMath::Vector<3> &normal) const;
-    bool clipToSegment(const WFMath::AxisBox<2> &bbox, int &lx, int &hx, int &ly, int &hy) const;
+    bool clipToSegment(const WFMath::AxisBox<2> &bbox,
+                       unsigned int &lx,
+                       unsigned int &hx,
+                       unsigned int &ly,
+                       unsigned int &hy) const;
 
 
     void populate();

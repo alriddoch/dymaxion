@@ -28,11 +28,11 @@ bool FillShader::checkIntersect(const Segment &) const
 
 void FillShader::shade(Surface & s) const
 {
-    unsigned int channels = s.getChannels();
+    auto channels = s.getChannels();
     ColorT * data = s.getData();
-    unsigned int size = s.getSegment().getSize();
+    auto size = s.getSegment().getSize();
 
-    unsigned int buflen = size * size * channels;
+    auto buflen = size * size * channels;
     for (unsigned int i = 0; i < buflen; ++i) {
         data[i] = colorMax;
     }
