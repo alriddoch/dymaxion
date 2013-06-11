@@ -7,7 +7,7 @@
 
 namespace dymaxion {
 
-    static const unsigned int defaultResolution = 64;
+    constexpr unsigned int defaultResolution = 64;
 
 } // namespace dymaxion
 
