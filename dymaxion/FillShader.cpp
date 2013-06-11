@@ -34,7 +34,7 @@ void FillShader::shade(Surface & s) const
 
     auto buflen = size * size * channels;
     for (unsigned int i = 0; i < buflen; ++i) {
-        data[i] = colorMax;
+        data[i] = std::numeric_limits<ColorT>::max();
     }
 }
 

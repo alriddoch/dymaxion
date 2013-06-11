@@ -59,9 +59,11 @@ void HighShader::shade(Surface & s) const
     int j = -1;
     for (decltype(count) i = 0; i < count; ++i) {
         for (decltype(colours) k = 0; k < colours; ++k) {
-            data[++j] = colorMax;
+            data[++j] = std::numeric_limits<ColorT>::max();
         }
-        data[++j] = ((height_data[i] > m_threshold) ? colorMax : colorMin);
+        data[++j] = ((height_data[i] > m_threshold) ?
+                        std::numeric_limits<ColorT>::max() :
+                        std::numeric_limits<ColorT>::min());
     }
 }
 
@@ -113,9 +115,11 @@ void LowShader::shade(Surface & s) const
     int j = -1;
     for (decltype(count) i = 0; i < count; ++i) {
         for (decltype(colours) k = 0; k < colours; ++k) {
-            data[++j] = colorMax;
+            data[++j] = std::numeric_limits<ColorT>::max();
         }
-        data[++j] = ((height_data[i] < m_threshold) ? colorMax : colorMin);
+        data[++j] = ((height_data[i] < m_threshold) ?
+                        std::numeric_limits<ColorT>::max() :
+                        std::numeric_limits<ColorT>::min());
     }
 }
 
@@ -176,10 +180,12 @@ void BandShader::shade(Surface & s) const
     int j = -1;
     for (decltype(count) i = 0; i < count; ++i) {
         for (decltype(colours) k = 0; k < colours; ++k) {
-            data[++j] = colorMax;
+            data[++j] = std::numeric_limits<ColorT>::max();
         }
         data[++j] = (((height_data[i] > m_lowThreshold) &&
-                      (height_data[i] < m_highThreshold)) ? colorMax : colorMin);
+                      (height_data[i] < m_highThreshold)) ?
+                        std::numeric_limits<ColorT>::max() :
+                        std::numeric_limits<ColorT>::min());
     }
 }
 

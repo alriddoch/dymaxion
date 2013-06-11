@@ -69,11 +69,12 @@ inline ColorT GrassShader::slopeToAlpha(float height, float slope) const
     if ((height < m_lowThreshold) ||
         (height > m_highThreshold) ||
         (slope > m_intercept)) {
-        return colorMin;
+        return std::numeric_limits<ColorT>::min();
     } else if (slope < m_cutoff) {
-        return colorMax;
+        return std::numeric_limits<ColorT>::max();
     } else {
-        return (ColorT)(colorMax * ((slope - m_cutoff) / (m_intercept - m_cutoff)));
+        return std::lrint(std::numeric_limits<ColorT>::max() *
+                          ((slope - m_cutoff) / (m_intercept - m_cutoff)));
     }
 }
 
@@ -105,7 +106,7 @@ void GrassShader::shade(Surface & s) const
 
     unsigned int data_count = size * size * channels;
     for (unsigned int i = 0; i < data_count; ++i) {
-        data[i] = colorMax;
+        data[i] = std::numeric_limits<ColorT>::max();
     }
 
     // Deal with corner points

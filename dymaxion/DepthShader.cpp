@@ -70,16 +70,18 @@ void DepthShader::shade(Surface & s) const
     int j = -1;
     for (unsigned int i = 0; i < count; ++i) {
         for (unsigned int k = 0; k < colors; ++k) {
-            data[++j] = colorMax;
+            data[++j] = std::numeric_limits<ColorT>::max();
         }
         auto depth = height_data[i];
         if (depth > m_waterLevel) {
-            data[++j] = colorMin;
+            data[++j] = std::numeric_limits<ColorT>::min();
         } else if (depth < m_murkyDepth) {
-            data[++j] = colorMax;
+            data[++j] = std::numeric_limits<ColorT>::max();
         } else {
-            data[++j] = colorMax - std::lrint(colorMax * ((depth - m_murkyDepth)
-                                              / (m_waterLevel - m_murkyDepth)));
+            data[++j] = std::numeric_limits<ColorT>::max() -
+                        std::lrint(std::numeric_limits<ColorT>::max() *
+                                   ((depth - m_murkyDepth) /
+                                    (m_waterLevel - m_murkyDepth)));
         }
     }
 }
