@@ -5,9 +5,9 @@
 #ifndef DYMAXION_RANDCACHE_H
 #define DYMAXION_RANDCACHE_H
 
-#include <vector>
-#include <cstdlib>
 #include <wfmath/MersenneTwister.h>
+
+#include <vector>
 
 // construct with something like:
 // RandCache r(seed, new MyOrdering(args));
