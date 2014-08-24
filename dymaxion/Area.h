@@ -7,7 +7,6 @@
 
 #include <dymaxion/Effector.h>
 
-#include <wfmath/axisbox.h>
 #include <wfmath/polygon.h>
 
 namespace dymaxion
