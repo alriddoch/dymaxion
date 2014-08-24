@@ -52,13 +52,13 @@ class Segment {
     /// 2x2 matrix of points which control this segment
     Matrix<2, 2, BasePoint> m_controlPoints;
     /// Pointer to buffer containing height points
-    float * m_points;
+    float * m_points = 0;
     /// Pointer to buffer containing normals for height points
-    float * m_normals;
+    float * m_normals = 0;
     /// Maximum height of any point in this segment
-    float m_max;
+    float m_max = -1000000.f;
     /// Minimum height of any point in this segment
-    float m_min;
+    float m_min = 1000000.0f;
 
     /// Store of surfaces which can be rendered on this terrain
     Surfacestore m_surfaces;

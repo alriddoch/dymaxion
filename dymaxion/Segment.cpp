@@ -32,7 +32,7 @@ class LinInterp {
     /// The length of the line.
     float m_size;
     /// Flag indicating that both points have the same value.
-    bool noCalc;
+    bool noCalc = false;
   public:
     /// Values at the two ends.
     float ep1, ep2;
@@ -47,7 +47,7 @@ class LinInterp {
     /// @param size length of the line.
     /// @param l value at one end of the line.
     /// @param h value at one end of the line.
-    LinInterp(float size,float l, float h) : m_size(size), noCalc(false), 
+    LinInterp(float size,float l, float h) : m_size(size),
               ep1(l/size), ep2(h/size) 
     {
         if (l==h) {
@@ -68,7 +68,7 @@ class QuadInterp {
     /// The length of one side of the square quad.
     float m_size;
     /// Flag indicating that all points have the same value.
-    bool noCalc;
+    bool noCalc = false;
   public:
     /// Values at the four corners.
     float ep1, ep2, ep3, ep4;
@@ -87,8 +87,7 @@ class QuadInterp {
     /// @param e3 value at one corner of the square quad.
     /// @param e4 value at one corner of the square quad.
     QuadInterp(float size,float e1, float e2, float e3, float e4)
-        : m_size(size), noCalc(false),
-          ep1(e1/size), ep2(e2/size), ep3(e3/size), ep4(e4/size) 
+        : m_size(size), ep1(e1/size), ep2(e2/size), ep3(e3/size), ep4(e4/size) 
     {
         if ((e1==e2) && (e3==e4) && (e2==e3)) {
             ep1 = e1;
@@ -108,9 +107,7 @@ class QuadInterp {
 /// set soon after construction.
 Segment::Segment(int x, int y, unsigned int resolution) :
                             m_res(resolution), m_size(m_res+1),
-                            m_xRef(x), m_yRef(y),
-                            m_points(0), m_normals(0),
-                            m_max(-1000000.f), m_min(1000000.0f)
+                            m_xRef(x), m_yRef(y)
 {
 }
 

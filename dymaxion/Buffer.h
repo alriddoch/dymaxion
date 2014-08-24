@@ -21,7 +21,7 @@ class Buffer {
     /// The size of segment, m_res + 1.
     const unsigned int m_size;
     /// Pointer to buffer containing data values.
-    DataType * m_data;
+    DataType * m_data = 0;
 
   public:
     /// \brief Constructor.

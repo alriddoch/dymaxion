@@ -96,7 +96,7 @@ private:
     /// The geometric shape.
     WFMath::Polygon<2> m_shape;
     /// Shader that shades this area
-    mutable const Shader * m_shader;
+    mutable const Shader * m_shader = 0;
 };
 
 }

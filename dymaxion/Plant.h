@@ -23,7 +23,7 @@ class Plant {
     /// Orientation of the vegetation.
     WFMath::Quaternion m_orientation;
     /// Height of the vegetation.
-    float m_height;
+    float m_height = 0.f;
   public:
     /// Height is initialised explicitly to zero.
     Plant();

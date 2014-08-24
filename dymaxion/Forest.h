@@ -70,7 +70,7 @@ class Forest {
     typedef std::vector<Species> PlantSpecies;
   private:
     /// Area of terrain affected by the presence of this forest.
-    Area* m_area;
+    Area* m_area = nullptr;
     
     /// List of species in this forest.
     PlantSpecies m_species;

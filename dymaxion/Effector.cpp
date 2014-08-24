@@ -25,12 +25,12 @@ void Effector::setContext(Effector::Context * c)
     m_context = c;
 }
 
-Effector::Effector() : m_context(0)
+Effector::Effector()
 {
 }
 
 // Ensure that m_context is not copied only one object can own the context
-Effector::Effector(const Effector & o) : m_box(o.m_box), m_context(0)
+Effector::Effector(const Effector & o) : m_box(o.m_box)
 {
 }
 

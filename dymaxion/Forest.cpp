@@ -16,7 +16,6 @@ namespace dymaxion {
 
 /// \brief Construct a new forest with the given seed.
 Forest::Forest(unsigned long seed) : 
-    m_area(nullptr),
     m_seed(seed), 
     m_randCache(seed, new ZeroSpiralOrdering())
 {

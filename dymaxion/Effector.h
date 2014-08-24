@@ -70,7 +70,7 @@ class Effector
     WFMath::AxisBox<2> m_box;
     
     /// The application context of this effector
-    Context * m_context;
+    Context * m_context = 0;
 };
 
 /// \brief Function used to apply an effector to an existing height point
