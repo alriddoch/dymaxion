@@ -7,9 +7,6 @@
 
 #include <dymaxion/RandCache.h>
 
-#include <wfmath/axisbox.h>
-#include <wfmath/polygon.h>
-
 #include <map>
 
 namespace dymaxion {
