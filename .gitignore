@@ -11,6 +11,7 @@
 Makefile
 Makefile.in
 config.*
+compile
 aclocal.m4
 autom4te.cache
 default.apspec
@@ -29,9 +30,11 @@ dymaxion.spec
 mingw32-dymaxion.spec
 missing
 stamp-h1
+test-driver
 tests/mercatortest
 tests/*test
 tests/*.log
+tests/*.trs
 tests/timeSeg
 tests/testPhys
 tests/testQRNG
