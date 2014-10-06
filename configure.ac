@@ -77,6 +77,17 @@ Please see dymaxion for details of
 the libraries required and where to obtain them.])
     ])
 
+AX_BOOST_BASE(
+    [1.40],
+    [],
+    [
+        AC_MSG_ERROR([
+Cannot find Boost library 1.40 or later.
+Please see http://www.boost.org/ for details of how to download and install
+Boost.])
+    ]
+)
+
 SYSTEM_LIBS=""
 DYMAXION_CFLAGS=""
 AC_SUBST(SYSTEM_LIBS)
