@@ -15,12 +15,12 @@ namespace dymaxion
 namespace traits
 {
 
-template <int idx>
-class point_access<WFMath::Point<2>, idx>
+template <int dim, int idx>
+class point_access<WFMath::Point<dim>, idx>
 {
  public:
   typedef WFMath::CoordType coord_type;
-  typedef WFMath::Point<2> point_type;
+  typedef WFMath::Point<dim> point_type;
 
   static coord_type get(const point_type & p)
   {
@@ -34,29 +34,68 @@ class point_access<WFMath::Point<2>, idx>
 };
 
 template <>
-point_access<WFMath::Point<2>, 0>::coord_type point_access<WFMath::Point<2>, 0>::get(const point_access<WFMath::Point<2>, 0>::point_type & p)
+inline point_access<WFMath::Point<2>, 0>::coord_type point_access<WFMath::Point<2>, 0>::get(const point_access<WFMath::Point<2>, 0>::point_type & p)
 {
   return p.x();
 }
 
 template <>
-point_access<WFMath::Point<2>, 1>::coord_type point_access<WFMath::Point<2>, 1>::get(const point_access<WFMath::Point<2>, 1>::point_type & p)
+inline point_access<WFMath::Point<2>, 1>::coord_type point_access<WFMath::Point<2>, 1>::get(const point_access<WFMath::Point<2>, 1>::point_type & p)
 {
   return p.y();
 }
 
 template <>
-void point_access<WFMath::Point<2>, 0>::set(point_access<WFMath::Point<2>, 0>::point_type & p,
+inline void point_access<WFMath::Point<2>, 0>::set(point_access<WFMath::Point<2>, 0>::point_type & p,
                                             point_access<WFMath::Point<2>, 0>::coord_type val)
 {
   p.x() = val;
 }
 
 template <>
-void point_access<WFMath::Point<2>, 1>::set(point_access<WFMath::Point<2>, 1>::point_type & p,
+inline void point_access<WFMath::Point<2>, 1>::set(point_access<WFMath::Point<2>, 1>::point_type & p,
                                             point_access<WFMath::Point<2>, 1>::coord_type val)
 {
   p.y() = val;
+}
+
+template <>
+inline point_access<WFMath::Point<3>, 0>::coord_type point_access<WFMath::Point<3>, 0>::get(const point_access<WFMath::Point<3>, 0>::point_type & p)
+{
+  return p.x();
+}
+
+template <>
+inline point_access<WFMath::Point<3>, 1>::coord_type point_access<WFMath::Point<3>, 1>::get(const point_access<WFMath::Point<3>, 1>::point_type & p)
+{
+  return p.y();
+}
+
+template <>
+inline point_access<WFMath::Point<3>, 2>::coord_type point_access<WFMath::Point<3>, 2>::get(const point_access<WFMath::Point<3>, 2>::point_type & p)
+{
+  return p.z();
+}
+
+template <>
+inline void point_access<WFMath::Point<3>, 0>::set(point_access<WFMath::Point<3>, 0>::point_type & p,
+                                            point_access<WFMath::Point<3>, 0>::coord_type val)
+{
+  p.x() = val;
+}
+
+template <>
+inline void point_access<WFMath::Point<3>, 1>::set(point_access<WFMath::Point<3>, 1>::point_type & p,
+                                            point_access<WFMath::Point<3>, 1>::coord_type val)
+{
+  p.y() = val;
+}
+
+template <>
+inline void point_access<WFMath::Point<3>, 2>::set(point_access<WFMath::Point<3>, 2>::point_type & p,
+                                            point_access<WFMath::Point<3>, 2>::coord_type val)
+{
+  p.z() = val;
 }
 
 template <>
