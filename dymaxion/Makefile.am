@@ -53,5 +53,6 @@ libdymaxion_HEADERS = \
 	Forest.h \
 	RandCache.h \
 	Area.h \
-	AreaShader.h
-	
+	AreaShader.h \
+	traits.h \
+	wfmath_traits.h

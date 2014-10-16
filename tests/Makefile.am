@@ -3,7 +3,7 @@ TESTS = mercatortest Terraintest Shadertest TerrainModtest Intersecttest \
         TileShadertest ShaderFactorytest testWFMath Buffertest \
         Segmenttest AreaShadertest BasePointtest DepthShadertest \
         FillShadertest GrassShadertest ThresholdShadertest Matrixtest \
-        TerrainaddAreatest Segmentperf
+        TerrainaddAreatest Segmentperf traitstest
 
 AM_CPPFLAGS = -I$(top_srcdir)
 
@@ -14,6 +14,8 @@ DISTCLEANFILES = test1.pgm test2.pgm
 RECHECK_LOGS =
 
 check_PROGRAMS = $(TESTS)
+
+noinst_HEADERS = Test.h compose.hpp
 
 mercatortest_SOURCES = main.cpp
 
@@ -84,3 +86,4 @@ TerrainaddAreatest_LDADD = $(top_builddir)/dymaxion/Terrain.lo \
 Segmentperf_SOURCES = Segmentperf.cpp
 Segmentperf_LDADD = $(top_builddir)/dymaxion/Segment.lo
 
+traitstest_SOURCES = traitstest.cpp
