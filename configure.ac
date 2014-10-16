@@ -78,11 +78,11 @@ the libraries required and where to obtain them.])
     ])
 
 AX_BOOST_BASE(
-    [1.40],
+    [1.54],
     [],
     [
         AC_MSG_ERROR([
-Cannot find Boost library 1.40 or later.
+Cannot find Boost library 1.54 or later.
 Please see http://www.boost.org/ for details of how to download and install
 Boost.])
     ]
