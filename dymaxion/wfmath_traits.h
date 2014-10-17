@@ -49,6 +49,7 @@ template <>
 inline void point_access<WFMath::Point<2>, 0>::set(point_access<WFMath::Point<2>, 0>::point_type & p,
                                             point_access<WFMath::Point<2>, 0>::coord_type val)
 {
+  p.setValid(true);
   p.x() = val;
 }
 
