@@ -5,6 +5,8 @@
 #ifndef DYMAXION_PLANT_H
 #define DYMAXION_PLANT_H
 
+#include <dymaxion/traits.h>
+
 #include <wfmath/point.h>
 #include <wfmath/quaternion.h>
 
@@ -19,7 +21,7 @@ namespace dymaxion {
 class Plant {
   private:
     /// Position of the vegetation relative to its grid point.
-    WFMath::Point<2> m_displacement;
+    float m_displacement[2];
     /// Orientation of the vegetation.
     WFMath::Quaternion m_orientation;
     /// Height of the vegetation.
@@ -31,13 +33,25 @@ class Plant {
     ~Plant();
 
     /// Accessor for displacement from grid point.
-    const WFMath::Point<2> & getDisplacement() const {
-        return m_displacement;
+    template <class P>
+    P getDisplacement() const {
+        P displacement;
+        traits::point_access<P, 0>::set(displacement, m_displacement[0]);
+        traits::point_access<P, 1>::set(displacement, m_displacement[1]);
+        return displacement;
     }
 
     /// Set the displacement to a new value.
-    void setDisplacement(const WFMath::Point<2> & d) {
-        m_displacement = d;
+    template <class P>
+    void setDisplacement(const P & d) {
+        m_displacement[0] = traits::point_access<P, 0>::get(d);
+        m_displacement[1] = traits::point_access<P, 1>::get(d);
+    }
+
+    /// Set the displacement to a new raw value.
+    void setDisplacement(float x, float y) {
+        m_displacement[0] = x;
+        m_displacement[1] = y;
     }
 
     /// Accessor for orientation.

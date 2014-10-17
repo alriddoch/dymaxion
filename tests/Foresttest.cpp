@@ -5,6 +5,7 @@
 #include <dymaxion/Forest.h>
 #include <dymaxion/Plant.h>
 #include <dymaxion/Area.h>
+#include <dymaxion/wfmath_traits.h>
 
 #include <iostream>
 
@@ -31,7 +32,7 @@ void dumpPlants(const dymaxion::Forest::PlantStore & plants)
                       << p.getHeight();
             std::cout << " displaced to "
                       << (WFMath::Vector<2>(I->first, J->first) +
-                          p.getDisplacement())
+                          p.getDisplacement<WFMath::Point<2>>())
                       << std::endl << std::flush;
         }
     }

@@ -2,7 +2,10 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2004 Alistair Riddoch
 
+#include "Test.h"
+
 #include <dymaxion/Plant.h>
+#include <dymaxion/wfmath_traits.h>
 
 #ifdef NDEBUG
 #undef NDEBUG
@@ -13,33 +16,83 @@
 
 #include <cassert>
 
+class Planttest : public Test::Suite
+{
+  private:
+    dymaxion::Plant * a = 0;
+  public:
+    Planttest();
+
+    void setup() override;
+    void teardown() override;
+
+    void test_getDisplacement();
+    void test_setDisplacement_wfmath();
+    void test_setDisplacement();
+    void test_getOrientation();
+    void test_setHeight();
+};
+
+Planttest::Planttest()
+{
+    ADD_TEST(Planttest::test_getDisplacement);
+    ADD_TEST(Planttest::test_setDisplacement_wfmath);
+    ADD_TEST(Planttest::test_setDisplacement);
+    ADD_TEST(Planttest::test_getOrientation);
+    ADD_TEST(Planttest::test_setHeight);
+}
+
+void Planttest::setup()
+{
+    a = new dymaxion::Plant();
+}
+
+void Planttest::teardown()
+{
+    delete a;
+}
+
+void Planttest::test_getDisplacement()
+{
+    WFMath::Point<2> p1 = a->getDisplacement<WFMath::Point<2>>();
+    assert(p1.isValid());
+}
+
+void Planttest::test_setDisplacement_wfmath()
+{
+    a->setDisplacement(WFMath::Point<2>(2.5f, 3.f));
+    WFMath::Point<2> p3 = a->getDisplacement<WFMath::Point<2>>();
+    assert(p3.isValid());
+}
+
+void Planttest::test_setDisplacement()
+{
+    a->setDisplacement(2.5f, 3.f);
+    WFMath::Point<2> p3 = a->getDisplacement<WFMath::Point<2>>();
+    assert(p3.isValid());
+}
+
+void Planttest::test_getOrientation()
+{
+    const WFMath::Quaternion & q1 = a->getOrientation();
+    assert(!q1.isValid());
+    WFMath::Quaternion q2 = a->getOrientation();
+    assert(!q2.isValid());
+    a->setOrientation(WFMath::Quaternion(2, 2.124f));
+    const WFMath::Quaternion & q3 = a->getOrientation();
+    assert(q3.isValid());
+
+}
+
+void Planttest::test_setHeight()
+{
+    a->setHeight(5.5f);
+}
+
+
 int main()
 {
-    {
-        dymaxion::Plant a, b;
+    Planttest t;
 
-        const WFMath::Point<2> & p1 = a.getDisplacement();
-        assert(!p1.isValid());
-        WFMath::Point<2> p2 = a.getDisplacement();
-        assert(!p2.isValid());
-        a.setDisplacement(WFMath::Point<2>(2.5f, 3.f));
-        const WFMath::Point<2> & p3 = a.getDisplacement();
-        assert(p3.isValid());
-
-        const WFMath::Quaternion & q1 = b.getOrientation();
-        assert(!q1.isValid());
-        WFMath::Quaternion q2 = b.getOrientation();
-        assert(!q2.isValid());
-        b.setOrientation(WFMath::Quaternion(2, 2.124f));
-        const WFMath::Quaternion & q3 = b.getOrientation();
-        assert(q3.isValid());
-
-        dymaxion::Plant * c = new dymaxion::Plant();
-        c->setHeight(5.5f);
-        delete c;
-
-        dymaxion::Plant * d = new dymaxion::Plant[10];
-        d->setHeight(15.5f);
-        delete [] d;
-    }
+    t.run();
 }
