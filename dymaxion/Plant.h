@@ -35,10 +35,8 @@ class Plant {
     /// Accessor for displacement from grid point.
     template <class P>
     P getDisplacement() const {
-        P displacement;
-        traits::point_access<P, 0>::set(displacement, m_displacement[0]);
-        traits::point_access<P, 1>::set(displacement, m_displacement[1]);
-        return displacement;
+        return traits::point_construct<P>::make(m_displacement[0],
+                                                m_displacement[1]);
     }
 
     /// Set the displacement to a new value.
