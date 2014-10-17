@@ -35,8 +35,8 @@ class traitstest : public Test::Suite
   public:
     traitstest();
 
-    void setup();
-    void teardown();
+    void setup() override;
+    void teardown() override;
 
     void test_access_wfmath_point2_set();
     void test_access_wfmath_point2_get();
