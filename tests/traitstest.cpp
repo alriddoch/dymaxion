@@ -42,6 +42,8 @@ class traitstest : public Test::Suite
     void test_access_wfmath_point2_get();
     void test_access_wfmath_point3_set();
     void test_access_wfmath_point3_get();
+    void test_construct_point2();
+    void test_construct_point3();
 };
 
 constexpr float traitstest::getPoint_x;
@@ -58,6 +60,8 @@ traitstest::traitstest()
     ADD_TEST(traitstest::test_access_wfmath_point2_get);
     ADD_TEST(traitstest::test_access_wfmath_point3_set);
     ADD_TEST(traitstest::test_access_wfmath_point3_get);
+    ADD_TEST(traitstest::test_construct_point2);
+    ADD_TEST(traitstest::test_construct_point3);
 }
 
 void traitstest::setup()
@@ -143,6 +147,23 @@ void traitstest::test_access_wfmath_point3_get()
     ASSERT_EQUAL(m_x, setPoint_x);
     ASSERT_EQUAL(m_y, setPoint_y);
     ASSERT_EQUAL(m_z, setPoint_z);
+}
+
+void traitstest::test_construct_point2()
+{
+    WFMath::Point<2> p = dymaxion::traits::point_construct<WFMath::Point<2>>::make(setPoint_x, setPoint_y);
+
+    ASSERT_EQUAL(p.x(), setPoint_x);
+    ASSERT_EQUAL(p.y(), setPoint_y);
+}
+
+void traitstest::test_construct_point3()
+{
+    WFMath::Point<3> p = dymaxion::traits::point_construct<WFMath::Point<3>>::make(setPoint_x, setPoint_y, setPoint_z);
+
+    ASSERT_EQUAL(p.x(), setPoint_x);
+    ASSERT_EQUAL(p.y(), setPoint_y);
+    ASSERT_EQUAL(p.z(), setPoint_z);
 }
 
 int main()

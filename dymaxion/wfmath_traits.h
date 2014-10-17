@@ -118,7 +118,7 @@ class point_construct<WFMath::Point<3>>
 {
  public:
   typedef WFMath::CoordType coord_type;
-  typedef WFMath::Point<2> point_type;
+  typedef WFMath::Point<3> point_type;
 
   static point_type make(coord_type x, coord_type y, coord_type z)
   {
