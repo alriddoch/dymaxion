@@ -174,12 +174,12 @@ inline void axisbox_access<WFMath::AxisBox<3>, 2>::set_far(axisbox_access<WFMath
   b.highCorner().z() = val;
 }
 
-template <int dim, int idx>
-class point_access<WFMath::Point<dim>, idx>
+template <template <int> class VectorT, int dim, int idx>
+class point_access<VectorT<dim>, idx>
 {
  public:
   typedef WFMath::CoordType coord_type;
-  typedef WFMath::Point<dim> point_type;
+  typedef VectorT<dim> point_type;
 
   static coord_type get(const point_type & p)
   {
