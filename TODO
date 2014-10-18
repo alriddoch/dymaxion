@@ -1,4 +1,4 @@
-Make sure traits make their points valid
+Make sure traits make their points valid for axisbox, then test it.
 
 Why does segment::getResolution() return int? Should be unisgned,
 and unsigned internally.

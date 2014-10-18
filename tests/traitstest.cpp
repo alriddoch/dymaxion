@@ -6,7 +6,33 @@
 
 #include <dymaxion/wfmath_traits.h>
 
-class traitstest : public Test::Suite
+using dymaxion::traits::axisbox_access;
+using dymaxion::traits::point_access;
+using dymaxion::traits::point_construct;
+
+class WFMath_AxisBox_traitstest : public Test::Suite
+{
+  public:
+    WFMath_AxisBox_traitstest();
+
+    void setup() override;
+    void teardown() override;
+
+};
+
+WFMath_AxisBox_traitstest::WFMath_AxisBox_traitstest()
+{
+}
+
+void WFMath_AxisBox_traitstest::setup()
+{
+}
+
+void WFMath_AxisBox_traitstest::teardown()
+{
+}
+
+class WFMath_Point_traitstest : public Test::Suite
 {
   private:
     template <class P>
@@ -33,7 +59,7 @@ class traitstest : public Test::Suite
     float m_y = 0.f;
     float m_z = 0.f;
   public:
-    traitstest();
+    WFMath_Point_traitstest();
 
     void setup() override;
     void teardown() override;
@@ -46,70 +72,70 @@ class traitstest : public Test::Suite
     void test_construct_point3();
 };
 
-constexpr float traitstest::getPoint_x;
-constexpr float traitstest::getPoint_y;
-constexpr float traitstest::getPoint_z;
+constexpr float WFMath_Point_traitstest::getPoint_x;
+constexpr float WFMath_Point_traitstest::getPoint_y;
+constexpr float WFMath_Point_traitstest::getPoint_z;
 
-constexpr float traitstest::setPoint_x;
-constexpr float traitstest::setPoint_y;
-constexpr float traitstest::setPoint_z;
+constexpr float WFMath_Point_traitstest::setPoint_x;
+constexpr float WFMath_Point_traitstest::setPoint_y;
+constexpr float WFMath_Point_traitstest::setPoint_z;
 
-traitstest::traitstest()
+WFMath_Point_traitstest::WFMath_Point_traitstest()
 {
-    ADD_TEST(traitstest::test_access_wfmath_point2_set);
-    ADD_TEST(traitstest::test_access_wfmath_point2_get);
-    ADD_TEST(traitstest::test_access_wfmath_point3_set);
-    ADD_TEST(traitstest::test_access_wfmath_point3_get);
-    ADD_TEST(traitstest::test_construct_point2);
-    ADD_TEST(traitstest::test_construct_point3);
+    ADD_TEST(WFMath_Point_traitstest::test_access_wfmath_point2_set);
+    ADD_TEST(WFMath_Point_traitstest::test_access_wfmath_point2_get);
+    ADD_TEST(WFMath_Point_traitstest::test_access_wfmath_point3_set);
+    ADD_TEST(WFMath_Point_traitstest::test_access_wfmath_point3_get);
+    ADD_TEST(WFMath_Point_traitstest::test_construct_point2);
+    ADD_TEST(WFMath_Point_traitstest::test_construct_point3);
 }
 
-void traitstest::setup()
+void WFMath_Point_traitstest::setup()
 {
     m_x = 0.f;
     m_y = 0.f;
     m_z = 0.f;
 }
 
-void traitstest::teardown()
+void WFMath_Point_traitstest::teardown()
 {
 }
 
 template <class P>
-P traitstest::getPoint2()
+P WFMath_Point_traitstest::getPoint2()
 {
     P p;
-    dymaxion::traits::point_access<P, 0>::set(p, getPoint_x);
-    dymaxion::traits::point_access<P, 1>::set(p, getPoint_y);
+    point_access<P, 0>::set(p, getPoint_x);
+    point_access<P, 1>::set(p, getPoint_y);
     return p;
 }
 
 template <class P>
-void traitstest::setPoint2(const P & p)
+void WFMath_Point_traitstest::setPoint2(const P & p)
 {
-    m_x = dymaxion::traits::point_access<P, 0>::get(p);
-    m_y = dymaxion::traits::point_access<P, 1>::get(p);
+    m_x = point_access<P, 0>::get(p);
+    m_y = point_access<P, 1>::get(p);
 }
 
 template <class P>
-P traitstest::getPoint3()
+P WFMath_Point_traitstest::getPoint3()
 {
     P p;
-    dymaxion::traits::point_access<P, 0>::set(p, getPoint_x);
-    dymaxion::traits::point_access<P, 1>::set(p, getPoint_y);
-    dymaxion::traits::point_access<P, 2>::set(p, getPoint_z);
+    point_access<P, 0>::set(p, getPoint_x);
+    point_access<P, 1>::set(p, getPoint_y);
+    point_access<P, 2>::set(p, getPoint_z);
     return p;
 }
 
 template <class P>
-void traitstest::setPoint3(const P & p)
+void WFMath_Point_traitstest::setPoint3(const P & p)
 {
-    m_x = dymaxion::traits::point_access<P, 0>::get(p);
-    m_y = dymaxion::traits::point_access<P, 1>::get(p);
-    m_z = dymaxion::traits::point_access<P, 2>::get(p);
+    m_x = point_access<P, 0>::get(p);
+    m_y = point_access<P, 1>::get(p);
+    m_z = point_access<P, 2>::get(p);
 }
 
-void traitstest::test_access_wfmath_point2_set()
+void WFMath_Point_traitstest::test_access_wfmath_point2_set()
 {
     WFMath::Point<2> p;
     p = getPoint2<WFMath::Point<2>>();
@@ -118,7 +144,7 @@ void traitstest::test_access_wfmath_point2_set()
     ASSERT_EQUAL(p.y(), getPoint_y);
 }
 
-void traitstest::test_access_wfmath_point2_get()
+void WFMath_Point_traitstest::test_access_wfmath_point2_get()
 {
     WFMath::Point<2> p(setPoint_x, setPoint_y);
 
@@ -128,7 +154,7 @@ void traitstest::test_access_wfmath_point2_get()
     ASSERT_EQUAL(m_y, setPoint_y);
 }
 
-void traitstest::test_access_wfmath_point3_set()
+void WFMath_Point_traitstest::test_access_wfmath_point3_set()
 {
     WFMath::Point<3> p;
     p = getPoint3<WFMath::Point<3>>();
@@ -138,7 +164,7 @@ void traitstest::test_access_wfmath_point3_set()
     ASSERT_EQUAL(p.z(), getPoint_z);
 }
 
-void traitstest::test_access_wfmath_point3_get()
+void WFMath_Point_traitstest::test_access_wfmath_point3_get()
 {
     WFMath::Point<3> p(setPoint_x, setPoint_y, setPoint_z);
 
@@ -149,17 +175,17 @@ void traitstest::test_access_wfmath_point3_get()
     ASSERT_EQUAL(m_z, setPoint_z);
 }
 
-void traitstest::test_construct_point2()
+void WFMath_Point_traitstest::test_construct_point2()
 {
-    WFMath::Point<2> p = dymaxion::traits::point_construct<WFMath::Point<2>>::make(setPoint_x, setPoint_y);
+    WFMath::Point<2> p = point_construct<WFMath::Point<2>>::make(setPoint_x, setPoint_y);
 
     ASSERT_EQUAL(p.x(), setPoint_x);
     ASSERT_EQUAL(p.y(), setPoint_y);
 }
 
-void traitstest::test_construct_point3()
+void WFMath_Point_traitstest::test_construct_point3()
 {
-    WFMath::Point<3> p = dymaxion::traits::point_construct<WFMath::Point<3>>::make(setPoint_x, setPoint_y, setPoint_z);
+    WFMath::Point<3> p = point_construct<WFMath::Point<3>>::make(setPoint_x, setPoint_y, setPoint_z);
 
     ASSERT_EQUAL(p.x(), setPoint_x);
     ASSERT_EQUAL(p.y(), setPoint_y);
@@ -168,7 +194,8 @@ void traitstest::test_construct_point3()
 
 int main()
 {
-    traitstest t;
+    WFMath_Point_traitstest t1;
+    WFMath_AxisBox_traitstest t2;
 
-    return t.run();
+    return t1.run() + t2.run();
 }

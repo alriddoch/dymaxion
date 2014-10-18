@@ -7,6 +7,7 @@
 
 #include <dymaxion/traits.h>
 
+#include <wfmath/axisbox.h>
 #include <wfmath/point.h>
 
 namespace dymaxion
@@ -14,6 +15,164 @@ namespace dymaxion
 
 namespace traits
 {
+
+template <int dim, int idx>
+class axisbox_access<WFMath::AxisBox<dim>, idx>
+{
+ public:
+  typedef WFMath::CoordType coord_type;
+  typedef WFMath::AxisBox<dim> axisbox_type;
+
+  static coord_type get_near(const axisbox_type & b)
+  {
+    return b.lowCorner()[idx];
+  }
+
+  static coord_type get_far(const axisbox_type & b)
+  {
+    return b.highCorner()[idx];
+  }
+
+  static void set_near(axisbox_type & b, coord_type v)
+  {
+    b.lowCorner()[idx] = v;
+  }
+
+  static void set_far(axisbox_type & b, coord_type v)
+  {
+    b.highCorner()[idx] = v;
+  }
+};
+
+template <>
+inline axisbox_access<WFMath::AxisBox<2>, 0>::coord_type axisbox_access<WFMath::AxisBox<2>, 0>::get_near(const axisbox_access<WFMath::AxisBox<2>, 0>::axisbox_type & b)
+{
+  return b.lowCorner().x();
+}
+
+template <>
+inline axisbox_access<WFMath::AxisBox<2>, 0>::coord_type axisbox_access<WFMath::AxisBox<2>, 0>::get_far(const axisbox_access<WFMath::AxisBox<2>, 0>::axisbox_type & b)
+{
+  return b.highCorner().x();
+}
+
+template <>
+inline axisbox_access<WFMath::AxisBox<2>, 1>::coord_type axisbox_access<WFMath::AxisBox<2>, 1>::get_near(const axisbox_access<WFMath::AxisBox<2>, 1>::axisbox_type & b)
+{
+  return b.lowCorner().y();
+}
+
+template <>
+inline axisbox_access<WFMath::AxisBox<2>, 1>::coord_type axisbox_access<WFMath::AxisBox<2>, 1>::get_far(const axisbox_access<WFMath::AxisBox<2>, 1>::axisbox_type & b)
+{
+  return b.highCorner().y();
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<2>, 0>::set_near(axisbox_access<WFMath::AxisBox<2>, 0>::axisbox_type & b,
+                                                            axisbox_access<WFMath::AxisBox<2>, 0>::coord_type val)
+{
+  b.lowCorner().x() = val;
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<2>, 0>::set_far(axisbox_access<WFMath::AxisBox<2>, 0>::axisbox_type & b,
+                                                           axisbox_access<WFMath::AxisBox<2>, 0>::coord_type val)
+{
+  b.highCorner().x() = val;
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<2>, 1>::set_near(axisbox_access<WFMath::AxisBox<2>, 1>::axisbox_type & b,
+                                                            axisbox_access<WFMath::AxisBox<2>, 1>::coord_type val)
+{
+  b.lowCorner().y() = val;
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<2>, 1>::set_far(axisbox_access<WFMath::AxisBox<2>, 1>::axisbox_type & b,
+                                                           axisbox_access<WFMath::AxisBox<2>, 1>::coord_type val)
+{
+  b.highCorner().y() = val;
+}
+
+template <>
+inline axisbox_access<WFMath::AxisBox<3>, 0>::coord_type axisbox_access<WFMath::AxisBox<3>, 0>::get_near(const axisbox_access<WFMath::AxisBox<3>, 0>::axisbox_type & b)
+{
+  return b.lowCorner().x();
+}
+
+template <>
+inline axisbox_access<WFMath::AxisBox<3>, 0>::coord_type axisbox_access<WFMath::AxisBox<3>, 0>::get_far(const axisbox_access<WFMath::AxisBox<3>, 0>::axisbox_type & b)
+{
+  return b.highCorner().x();
+}
+
+template <>
+inline axisbox_access<WFMath::AxisBox<3>, 1>::coord_type axisbox_access<WFMath::AxisBox<3>, 1>::get_near(const axisbox_access<WFMath::AxisBox<3>, 1>::axisbox_type & b)
+{
+  return b.lowCorner().y();
+}
+
+template <>
+inline axisbox_access<WFMath::AxisBox<3>, 1>::coord_type axisbox_access<WFMath::AxisBox<3>, 1>::get_far(const axisbox_access<WFMath::AxisBox<3>, 1>::axisbox_type & b)
+{
+  return b.highCorner().y();
+}
+
+template <>
+inline axisbox_access<WFMath::AxisBox<3>, 1>::coord_type axisbox_access<WFMath::AxisBox<3>, 2>::get_near(const axisbox_access<WFMath::AxisBox<3>, 1>::axisbox_type & b)
+{
+  return b.lowCorner().z();
+}
+
+template <>
+inline axisbox_access<WFMath::AxisBox<3>, 1>::coord_type axisbox_access<WFMath::AxisBox<3>, 2>::get_far(const axisbox_access<WFMath::AxisBox<3>, 1>::axisbox_type & b)
+{
+  return b.highCorner().z();
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<3>, 0>::set_near(axisbox_access<WFMath::AxisBox<3>, 0>::axisbox_type & b,
+                                                            axisbox_access<WFMath::AxisBox<3>, 0>::coord_type val)
+{
+  b.lowCorner().x() = val;
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<3>, 0>::set_far(axisbox_access<WFMath::AxisBox<3>, 0>::axisbox_type & b,
+                                                           axisbox_access<WFMath::AxisBox<3>, 0>::coord_type val)
+{
+  b.highCorner().x() = val;
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<3>, 1>::set_near(axisbox_access<WFMath::AxisBox<3>, 1>::axisbox_type & b,
+                                                            axisbox_access<WFMath::AxisBox<3>, 1>::coord_type val)
+{
+  b.lowCorner().y() = val;
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<3>, 1>::set_far(axisbox_access<WFMath::AxisBox<3>, 1>::axisbox_type & b,
+                                                           axisbox_access<WFMath::AxisBox<3>, 1>::coord_type val)
+{
+  b.highCorner().y() = val;
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<3>, 2>::set_near(axisbox_access<WFMath::AxisBox<3>, 1>::axisbox_type & b,
+                                                            axisbox_access<WFMath::AxisBox<3>, 1>::coord_type val)
+{
+  b.lowCorner().z() = val;
+}
+
+template <>
+inline void axisbox_access<WFMath::AxisBox<3>, 2>::set_far(axisbox_access<WFMath::AxisBox<3>, 1>::axisbox_type & b,
+                                                           axisbox_access<WFMath::AxisBox<3>, 1>::coord_type val)
+{
+  b.highCorner().z() = val;
+}
 
 template <int dim, int idx>
 class point_access<WFMath::Point<dim>, idx>

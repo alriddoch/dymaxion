@@ -11,6 +11,12 @@ namespace dymaxion
 namespace traits
 {
 
+template <class AxixBox, int idx>
+class axisbox_access;
+
+template <class AxisBox>
+class axisbox_construct;
+
 template <class Point, int idx>
 class point_access;
 
