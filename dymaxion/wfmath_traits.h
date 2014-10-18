@@ -9,6 +9,7 @@
 
 #include <wfmath/axisbox.h>
 #include <wfmath/point.h>
+#include <wfmath/vector.h>
 
 namespace dymaxion
 {
@@ -260,6 +261,73 @@ inline void point_access<WFMath::Point<3>, 2>::set(point_access<WFMath::Point<3>
 }
 
 template <>
+inline point_access<WFMath::Vector<2>, 0>::coord_type point_access<WFMath::Vector<2>, 0>::get(const point_access<WFMath::Vector<2>, 0>::point_type & p)
+{
+  return p.x();
+}
+
+template <>
+inline point_access<WFMath::Vector<2>, 1>::coord_type point_access<WFMath::Vector<2>, 1>::get(const point_access<WFMath::Vector<2>, 1>::point_type & p)
+{
+  return p.y();
+}
+
+template <>
+inline void point_access<WFMath::Vector<2>, 0>::set(point_access<WFMath::Vector<2>, 0>::point_type & p,
+                                            point_access<WFMath::Vector<2>, 0>::coord_type val)
+{
+  p.setValid(true);
+  p.x() = val;
+}
+
+template <>
+inline void point_access<WFMath::Vector<2>, 1>::set(point_access<WFMath::Vector<2>, 1>::point_type & p,
+                                            point_access<WFMath::Vector<2>, 1>::coord_type val)
+{
+  p.y() = val;
+}
+
+template <>
+inline point_access<WFMath::Vector<3>, 0>::coord_type point_access<WFMath::Vector<3>, 0>::get(const point_access<WFMath::Vector<3>, 0>::point_type & p)
+{
+  return p.x();
+}
+
+template <>
+inline point_access<WFMath::Vector<3>, 1>::coord_type point_access<WFMath::Vector<3>, 1>::get(const point_access<WFMath::Vector<3>, 1>::point_type & p)
+{
+  return p.y();
+}
+
+template <>
+inline point_access<WFMath::Vector<3>, 2>::coord_type point_access<WFMath::Vector<3>, 2>::get(const point_access<WFMath::Vector<3>, 2>::point_type & p)
+{
+  return p.z();
+}
+
+template <>
+inline void point_access<WFMath::Vector<3>, 0>::set(point_access<WFMath::Vector<3>, 0>::point_type & p,
+                                            point_access<WFMath::Vector<3>, 0>::coord_type val)
+{
+  p.setValid(true);
+  p.x() = val;
+}
+
+template <>
+inline void point_access<WFMath::Vector<3>, 1>::set(point_access<WFMath::Vector<3>, 1>::point_type & p,
+                                            point_access<WFMath::Vector<3>, 1>::coord_type val)
+{
+  p.y() = val;
+}
+
+template <>
+inline void point_access<WFMath::Vector<3>, 2>::set(point_access<WFMath::Vector<3>, 2>::point_type & p,
+                                            point_access<WFMath::Vector<3>, 2>::coord_type val)
+{
+  p.z() = val;
+}
+
+template <>
 class point_construct<WFMath::Point<2>>
 {
  public:
@@ -290,3 +358,4 @@ class point_construct<WFMath::Point<3>>
 }
 
 #endif // DYMAXION_WFMATH_TRAITS_H
+
