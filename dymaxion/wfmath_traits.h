@@ -182,18 +182,32 @@ inline void axisbox_access<WFMath::AxisBox<3>, 2>::set_far(WFMath::AxisBox<3> & 
   b.highCorner().z() = val;
 }
 
+template <template <int> class AxisBoxT, int dim>
+class axisbox_construct<AxisBoxT<dim>>
+{
+ public:
+  typedef WFMath::Point<dim> point_type;
+  typedef typename types<point_type>::coord_type coord_type;
+  typedef AxisBoxT<dim> axisbox_type;
+
+  static axisbox_type make(const point_type & near, const point_type & far)
+  {
+    return axisbox_type(near, far);
+  }
+};
+
 template <int dim>
 class types<WFMath::Point<dim>>
 {
-  public:
-    typedef WFMath::CoordType coord_type;
+ public:
+  typedef WFMath::CoordType coord_type;
 };
 
 template <int dim>
 class types<WFMath::Vector<dim>>
 {
-  public:
-    typedef WFMath::CoordType coord_type;
+ public:
+  typedef WFMath::CoordType coord_type;
 };
 
 template <template <int> class VectorT, int dim, int idx>
