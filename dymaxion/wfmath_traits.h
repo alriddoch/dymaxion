@@ -229,11 +229,19 @@ class point_access<VectorT<dim>, idx>
 
   static coord_type get(const point_type & p)
   {
+    static_assert((dim != 2) && (dim != 3),
+        "Specializations for dim = 2,3 failing to work");
+    static_assert(dim > idx,
+        "Index of accessed coordinate must be smaller than dimensions");
     return p[idx];
   }
 
   static void set(point_type & p, coord_type v)
   {
+    static_assert((dim != 2) && (dim != 3),
+        "Specializations for dim = 2,3 failing to work");
+    static_assert(dim > idx,
+        "Index of accessed coordinate must be smaller than dimensions");
     p[idx] = v;
   }
 };
