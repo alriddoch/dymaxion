@@ -53,131 +53,141 @@ class axisbox_access<WFMath::AxisBox<dim>, idx>
 };
 
 template <>
-inline types<WFMath::AxisBox<2>>::coord_type axisbox_access<WFMath::AxisBox<2>, 0>::get_near(const WFMath::AxisBox<2> & b)
+inline types<WFMath::AxisBox<2>>::coord_type
+axisbox_access<WFMath::AxisBox<2>, 0>::get_near(const WFMath::AxisBox<2> & b)
 {
   return b.lowCorner().x();
 }
 
 template <>
-inline types<WFMath::AxisBox<2>>::coord_type axisbox_access<WFMath::AxisBox<2>, 0>::get_far(const WFMath::AxisBox<2> & b)
+inline types<WFMath::AxisBox<2>>::coord_type
+axisbox_access<WFMath::AxisBox<2>, 0>::get_far(const WFMath::AxisBox<2> & b)
 {
   return b.highCorner().x();
 }
 
 template <>
-inline types<WFMath::AxisBox<2>>::coord_type axisbox_access<WFMath::AxisBox<2>, 1>::get_near(const WFMath::AxisBox<2> & b)
+inline types<WFMath::AxisBox<2>>::coord_type
+axisbox_access<WFMath::AxisBox<2>, 1>::get_near(const WFMath::AxisBox<2> & b)
 {
   return b.lowCorner().y();
 }
 
 template <>
-inline types<WFMath::AxisBox<2>>::coord_type axisbox_access<WFMath::AxisBox<2>, 1>::get_far(const WFMath::AxisBox<2> & b)
+inline types<WFMath::AxisBox<2>>::coord_type
+axisbox_access<WFMath::AxisBox<2>, 1>::get_far(const WFMath::AxisBox<2> & b)
 {
   return b.highCorner().y();
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<2>, 0>::set_near(WFMath::AxisBox<2> & b,
-                                                            types<WFMath::AxisBox<2>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<2>, 0>::set_near(
+    WFMath::AxisBox<2> & b, types<WFMath::AxisBox<2>>::coord_type val)
 {
   b.lowCorner().x() = val;
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<2>, 0>::set_far(WFMath::AxisBox<2> & b,
-                                                           types<WFMath::AxisBox<2>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<2>, 0>::set_far(
+    WFMath::AxisBox<2> & b, types<WFMath::AxisBox<2>>::coord_type val)
 {
   b.highCorner().x() = val;
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<2>, 1>::set_near(WFMath::AxisBox<2> & b,
-                                                            types<WFMath::AxisBox<2>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<2>, 1>::set_near(
+    WFMath::AxisBox<2> & b, types<WFMath::AxisBox<2>>::coord_type val)
 {
   b.lowCorner().y() = val;
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<2>, 1>::set_far(WFMath::AxisBox<2> & b,
-                                                           types<WFMath::AxisBox<2>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<2>, 1>::set_far(
+    WFMath::AxisBox<2> & b, types<WFMath::AxisBox<2>>::coord_type val)
 {
   b.highCorner().y() = val;
 }
 
 template <>
-inline types<WFMath::AxisBox<3>>::coord_type axisbox_access<WFMath::AxisBox<3>, 0>::get_near(const WFMath::AxisBox<3> & b)
+inline types<WFMath::AxisBox<3>>::coord_type
+axisbox_access<WFMath::AxisBox<3>, 0>::get_near(const WFMath::AxisBox<3> & b)
 {
   return b.lowCorner().x();
 }
 
 template <>
-inline types<WFMath::AxisBox<3>>::coord_type axisbox_access<WFMath::AxisBox<3>, 0>::get_far(const WFMath::AxisBox<3> & b)
+inline types<WFMath::AxisBox<3>>::coord_type
+axisbox_access<WFMath::AxisBox<3>, 0>::get_far(const WFMath::AxisBox<3> & b)
 {
   return b.highCorner().x();
 }
 
 template <>
-inline types<WFMath::AxisBox<3>>::coord_type axisbox_access<WFMath::AxisBox<3>, 1>::get_near(const WFMath::AxisBox<3> & b)
+inline types<WFMath::AxisBox<3>>::coord_type
+axisbox_access<WFMath::AxisBox<3>, 1>::get_near(const WFMath::AxisBox<3> & b)
 {
   return b.lowCorner().y();
 }
 
 template <>
-inline types<WFMath::AxisBox<3>>::coord_type axisbox_access<WFMath::AxisBox<3>, 1>::get_far(const WFMath::AxisBox<3> & b)
+inline types<WFMath::AxisBox<3>>::coord_type
+axisbox_access<WFMath::AxisBox<3>, 1>::get_far(const WFMath::AxisBox<3> & b)
 {
   return b.highCorner().y();
 }
 
 template <>
-inline types<WFMath::AxisBox<3>>::coord_type axisbox_access<WFMath::AxisBox<3>, 2>::get_near(const WFMath::AxisBox<3> & b)
+inline types<WFMath::AxisBox<3>>::coord_type
+axisbox_access<WFMath::AxisBox<3>, 2>::get_near(const WFMath::AxisBox<3> & b)
 {
   return b.lowCorner().z();
 }
 
 template <>
-inline types<WFMath::AxisBox<3>>::coord_type axisbox_access<WFMath::AxisBox<3>, 2>::get_far(const WFMath::AxisBox<3> & b)
+inline types<WFMath::AxisBox<3>>::coord_type
+axisbox_access<WFMath::AxisBox<3>, 2>::get_far(const WFMath::AxisBox<3> & b)
 {
   return b.highCorner().z();
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<3>, 0>::set_near(WFMath::AxisBox<3> & b,
-                                                            types<WFMath::AxisBox<3>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<3>, 0>::set_near(
+    WFMath::AxisBox<3> & b, types<WFMath::AxisBox<3>>::coord_type val)
 {
   b.lowCorner().x() = val;
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<3>, 0>::set_far(WFMath::AxisBox<3> & b,
-                                                           types<WFMath::AxisBox<3>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<3>, 0>::set_far(
+    WFMath::AxisBox<3> & b, types<WFMath::AxisBox<3>>::coord_type val)
 {
   b.highCorner().x() = val;
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<3>, 1>::set_near(WFMath::AxisBox<3> & b,
-                                                            types<WFMath::AxisBox<3>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<3>, 1>::set_near(
+    WFMath::AxisBox<3> & b, types<WFMath::AxisBox<3>>::coord_type val)
 {
   b.lowCorner().y() = val;
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<3>, 1>::set_far(WFMath::AxisBox<3> & b,
-                                                           types<WFMath::AxisBox<3>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<3>, 1>::set_far(
+    WFMath::AxisBox<3> & b, types<WFMath::AxisBox<3>>::coord_type val)
 {
   b.highCorner().y() = val;
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<3>, 2>::set_near(WFMath::AxisBox<3> & b,
-                                                            types<WFMath::AxisBox<3>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<3>, 2>::set_near(
+    WFMath::AxisBox<3> & b, types<WFMath::AxisBox<3>>::coord_type val)
 {
   b.lowCorner().z() = val;
 }
 
 template <>
-inline void axisbox_access<WFMath::AxisBox<3>, 2>::set_far(WFMath::AxisBox<3> & b,
-                                                           types<WFMath::AxisBox<3>>::coord_type val)
+inline void axisbox_access<WFMath::AxisBox<3>, 2>::set_far(
+    WFMath::AxisBox<3> & b, types<WFMath::AxisBox<3>>::coord_type val)
 {
   b.highCorner().z() = val;
 }
@@ -229,135 +239,145 @@ class point_access<VectorT<dim>, idx>
 };
 
 template <>
-inline types<WFMath::Point<2>>::coord_type point_access<WFMath::Point<2>, 0>::get(const WFMath::Point<2> & p)
+inline types<WFMath::Point<2>>::coord_type
+point_access<WFMath::Point<2>, 0>::get(const WFMath::Point<2> & p)
 {
   return p.x();
 }
 
 template <>
-inline types<WFMath::Point<2>>::coord_type point_access<WFMath::Point<2>, 1>::get(const WFMath::Point<2> & p)
+inline types<WFMath::Point<2>>::coord_type
+point_access<WFMath::Point<2>, 1>::get(const WFMath::Point<2> & p)
 {
   return p.y();
 }
 
 template <>
-inline void point_access<WFMath::Point<2>, 0>::set(WFMath::Point<2> & p,
-                                            types<WFMath::Point<2>>::coord_type val)
+inline void point_access<WFMath::Point<2>, 0>::set(
+    WFMath::Point<2> & p, types<WFMath::Point<2>>::coord_type val)
 {
   p.setValid(true);
   p.x() = val;
 }
 
 template <>
-inline void point_access<WFMath::Point<2>, 1>::set(WFMath::Point<2> & p,
-                                            types<WFMath::Point<2>>::coord_type val)
+inline void point_access<WFMath::Point<2>, 1>::set(
+    WFMath::Point<2> & p, types<WFMath::Point<2>>::coord_type val)
 {
   p.y() = val;
 }
 
 template <>
-inline types<WFMath::Point<3>>::coord_type point_access<WFMath::Point<3>, 0>::get(const WFMath::Point<3> & p)
+inline types<WFMath::Point<3>>::coord_type
+point_access<WFMath::Point<3>, 0>::get(const WFMath::Point<3> & p)
 {
   return p.x();
 }
 
 template <>
-inline types<WFMath::Point<3>>::coord_type point_access<WFMath::Point<3>, 1>::get(const WFMath::Point<3> & p)
+inline types<WFMath::Point<3>>::coord_type
+point_access<WFMath::Point<3>, 1>::get(const WFMath::Point<3> & p)
 {
   return p.y();
 }
 
 template <>
-inline types<WFMath::Point<3>>::coord_type point_access<WFMath::Point<3>, 2>::get(const WFMath::Point<3> & p)
+inline types<WFMath::Point<3>>::coord_type
+point_access<WFMath::Point<3>, 2>::get(const WFMath::Point<3> & p)
 {
   return p.z();
 }
 
 template <>
-inline void point_access<WFMath::Point<3>, 0>::set(WFMath::Point<3> & p,
-                                            types<WFMath::Point<3>>::coord_type val)
+inline void point_access<WFMath::Point<3>, 0>::set(
+    WFMath::Point<3> & p, types<WFMath::Point<3>>::coord_type val)
 {
   p.setValid(true);
   p.x() = val;
 }
 
 template <>
-inline void point_access<WFMath::Point<3>, 1>::set(WFMath::Point<3> & p,
-                                            types<WFMath::Point<3>>::coord_type val)
+inline void point_access<WFMath::Point<3>, 1>::set(
+    WFMath::Point<3> & p, types<WFMath::Point<3>>::coord_type val)
 {
   p.y() = val;
 }
 
 template <>
-inline void point_access<WFMath::Point<3>, 2>::set(WFMath::Point<3> & p,
-                                            types<WFMath::Point<3>>::coord_type val)
+inline void point_access<WFMath::Point<3>, 2>::set(
+    WFMath::Point<3> & p, types<WFMath::Point<3>>::coord_type val)
 {
   p.z() = val;
 }
 
 template <>
-inline types<WFMath::Vector<2>>::coord_type point_access<WFMath::Vector<2>, 0>::get(const WFMath::Vector<2> & p)
+inline types<WFMath::Vector<2>>::coord_type
+point_access<WFMath::Vector<2>, 0>::get(const WFMath::Vector<2> & p)
 {
   return p.x();
 }
 
 template <>
-inline types<WFMath::Vector<2>>::coord_type point_access<WFMath::Vector<2>, 1>::get(const WFMath::Vector<2> & p)
+inline types<WFMath::Vector<2>>::coord_type
+point_access<WFMath::Vector<2>, 1>::get(const WFMath::Vector<2> & p)
 {
   return p.y();
 }
 
 template <>
-inline void point_access<WFMath::Vector<2>, 0>::set(WFMath::Vector<2> & p,
-                                            types<WFMath::Vector<2>>::coord_type val)
+inline void point_access<WFMath::Vector<2>, 0>::set(
+    WFMath::Vector<2> & p, types<WFMath::Vector<2>>::coord_type val)
 {
   p.setValid(true);
   p.x() = val;
 }
 
 template <>
-inline void point_access<WFMath::Vector<2>, 1>::set(WFMath::Vector<2> & p,
-                                            types<WFMath::Vector<2>>::coord_type val)
+inline void point_access<WFMath::Vector<2>, 1>::set(
+    WFMath::Vector<2> & p, types<WFMath::Vector<2>>::coord_type val)
 {
   p.y() = val;
 }
 
 template <>
-inline types<WFMath::Vector<3>>::coord_type point_access<WFMath::Vector<3>, 0>::get(const WFMath::Vector<3> & p)
+inline types<WFMath::Vector<3>>::coord_type
+point_access<WFMath::Vector<3>, 0>::get(const WFMath::Vector<3> & p)
 {
   return p.x();
 }
 
 template <>
-inline types<WFMath::Vector<3>>::coord_type point_access<WFMath::Vector<3>, 1>::get(const WFMath::Vector<3> & p)
+inline types<WFMath::Vector<3>>::coord_type
+point_access<WFMath::Vector<3>, 1>::get(const WFMath::Vector<3> & p)
 {
   return p.y();
 }
 
 template <>
-inline types<WFMath::Vector<3>>::coord_type point_access<WFMath::Vector<3>, 2>::get(const WFMath::Vector<3> & p)
+inline types<WFMath::Vector<3>>::coord_type
+point_access<WFMath::Vector<3>, 2>::get(const WFMath::Vector<3> & p)
 {
   return p.z();
 }
 
 template <>
-inline void point_access<WFMath::Vector<3>, 0>::set(WFMath::Vector<3> & p,
-                                            types<WFMath::Vector<3>>::coord_type val)
+inline void point_access<WFMath::Vector<3>, 0>::set(
+    WFMath::Vector<3> & p, types<WFMath::Vector<3>>::coord_type val)
 {
   p.setValid(true);
   p.x() = val;
 }
 
 template <>
-inline void point_access<WFMath::Vector<3>, 1>::set(WFMath::Vector<3> & p,
-                                            types<WFMath::Vector<3>>::coord_type val)
+inline void point_access<WFMath::Vector<3>, 1>::set(
+    WFMath::Vector<3> & p, types<WFMath::Vector<3>>::coord_type val)
 {
   p.y() = val;
 }
 
 template <>
-inline void point_access<WFMath::Vector<3>, 2>::set(WFMath::Vector<3> & p,
-                                            types<WFMath::Vector<3>>::coord_type val)
+inline void point_access<WFMath::Vector<3>, 2>::set(
+    WFMath::Vector<3> & p, types<WFMath::Vector<3>>::coord_type val)
 {
   p.z() = val;
 }
