@@ -7,7 +7,6 @@
 
 #include <dymaxion/traits.h>
 
-#include <wfmath/point.h>
 #include <wfmath/quaternion.h>
 
 #include <string>
