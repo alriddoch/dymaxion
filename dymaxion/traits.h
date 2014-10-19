@@ -11,6 +11,9 @@ namespace dymaxion
 namespace traits
 {
 
+template <class Geometry>
+class types;
+
 template <class AxixBox, int idx>
 class axisbox_access;
 
