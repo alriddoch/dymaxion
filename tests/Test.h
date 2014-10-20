@@ -7,9 +7,7 @@
 
 #include "compose.hpp"
 
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-
+#include <functional>
 #include <iostream>
 
 namespace Test {
@@ -18,7 +16,7 @@ class Test
 {
   public:
     const char * name;
-    boost::function<void()> method;
+    std::function<void()> method;
 };
 
 class Suite
@@ -228,7 +226,7 @@ int Suite::assertNotNull(const char * n, const T * ptr,
 
 #define ADD_TEST(_function) {\
     Test::Test _function_test = { #_function,\
-                                      boost::bind(&_function, this) };\
+                                      std::bind(&_function, this) };\
     this->addTest(_function_test);\
 }
 
