@@ -12,10 +12,9 @@ class Segment;
 /// \brief Template for managing buffers of data for a segment.
 template<typename DataType>
 class Buffer {
-  public:
+  private:
     /// The terrain height segment this buffer is associated with.
     const Segment & m_segment;
-  private:
     /// The number of data values per height point.
     const unsigned int m_channels;
     /// The size of segment, m_res + 1.
@@ -23,6 +22,8 @@ class Buffer {
     /// Pointer to buffer containing data values.
     DataType * m_data = 0;
 
+    Buffer(const Buffer &) = delete;
+    Buffer & operator=(const Buffer &) = delete;
   public:
     /// \brief Constructor.
     ///

@@ -218,7 +218,7 @@ void AreaShader::shade(Surface &s) const
     decltype(size) buflen = size * size;
     for (decltype(buflen) i = 0; i < buflen; ++i) data[i] = 0;
 
-    auto const & areas(s.m_segment.getAreas());
+    auto const & areas(s.getSegment().getAreas());
     Segment::Areastore::const_iterator it = areas.lower_bound(m_layer);
     Segment::Areastore::const_iterator itend = areas.upper_bound(m_layer);
     
@@ -233,12 +233,12 @@ void AreaShader::shade(Surface &s) const
 
 void AreaShader::shadeArea(Surface& s, const Area* const ar) const
 {
-    auto clipped = ar->clipToSegment(s.m_segment);
+    auto clipped = ar->clipToSegment(s.getSegment());
     assert(clipped.isValid());
     
     if (clipped.numCorners() == 0) return;
  
-    auto segOrigin = s.m_segment.getRect().lowCorner();
+    auto segOrigin = s.getSegment().getRect().lowCorner();
     clipped.shift(Point2(0,0) - segOrigin);
     scanConvert(clipped, s);
 }
