@@ -10,6 +10,8 @@
 using dymaxion::traits::axisbox_access;
 using dymaxion::traits::point_access;
 using dymaxion::traits::point_construct;
+using dymaxion::traits::point_subtract;
+using dymaxion::traits::point_add;
 
 using dymaxion::TuplePoint2;
 
@@ -118,6 +120,8 @@ class WFMath_Point_traitstest : public Test::Suite
     void test_access_wfmath_point3_get();
     void test_construct_point2();
     void test_construct_point3();
+    void test_subtract();
+    void test_add();
 };
 
 constexpr float WFMath_Point_traitstest::getPoint_x;
@@ -136,6 +140,8 @@ WFMath_Point_traitstest::WFMath_Point_traitstest()
     ADD_TEST(WFMath_Point_traitstest::test_access_wfmath_point3_get);
     ADD_TEST(WFMath_Point_traitstest::test_construct_point2);
     ADD_TEST(WFMath_Point_traitstest::test_construct_point3);
+    ADD_TEST(WFMath_Point_traitstest::test_subtract);
+    ADD_TEST(WFMath_Point_traitstest::test_add);
 }
 
 void WFMath_Point_traitstest::setup()
@@ -238,6 +244,43 @@ void WFMath_Point_traitstest::test_construct_point3()
     ASSERT_EQUAL(p.x(), setPoint_x);
     ASSERT_EQUAL(p.y(), setPoint_y);
     ASSERT_EQUAL(p.z(), setPoint_z);
+}
+
+
+void WFMath_Point_traitstest::test_subtract()
+{
+    WFMath::Point<2> p1(3.7f, 9.4f);
+    WFMath::Point<2> p2(8.1f, 7.3f);
+
+    WFMath::Vector<2> res = point_subtract<WFMath::Vector<2>,
+                                           WFMath::Point<2>,
+                                           WFMath::Point<2>, 2>::op(p1, p2);
+
+    WFMath::Vector<2> re2 = p1 - p2;
+
+    WFMath::Vector<2> ref_val(-4.4f, 2.1f);
+
+    ASSERT_EQUAL(res, ref_val);
+    ASSERT_EQUAL(re2, ref_val);
+    ASSERT_EQUAL(res, re2);
+}
+
+void WFMath_Point_traitstest::test_add()
+{
+    WFMath::Point<2> p1(3.7f, 9.4f);
+    WFMath::Vector<2> v2(8.1f, 7.3f);
+
+    WFMath::Point<2> res = point_add<WFMath::Point<2>,
+                                     WFMath::Point<2>,
+                                     WFMath::Vector<2>, 2>::op(p1, v2);
+
+    WFMath::Point<2> re2 = p1 + v2;
+
+    WFMath::Point<2> ref_val(11.8f, 16.7f);
+
+    ASSERT_EQUAL(res, ref_val);
+    ASSERT_EQUAL(re2, ref_val);
+    ASSERT_EQUAL(res, re2);
 }
 
 int main()
