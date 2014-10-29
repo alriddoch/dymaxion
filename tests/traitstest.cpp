@@ -4,11 +4,59 @@
 
 #include "Test.h"
 
+#include <dymaxion/tuple_traits.h>
 #include <dymaxion/wfmath_traits.h>
 
 using dymaxion::traits::axisbox_access;
 using dymaxion::traits::point_access;
 using dymaxion::traits::point_construct;
+
+using dymaxion::TuplePoint2;
+
+class Tuple_Point2_traitstest : public Test::Suite
+{
+  public:
+    Tuple_Point2_traitstest();
+
+    void setup() override;
+    void teardown() override;
+
+    void test_access_get();
+    void test_access_set();
+};
+
+Tuple_Point2_traitstest::Tuple_Point2_traitstest()
+{
+    ADD_TEST(Tuple_Point2_traitstest::test_access_get);
+    ADD_TEST(Tuple_Point2_traitstest::test_access_set);
+}
+
+void Tuple_Point2_traitstest::setup()
+{
+}
+
+void Tuple_Point2_traitstest::teardown()
+{
+}
+
+void Tuple_Point2_traitstest::test_access_get()
+{
+    std::tuple<float, float> a{1.2f, 2.3f};
+
+    ASSERT_EQUAL((point_access<TuplePoint2, 0>::get(a)), 1.2f);
+    ASSERT_EQUAL((point_access<TuplePoint2, 1>::get(a)), 2.3f);
+}
+
+void Tuple_Point2_traitstest::test_access_set()
+{
+    std::tuple<float, float> b;
+
+    point_access<TuplePoint2, 0>::set(b, 7.9f);
+    point_access<TuplePoint2, 1>::set(b, 6.3f);
+
+    ASSERT_EQUAL(std::get<0>(b), 7.9f);
+    ASSERT_EQUAL(std::get<1>(b), 6.3f);
+}
 
 class WFMath_AxisBox_traitstest : public Test::Suite
 {
@@ -194,8 +242,9 @@ void WFMath_Point_traitstest::test_construct_point3()
 
 int main()
 {
-    WFMath_Point_traitstest t1;
-    WFMath_AxisBox_traitstest t2;
+    Tuple_Point2_traitstest t1;
+    WFMath_Point_traitstest t2;
+    WFMath_AxisBox_traitstest t3;
 
-    return t1.run() + t2.run();
+    return t1.run() + t2.run() + t3.run();
 }
