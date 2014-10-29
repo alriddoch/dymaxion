@@ -6,11 +6,15 @@
 #include <dymaxion/Area.h>
 #include <dymaxion/Segment.h>
 #include <dymaxion/Surface.h>
+#include <dymaxion/tuple_traits.h>
+#include <dymaxion/wfmath_traits.h>
 
 #include <list>
 #include <set>
 #include <iostream>
 #include <algorithm>
+#include <tuple>
+
 #include <cmath>
 
 #include <cassert>
@@ -18,12 +22,15 @@
 namespace dymaxion
 {
 
-typedef WFMath::Point<2> Point2;
+typedef std::tuple<float, float> Point2;
 typedef WFMath::Vector<2> Vector2;
+
+using traits::point_access;
 
 const WFMath::CoordType ROW_HEIGHT = 1 / 4.0f; // 4x over-sample
 
 /// \brief The edge of an area.
+template <class Point>
 class Edge
 {
 public: 
@@ -31,17 +38,25 @@ public:
     ///
     /// @param a one end of the line defining the edge.
     /// @param b one end of the line defining the edge.
-    Edge(const Point2& a, const Point2& b)
+    Edge(const Point & a, const Point & b)
     {
         // horizontal segments should be discarded earlier
-        assert(a.y() != b.y());
+        assert((traits::point_access<Point, 1>::get(a)) !=
+               (traits::point_access<Point, 1>::get(b)));
         
-        if (a.y() < b.y()) {
+        if (traits::point_access<Point, 1>::get(a) <
+            traits::point_access<Point, 1>::get(b)) {
             m_start = a;
-            m_seg = b - a;
+            m_seg = traits::point_subtract<decltype(m_seg),
+                                           Point,
+                                           Point,
+                                           2>::op(b, a);
         } else {
             m_start = b;
-            m_seg = a - b;
+            m_seg = traits::point_subtract<decltype(m_seg),
+                                           Point,
+                                           Point,
+                                           2>::op(a, b);
         }
         
         // normal gradient is y/x, here we use x/y. seg.y() will be != 0,
@@ -50,9 +65,12 @@ public:
     }
     
     /// Accessor for the point describing the start of the edge.
-    Point2 start() const { return m_start; }
+    Point start() const { return m_start; }
     /// Determine the point describing the end of the edge.
-    Point2 end() const { return m_start + m_seg; }
+    Point end() const { return traits::point_add<Point,
+                                                 Point,
+                                                 decltype(m_seg),
+                                                 2>::op(m_start, m_seg); }
     
     /// \brief Determine the x coordinate at a given y coordinate.
     ///
@@ -61,7 +79,8 @@ public:
     /// @param y the y coordinate where the calculation is required.
     WFMath::CoordType xValueAtY(WFMath::CoordType y) const
     {
-        WFMath::CoordType x = m_start.x() + ((y - m_start.y()) * m_inverseGradient);
+        WFMath::CoordType x = point_access<decltype(m_start), 0>::get(m_start) +
+                              ((y - point_access<decltype(m_start), 1>::get(m_start)) * m_inverseGradient);
      //   std::cout << "edge (" << m_start << ", " << m_start + m_seg << ") at y=" << y << " has x=" << x << std::endl; 
         return x;
     }
@@ -72,11 +91,12 @@ public:
     /// y coordinate of the start of the edges.
     bool operator<(const Edge& other) const
     {
-        return m_start.y() < other.m_start.y();
+        return point_access<decltype(m_start), 1>::get(m_start) <
+               point_access<decltype(m_start), 1>::get(other.m_start);
     }
 private:
     /// The point describing the start of the edge.
-    Point2 m_start;
+    Point m_start;
     /// The vector describing the edge from its start.
     Vector2 m_seg;
     /// The inverse of the gradient of the line.
@@ -84,6 +104,7 @@ private:
 };
 
 /// \brief The edge of an area parallel to the x axis.
+template <class Point>
 class EdgeAtY
 {
 public:
@@ -93,13 +114,13 @@ public:
     EdgeAtY(WFMath::CoordType y) : m_y(y) {}
     
     /// Determine which edge crosses this edge at a lower x coordinate.
-    bool operator()(const Edge& u, const Edge& v) const
+    bool operator()(const Edge<Point>& u, const Edge<Point>& v) const
     {
         return u.xValueAtY(m_y) < v.xValueAtY(m_y);
     }
 private:
     /// The coordinate on the y axis of the edge.
-    WFMath::CoordType m_y;
+    typename traits::types<Point>::coord_type m_y;
 };
 
 static void contribute(Surface& s,
@@ -142,12 +163,16 @@ static void span(Surface& s,
     }
 }
 
-static void scanConvert(const WFMath::Polygon<2>& inPoly, Surface& sf)
+template <class Polygon>
+static void scanConvert(const Polygon & inPoly, Surface& sf)
 {
+    typedef typename traits::types<Polygon>::point_type Point;
+
     if (!inPoly.isValid()) return;
     
-    std::list<Edge> pending;
-    std::vector<Edge> active;
+    // TODO templatize Edge, so it will work with whatever we have here
+    std::list<Edge<Point>> pending;
+    std::vector<Edge<Point>> active;
 
     auto lastPt = inPoly.getCorner(inPoly.numCorners() - 1);
     for (std::size_t p=0; p < inPoly.numCorners(); ++p) {
@@ -155,7 +180,12 @@ static void scanConvert(const WFMath::Polygon<2>& inPoly, Surface& sf)
         
         // skip horizontal edges
         if (curPt.y() != lastPt.y())
-            pending.push_back(Edge(lastPt, curPt));
+            pending.push_back(
+                Edge<Point>(Point(point_access<Point, 0>::get(lastPt),
+                                  point_access<Point, 1>::get(lastPt)),
+                            Point(point_access<Point, 0>::get(curPt),
+                                  point_access<Point, 1>::get(curPt)))
+            );
         
         lastPt = curPt;
     }
@@ -171,7 +201,7 @@ static void scanConvert(const WFMath::Polygon<2>& inPoly, Surface& sf)
     // middle of sample rows - we do this by offseting by 1/2 a row height
     // if you don't do this, you'll find alternating rows are over/under
     // sampled, producing a charming striped effect.
-    WFMath::CoordType y = std::floor(active.front().start().y()) + ROW_HEIGHT * 0.5f;
+    typename traits::types<Point>::coord_type y = std::floor(active.front().start().y()) + ROW_HEIGHT * 0.5f;
     
     for (; !pending.empty() || !active.empty();  y += ROW_HEIGHT)
     {
@@ -181,7 +211,7 @@ static void scanConvert(const WFMath::Polygon<2>& inPoly, Surface& sf)
         }
         
         // sort by x value - note active will be close to sorted anyway
-        std::sort(active.begin(), active.end(), EdgeAtY(y));
+        std::sort(active.begin(), active.end(), EdgeAtY<Point>(y));
         
         // delete finished edges
         for (decltype(active.size()) i = 0; i < active.size(); ) {
@@ -239,7 +269,10 @@ void AreaShader::shadeArea(Surface& s, const Area* const ar) const
     if (clipped.numCorners() == 0) return;
  
     auto segOrigin = s.getSegment().getRect().lowCorner();
-    clipped.shift(Point2(0,0) - segOrigin);
+    clipped.shift(traits::point_subtract<WFMath::Vector<2>,
+                                         Point2,
+                                         decltype(segOrigin),
+                                         2>::op(Point2(0,0), segOrigin));
     scanConvert(clipped, s);
 }
 
