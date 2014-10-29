@@ -22,6 +22,7 @@ class types<WFMath::AxisBox<dim>>
 {
   public:
     typedef WFMath::CoordType coord_type;
+    typedef WFMath::Point<dim> point_type;
 };
 
 template <int dim, int idx>
@@ -414,6 +415,14 @@ class point_construct<VectorT<3>>
   {
     return point_type(x, y, z);
   }
+};
+
+template <int dim>
+class types<WFMath::Polygon<dim>>
+{
+  public:
+    typedef WFMath::CoordType coord_type;
+    typedef WFMath::Point<dim> point_type;
 };
 
 }
