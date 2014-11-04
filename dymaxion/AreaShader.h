@@ -15,6 +15,7 @@ class Area;
 /// \brief Shader for handling areas.
 class AreaShader : public Shader
 {
+    friend class AreaShadertest;
 public:
     /// \brief Constructor
     ///

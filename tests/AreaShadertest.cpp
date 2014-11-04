@@ -2,6 +2,8 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2009 Alistair Riddoch
 
+#include "Test.h"
+
 #include <dymaxion/Terrain.h>
 #include <dymaxion/Area.h>
 #include <dymaxion/AreaShader.h>
@@ -11,7 +13,31 @@
 
 typedef WFMath::Point<2> Point2;
 
-void testAreaShader()
+class AreaShadertest : public Test::Suite
+{
+ public:
+  AreaShadertest();
+
+  void setup() override;
+  void teardown() override;
+
+  void test_AreaShader();
+};
+
+AreaShadertest::AreaShadertest()
+{
+  ADD_TEST(AreaShadertest::test_AreaShader);
+}
+
+void AreaShadertest::setup()
+{
+}
+
+void AreaShadertest::teardown()
+{
+}
+
+void AreaShadertest::test_AreaShader()
 {
     dymaxion::Area* a1 = new dymaxion::Area(1, false);
     
@@ -47,7 +73,7 @@ void testAreaShader()
 
 int main()
 {
-    testAreaShader();
+    AreaShadertest t;
 
-    return 0;
+    return t.run();
 }
