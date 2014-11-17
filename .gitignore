@@ -41,5 +41,6 @@ tests/timeSeg
 tests/testPhys
 tests/testQRNG
 tests/testWFMath
+tests/test*.pgm
 tests/Segmentperf
 
