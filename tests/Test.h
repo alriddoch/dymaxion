@@ -188,7 +188,7 @@ int Suite::assertLess(const char * l, const L & lval,
                          const char * r, const R & rval,
                          const char * func, const char * file, int line)
 {
-    if (lval >= rval) {
+    if (!(lval < rval)) {
         addFailure(String::compose("%1:%2: %3: Assertion '%4 < %5' failed. "
                                    "%6 >= %7",
                                    file, line, func, l, r, lval, rval));
