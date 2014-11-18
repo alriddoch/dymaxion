@@ -67,9 +67,19 @@ class Suite
                       const char * func, const char * file, int line);
 
     template <typename L, typename R>
+    int assertNotGreater(const char * l, const L & lval,
+                         const char * r, const R & rval,
+                         const char * func, const char * file, int line);
+
+    template <typename L, typename R>
     int assertLess(const char * l, const L & lval,
                    const char * r, const R & rval,
                    const char * func, const char * file, int line);
+
+    template <typename L, typename R>
+    int assertNotLess(const char * l, const L & lval,
+                      const char * r, const R & rval,
+                      const char * func, const char * file, int line);
 
     template <typename T>
     int assertNull(const char * n, const T * ptr,
@@ -171,10 +181,10 @@ int Suite::assertNotEqual(const char * l, const L & lval,
 
 template <typename L, typename R>
 int Suite::assertGreater(const char * l, const L & lval,
-                            const char * r, const R & rval,
-                            const char * func, const char * file, int line)
+                         const char * r, const R & rval,
+                         const char * func, const char * file, int line)
 {
-    if (lval <= rval) {
+    if (!(lval > rval)) {
         addFailure(String::compose("%1:%2: %3: Assertion '%4 > %5' failed. "
                                    "%6 <= %7",
                                    file, line, func, l, r, lval, rval));
@@ -184,13 +194,41 @@ int Suite::assertGreater(const char * l, const L & lval,
 }
 
 template <typename L, typename R>
+int Suite::assertNotGreater(const char * l, const L & lval,
+                            const char * r, const R & rval,
+                            const char * func, const char * file, int line)
+{
+    if (lval > rval) {
+        addFailure(String::compose("%1:%2: %3: Assertion '%4 !> %5' failed. "
+                                   "%6 > %7",
+                                   file, line, func, l, r, lval, rval));
+        return -1;
+    }
+    return 0;
+}
+
+template <typename L, typename R>
 int Suite::assertLess(const char * l, const L & lval,
-                         const char * r, const R & rval,
-                         const char * func, const char * file, int line)
+                      const char * r, const R & rval,
+                      const char * func, const char * file, int line)
 {
     if (!(lval < rval)) {
         addFailure(String::compose("%1:%2: %3: Assertion '%4 < %5' failed. "
                                    "%6 >= %7",
+                                   file, line, func, l, r, lval, rval));
+        return -1;
+    }
+    return 0;
+}
+
+template <typename L, typename R>
+int Suite::assertNotLess(const char * l, const L & lval,
+                         const char * r, const R & rval,
+                         const char * func, const char * file, int line)
+{
+    if (lval < rval) {
+        addFailure(String::compose("%1:%2: %3: Assertion '%4 !< %5' failed. "
+                                   "%6 < %7",
                                    file, line, func, l, r, lval, rval));
         return -1;
     }
@@ -250,8 +288,19 @@ int Suite::assertNotNull(const char * n, const T * ptr,
                             __FILE__, __LINE__) != 0) return;\
 }
 
+#define ASSERT_NOT_GREATER(_lval, _rval) {\
+    if (this->assertNotGreater(#_lval, _lval, #_rval, _rval,\
+                               __PRETTY_FUNCTION__, __FILE__, __LINE__)\
+                               != 0) return;\
+}
+
 #define ASSERT_LESS(_lval, _rval) {\
     if (this->assertLess(#_lval, _lval, #_rval, _rval, __PRETTY_FUNCTION__,\
+                         __FILE__, __LINE__) != 0) return;\
+}
+
+#define ASSERT_NOT_LESS(_lval, _rval) {\
+    if (this->assertNotLess(#_lval, _lval, #_rval, _rval, __PRETTY_FUNCTION__,\
                          __FILE__, __LINE__) != 0) return;\
 }
 
