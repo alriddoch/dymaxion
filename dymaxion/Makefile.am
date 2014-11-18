@@ -56,3 +56,5 @@ libdymaxion_HEADERS = \
 	AreaShader.h \
 	traits.h \
 	wfmath_traits.h
+
+noinst_HEADERS = Edge.h

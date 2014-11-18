@@ -3,7 +3,7 @@ TESTS = mercatortest Terraintest Shadertest TerrainModtest Intersecttest \
         TileShadertest ShaderFactorytest testWFMath Buffertest \
         Segmenttest AreaShadertest BasePointtest DepthShadertest \
         FillShadertest GrassShadertest ThresholdShadertest Matrixtest \
-        TerrainaddAreatest Segmentperf traitstest
+        TerrainaddAreatest Segmentperf traitstest Edgetest
 
 AM_CPPFLAGS = -I$(top_srcdir)
 
@@ -87,3 +87,6 @@ Segmentperf_SOURCES = Segmentperf.cpp
 Segmentperf_LDADD = $(top_builddir)/dymaxion/Segment.lo
 
 traitstest_SOURCES = traitstest.cpp
+
+Edgetest_SOURCES = Edgetest.cpp
+Edgetest_LDADD =
