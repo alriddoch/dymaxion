@@ -5,6 +5,8 @@
 #ifndef DYMAXION_EDGE_H
 #define DYMAXION_EDGE_H
 
+#include <dymaxion/traits.h>
+
 #include <wfmath/point.h>
 #include <wfmath/vector.h>
 
@@ -13,6 +15,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <tuple>
 
 #include <cassert>
 
@@ -22,10 +25,11 @@ class EdgeAtYtest;
 namespace dymaxion
 {
 
-typedef WFMath::Point<2> Point2;
+typedef std::tuple<float, float> Point2;
 typedef WFMath::Vector<2> Vector2;
 
 /// \brief The edge of an area.
+template <class Point = Point2>
 class Edge
 {
 public: 
@@ -33,17 +37,25 @@ public:
     ///
     /// @param a one end of the line defining the edge.
     /// @param b one end of the line defining the edge.
-    Edge(const Point2& a, const Point2& b)
+    Edge(const Point & a, const Point & b)
     {
         // horizontal segments should be discarded earlier
-        assert(a.y() != b.y());
+        assert((traits::point_access<Point, 1>::get(a)) !=
+               (traits::point_access<Point, 1>::get(b)));
         
-        if (a.y() < b.y()) {
+        if (traits::point_access<Point, 1>::get(a) <
+            traits::point_access<Point, 1>::get(b)) {
             m_start = a;
-            m_seg = b - a;
+            m_seg = traits::point_subtract<decltype(m_seg),
+                                           Point,
+                                           Point,
+                                           2>::op(b, a);
         } else {
             m_start = b;
-            m_seg = a - b;
+            m_seg = traits::point_subtract<decltype(m_seg),
+                                           Point,
+                                           Point,
+                                           2>::op(a, b);
         }
         
         // normal gradient is y/x, here we use x/y. seg.y() will be != 0,
@@ -52,9 +64,12 @@ public:
     }
     
     /// Accessor for the point describing the start of the edge.
-    Point2 start() const { return m_start; }
+    Point start() const { return m_start; }
     /// Determine the point describing the end of the edge.
-    Point2 end() const { return m_start + m_seg; }
+    Point end() const { return traits::point_add<Point,
+                                                 Point,
+                                                 decltype(m_seg),
+                                                 2>::op(m_start, m_seg); }
     
     /// \brief Determine the x coordinate at a given y coordinate.
     ///
@@ -63,7 +78,10 @@ public:
     /// @param y the y coordinate where the calculation is required.
     WFMath::CoordType xValueAtY(WFMath::CoordType y) const
     {
-        WFMath::CoordType x = m_start.x() + ((y - m_start.y()) * m_inverseGradient);
+        WFMath::CoordType x =
+            traits::point_access<decltype(m_start), 0>::get(m_start) +
+            ((y - traits::point_access<decltype(m_start), 1>::get(m_start)) *
+             m_inverseGradient);
      //   std::cout << "edge (" << m_start << ", " << m_start + m_seg << ") at y=" << y << " has x=" << x << std::endl; 
         return x;
     }
@@ -74,13 +92,14 @@ public:
     /// y coordinate of the start of the edges.
     bool operator<(const Edge& other) const
     {
-        return m_start.y() < other.m_start.y();
+        return traits::point_access<decltype(m_start), 1>::get(m_start) <
+               traits::point_access<decltype(m_start), 1>::get(other.m_start);
     }
 
     friend class ::Edgetest;
-protected:
+private:
     /// The point describing the start of the edge.
-    Point2 m_start;
+    Point m_start;
     /// The vector describing the edge from its start.
     Vector2 m_seg;
     /// The inverse of the gradient of the line.
@@ -88,6 +107,7 @@ protected:
 };
 
 /// \brief The edge of an area parallel to the x axis.
+template <class Point = Point2>
 class EdgeAtY
 {
 public:
@@ -97,7 +117,7 @@ public:
     EdgeAtY(WFMath::CoordType y) : m_y(y) {}
     
     /// Determine which edge crosses this edge at a lower x coordinate.
-    bool operator()(const Edge& u, const Edge& v) const
+    bool operator()(const Edge<Point>& u, const Edge<Point>& v) const
     {
         return u.xValueAtY(m_y) < v.xValueAtY(m_y);
     }
@@ -105,7 +125,7 @@ public:
     friend class ::EdgeAtYtest;
 private:
     /// The coordinate on the y axis of the edge.
-    WFMath::CoordType m_y;
+    typename traits::types<Point>::coord_type m_y;
 };
 
 } // of namespace
