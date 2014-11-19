@@ -7,14 +7,8 @@
 
 #include <dymaxion/traits.h>
 
-#include <wfmath/point.h>
 #include <wfmath/vector.h>
 
-#include <list>
-#include <set>
-#include <iostream>
-#include <algorithm>
-#include <cmath>
 #include <tuple>
 
 #include <cassert>
