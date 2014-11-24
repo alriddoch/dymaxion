@@ -3,7 +3,8 @@ TESTS = mercatortest Terraintest Shadertest TerrainModtest Intersecttest \
         TileShadertest ShaderFactorytest testWFMath Buffertest \
         Segmenttest AreaShadertest BasePointtest DepthShadertest \
         FillShadertest GrassShadertest ThresholdShadertest Matrixtest \
-        TerrainaddAreatest Segmentperf traitstest Edgetest Interptest
+        TerrainaddAreatest Segmentperf traitstest Edgetest Interptest \
+        Cliptest
 
 AM_CPPFLAGS = -I$(top_srcdir)
 
@@ -93,3 +94,6 @@ Edgetest_LDADD =
 
 Interptest_SOURCES = Interptest.cpp
 Interptest_LDADD =
+
+Cliptest_SOURCES = Cliptest.cpp
+Cliptest_LDADD =

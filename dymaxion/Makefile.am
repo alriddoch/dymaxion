@@ -57,4 +57,4 @@ libdymaxion_HEADERS = \
 	traits.h \
 	wfmath_traits.h
 
-noinst_HEADERS = Edge.h Interp.h
+noinst_HEADERS = Clip.h Edge.h Interp.h
