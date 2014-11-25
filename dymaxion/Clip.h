@@ -34,7 +34,7 @@ class TopClip
   /// Constructor
   ///
   /// @param t top of y range
-  TopClip(CoordType t) : topY(t) { }
+  TopClip(CoordType t) : threshold(t) { }
   
   /// \brief Check a point is outside this clip.
   ///
@@ -42,7 +42,7 @@ class TopClip
   /// @return true if p is outside the clip.
   bool inside(const Point2& p) const
   {
-    return p.y() >= topY;
+    return p.y() >= threshold;
   }
 
   /// \brief Determine the point where a line crosses this clip.
@@ -60,12 +60,12 @@ class TopClip
     // outside. In either case, we should not call clip()
     assert(!isZero(dy));
     
-    auto t = (topY - u.y()) / dy;
-    return Point2(u.x() + t * dx, topY);
+    auto t = (threshold - u.y()) / dy;
+    return Point2(u.x() + t * dx, threshold);
   }
  private:
   /// \brief Top of y range.
-  CoordType topY;
+  CoordType threshold;
 
   friend class ::TopCliptest;
 };
@@ -77,7 +77,7 @@ class BottomClip
   /// Constructor
   ///
   /// @param t bottom of y range
-  BottomClip(CoordType t) : bottomY(t) { }
+  BottomClip(CoordType t) : threshold(t) { }
   
   /// \brief Check a point is outside this clip.
   ///
@@ -85,7 +85,7 @@ class BottomClip
   /// @return true if p is outside the clip.
   bool inside(const Point2& p) const
   {
-    return p.y() < bottomY;
+    return p.y() < threshold;
   }
 
   /// \brief Determine the point where a line crosses this clip.
@@ -99,12 +99,12 @@ class BottomClip
     auto dx = v.x() - u.x();
     assert(!isZero(dy));
     
-    auto t = (u.y() - bottomY) / -dy;
-    return Point2(u.x() + t * dx, bottomY);
+    auto t = (u.y() - threshold) / -dy;
+    return Point2(u.x() + t * dx, threshold);
   }
  private:
   /// \brief Bottom of y range.
-  CoordType bottomY;
+  CoordType threshold;
 
   friend class ::BottomCliptest;
 };
@@ -116,7 +116,7 @@ class LeftClip
   /// Constructor
   ///
   /// @param t left of x range.
-  LeftClip(CoordType t) : leftX(t) { }
+  LeftClip(CoordType t) : threshold(t) { }
   
   /// \brief Check a point is outside this clip.
   ///
@@ -124,7 +124,7 @@ class LeftClip
   /// @return true if p is outside the clip.
   bool inside(const Point2& p) const
   {
-    return p.x() >= leftX;
+    return p.x() >= threshold;
   }
 
   /// \brief Determine the point where a line crosses this clip.
@@ -140,12 +140,12 @@ class LeftClip
     // shouldn't every happen
     assert(!isZero(dx));
     
-    auto t = (leftX - u.x()) / dx;
-    return Point2(leftX, u.y() + t * dy);
+    auto t = (threshold - u.x()) / dx;
+    return Point2(threshold, u.y() + t * dy);
   }
  private:
   /// \brief Left of x range.
-  CoordType leftX;
+  CoordType threshold;
 
   friend class ::LeftCliptest;
 };
@@ -157,7 +157,7 @@ class RightClip
   /// Constructor
   ///
   /// @param t right of x range.
-  RightClip(CoordType t) : rightX(t) { }
+  RightClip(CoordType t) : threshold(t) { }
     
   /// \brief Check a point is outside this clip.
   ///
@@ -165,7 +165,7 @@ class RightClip
   /// @return true if p is outside the clip.
   bool inside(const Point2& p) const
   {
-    return p.x() < rightX;
+    return p.x() < threshold;
   }
 
   /// \brief Determine the point where a line crosses this clip.
@@ -181,12 +181,12 @@ class RightClip
     // shouldn't every happen
     assert(!isZero(dx));
     
-    auto t = (u.x() - rightX) / -dx;
-    return Point2(rightX, u.y() + t * dy);
+    auto t = (u.x() - threshold) / -dx;
+    return Point2(threshold, u.y() + t * dy);
   }
  private:
   /// \brief Right of x range.
-  CoordType rightX;
+  CoordType threshold;
 
   friend class ::RightCliptest;
 };

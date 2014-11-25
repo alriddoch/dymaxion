@@ -38,7 +38,7 @@ void TopCliptest::test_Clip()
 {
   dymaxion::TopClip tc(0.5f);
 
-  ASSERT_EQUAL(tc.topY, 0.5f);
+  ASSERT_EQUAL(tc.threshold, 0.5f);
 }
 
 void TopCliptest::test_inside()
@@ -99,7 +99,7 @@ void BottomCliptest::test_Clip()
 {
   dymaxion::BottomClip tc(0.5f);
 
-  ASSERT_EQUAL(tc.bottomY, 0.5f);
+  ASSERT_EQUAL(tc.threshold, 0.5f);
 }
 
 void BottomCliptest::test_inside()
@@ -160,7 +160,7 @@ void LeftCliptest::test_Clip()
 {
   dymaxion::LeftClip tc(0.5f);
 
-  ASSERT_EQUAL(tc.leftX, 0.5f);
+  ASSERT_EQUAL(tc.threshold, 0.5f);
 }
 
 void LeftCliptest::test_inside()
@@ -221,7 +221,7 @@ void RightCliptest::test_Clip()
 {
   dymaxion::RightClip tc(0.5f);
 
-  ASSERT_EQUAL(tc.rightX, 0.5f);
+  ASSERT_EQUAL(tc.threshold, 0.5f);
 }
 
 void RightCliptest::test_inside()
