@@ -2,9 +2,12 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2014 Alistair Riddoch
 
+#include <dymaxion/wfmath_traits.h>
+
 #include <wfmath/point.h>
 
 #include <cmath>
+#include <type_traits>
 
 #include <cassert>
 
@@ -42,7 +45,9 @@ class TopClip
   /// @return true if p is outside the clip.
   bool inside(const Point2& p) const
   {
-    return p.y() >= threshold;
+    typedef traits::point_access<std::remove_const<
+        std::remove_reference<decltype(p)>::type>::type, 1> access;
+    return access::get(p) >= threshold;
   }
 
   /// \brief Determine the point where a line crosses this clip.
@@ -85,7 +90,9 @@ class BottomClip
   /// @return true if p is outside the clip.
   bool inside(const Point2& p) const
   {
-    return p.y() < threshold;
+    typedef traits::point_access<std::remove_const<
+        std::remove_reference<decltype(p)>::type>::type, 1> access;
+    return access::get(p) < threshold;
   }
 
   /// \brief Determine the point where a line crosses this clip.
@@ -124,7 +131,9 @@ class LeftClip
   /// @return true if p is outside the clip.
   bool inside(const Point2& p) const
   {
-    return p.x() >= threshold;
+    typedef traits::point_access<std::remove_const<
+        std::remove_reference<decltype(p)>::type>::type, 0> access;
+    return access::get(p) >= threshold;
   }
 
   /// \brief Determine the point where a line crosses this clip.
@@ -165,7 +174,9 @@ class RightClip
   /// @return true if p is outside the clip.
   bool inside(const Point2& p) const
   {
-    return p.x() < threshold;
+    typedef traits::point_access<std::remove_const<
+        std::remove_reference<decltype(p)>::type>::type, 0> access;
+    return access::get(p) < threshold;
   }
 
   /// \brief Determine the point where a line crosses this clip.
