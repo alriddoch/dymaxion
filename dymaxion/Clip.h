@@ -7,6 +7,7 @@
 #include <wfmath/point.h>
 
 #include <cmath>
+#include <functional>
 #include <type_traits>
 
 #include <cassert>
@@ -30,24 +31,24 @@ static inline bool isZero(CoordType d)
 }
 #endif
 
-/// \brief Helper to clip points to a given range.
-class TopClip
+template<int axis, template <typename> class comparison>
+class Clip
 {
  public:
   /// Constructor
   ///
   /// @param t top of y range
-  TopClip(CoordType t) : threshold(t) { }
-  
+  Clip(CoordType t) : threshold(t) { }
+
   /// \brief Check a point is outside this clip.
   ///
   /// @param p point to be checked.
   /// @return true if p is outside the clip.
-  bool inside(const Point2& p) const
+  template <class P>
+  bool inside(const P & p) const
   {
-    typedef traits::point_access<std::remove_const<
-        std::remove_reference<decltype(p)>::type>::type, 1> access;
-    return access::get(p) >= threshold;
+    typedef traits::point_access<P, axis> access;
+    return comparison<CoordType>()(access::get(p), threshold);
   }
 
   /// \brief Determine the point where a line crosses this clip.
@@ -55,94 +56,54 @@ class TopClip
   /// @param u one of of a line that crosses this clip
   /// @param v one of of a line that crosses this clip
   /// @return a point where the line cross this clip.
-  Point2 clip(const Point2& u, const Point2& v) const
-  {
-    auto dy = v.y() - u.y();
-    auto dx = v.x() - u.x();
-    
-    // shouldn't every happen - if dy iz zero, the line is horizontal,
-    // so either both points should be inside, or both points should be
-    // outside. In either case, we should not call clip()
-    assert(!isZero(dy));
-    
-    auto t = (threshold - u.y()) / dy;
-    return Point2(u.x() + t * dx, threshold);
-  }
+  Point2 clip(const Point2& u, const Point2& v) const;
  private:
   /// \brief Top of y range.
   CoordType threshold;
 
   friend class ::TopCliptest;
+  friend class ::BottomCliptest;
+  friend class ::LeftCliptest;
+  friend class ::RightCliptest;
 };
 
-/// \brief Helper to clip points to a given range.
-class BottomClip
-{
- public:
-  /// Constructor
-  ///
-  /// @param t bottom of y range
-  BottomClip(CoordType t) : threshold(t) { }
-  
-  /// \brief Check a point is outside this clip.
-  ///
-  /// @param p point to be checked.
-  /// @return true if p is outside the clip.
-  bool inside(const Point2& p) const
-  {
-    typedef traits::point_access<std::remove_const<
-        std::remove_reference<decltype(p)>::type>::type, 1> access;
-    return access::get(p) < threshold;
-  }
+typedef Clip<1, std::less> TopClip;
+typedef Clip<1, std::greater_equal> BottomClip;
+typedef Clip<0, std::greater_equal> LeftClip;
+typedef Clip<0, std::less> RightClip;
 
-  /// \brief Determine the point where a line crosses this clip.
-  ///
-  /// @param u one of of a line that crosses this clip
-  /// @param v one of of a line that crosses this clip
-  /// @return a point where the line cross this clip.
-  Point2 clip(const Point2& u, const Point2& v) const
-  {
+template<>
+Point2 Clip<1, std::greater_equal>::clip(const Point2 & u,
+                                         const Point2 & v) const
+{
+  auto dy = v.y() - u.y();
+  auto dx = v.x() - u.x();
+  
+  // shouldn't every happen - if dy iz zero, the line is horizontal,
+  // so either both points should be inside, or both points should be
+  // outside. In either case, we should not call clip()
+  assert(!isZero(dy));
+  
+  auto t = (threshold - u.y()) / dy;
+  return Point2(u.x() + t * dx, threshold);
+}
+
+template<>
+Point2 Clip<1, std::less>::clip(const Point2 & u,
+                                const Point2 & v) const
+{
     auto dy = v.y() - u.y();
     auto dx = v.x() - u.x();
     assert(!isZero(dy));
     
-    auto t = (u.y() - threshold) / -dy;
+    auto t = (threshold - u.y()) / dy;
     return Point2(u.x() + t * dx, threshold);
-  }
- private:
-  /// \brief Bottom of y range.
-  CoordType threshold;
+}
 
-  friend class ::BottomCliptest;
-};
-
-/// \brief Helper to clip points to a given range.
-class LeftClip
+template<>
+Point2 Clip<0, std::less>::clip(const Point2 & u,
+                                const Point2 & v) const
 {
- public:
-  /// Constructor
-  ///
-  /// @param t left of x range.
-  LeftClip(CoordType t) : threshold(t) { }
-  
-  /// \brief Check a point is outside this clip.
-  ///
-  /// @param p point to be checked.
-  /// @return true if p is outside the clip.
-  bool inside(const Point2& p) const
-  {
-    typedef traits::point_access<std::remove_const<
-        std::remove_reference<decltype(p)>::type>::type, 0> access;
-    return access::get(p) >= threshold;
-  }
-
-  /// \brief Determine the point where a line crosses this clip.
-  ///
-  /// @param u one of of a line that crosses this clip
-  /// @param v one of of a line that crosses this clip
-  /// @return a point where the line cross this clip.
-  Point2 clip(const Point2& u, const Point2& v) const
-  {
     auto dy = v.y() - u.y();
     auto dx = v.x() - u.x();
     
@@ -151,55 +112,20 @@ class LeftClip
     
     auto t = (threshold - u.x()) / dx;
     return Point2(threshold, u.y() + t * dy);
-  }
- private:
-  /// \brief Left of x range.
-  CoordType threshold;
+}
 
-  friend class ::LeftCliptest;
-};
-
-/// \brief Helper to clip points to a given range.
-class RightClip
+template<>
+Point2 Clip<0, std::greater_equal>::clip(const Point2 & u,
+                                         const Point2 & v) const
 {
- public:
-  /// Constructor
-  ///
-  /// @param t right of x range.
-  RightClip(CoordType t) : threshold(t) { }
-    
-  /// \brief Check a point is outside this clip.
-  ///
-  /// @param p point to be checked.
-  /// @return true if p is outside the clip.
-  bool inside(const Point2& p) const
-  {
-    typedef traits::point_access<std::remove_const<
-        std::remove_reference<decltype(p)>::type>::type, 0> access;
-    return access::get(p) < threshold;
-  }
-
-  /// \brief Determine the point where a line crosses this clip.
-  ///
-  /// @param u one of of a line that crosses this clip
-  /// @param v one of of a line that crosses this clip
-  /// @return a point where the line cross this clip.
-  Point2 clip(const Point2& u, const Point2& v) const
-  {
     auto dy = v.y() - u.y();
     auto dx = v.x() - u.x();
     
     // shouldn't every happen
     assert(!isZero(dx));
     
-    auto t = (u.x() - threshold) / -dx;
+    auto t = (threshold - u.x()) / dx;
     return Point2(threshold, u.y() + t * dy);
-  }
- private:
-  /// \brief Right of x range.
-  CoordType threshold;
-
-  friend class ::RightCliptest;
-};
+}
 
 } // of namespace

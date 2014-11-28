@@ -124,9 +124,9 @@ WFMath::Polygon<2> Area::clipToSegment(const Segment& s) const
     if (!checkIntersects(s)) return WFMath::Polygon<2>();
     
     auto segBox = s.getRect();
-    auto clipped = sutherlandHodgmanKernel(m_shape, TopClip(segBox.lowCorner().y()));
+    auto clipped = sutherlandHodgmanKernel(m_shape, BottomClip(segBox.lowCorner().y()));
     
-    clipped = sutherlandHodgmanKernel(clipped, BottomClip(segBox.highCorner().y()));
+    clipped = sutherlandHodgmanKernel(clipped, TopClip(segBox.highCorner().y()));
     clipped = sutherlandHodgmanKernel(clipped, LeftClip(segBox.lowCorner().x()));
     clipped = sutherlandHodgmanKernel(clipped, RightClip(segBox.highCorner().x()));
     

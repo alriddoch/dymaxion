@@ -45,9 +45,9 @@ void TopCliptest::test_inside()
 {
   dymaxion::TopClip tc(0.5f);
 
-  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 1)))
-  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 0.5)))
-  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 0)))
+  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 1)))
+  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 0.5)))
+  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 0)))
 }
 
 void TopCliptest::test_clip()
@@ -106,9 +106,9 @@ void BottomCliptest::test_inside()
 {
   dymaxion::BottomClip tc(0.5f);
 
-  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 1)))
-  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 0.5)))
-  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 0)))
+  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 1)))
+  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 0.5)))
+  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 0)))
 }
 
 void BottomCliptest::test_clip()
