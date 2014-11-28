@@ -56,7 +56,40 @@ class Clip
   /// @param u one of of a line that crosses this clip
   /// @param v one of of a line that crosses this clip
   /// @return a point where the line cross this clip.
-  Point2 clip(const Point2& u, const Point2& v) const;
+  Point2 clip(const Point2& u, const Point2& v) const
+  {
+    constexpr unsigned oaxis = axis ^ 1;
+
+    typedef traits::point_access<
+        std::remove_const<std::remove_reference<decltype(u)>::type>::type,
+        0> xaccess;
+
+    typedef traits::point_access<
+        std::remove_const<std::remove_reference<decltype(u)>::type>::type,
+        1> yaccess;
+
+    typedef traits::point_access<
+        std::remove_const<std::remove_reference<decltype(u)>::type>::type,
+        axis> access;
+
+    typedef traits::point_access<
+        std::remove_const<std::remove_reference<decltype(u)>::type>::type,
+        oaxis> oaccess;
+
+    std::tuple<float, float> delta{xaccess::get(v) - xaccess::get(u),
+                                   yaccess::get(v) - yaccess::get(u)};
+
+    // shouldn't every happen - if dy iz zero, the line is horizontal,
+    // so either both points should be inside, or both points should be
+    // outside. In either case, we should not call clip()
+    assert(!isZero(std::get<axis>(delta)));
+
+    auto t = (threshold - access::get(u)) / std::get<axis>(delta);
+    Point2 p;
+    access::set(p, threshold);
+    oaccess::set(p, oaccess::get(u) + t * std::get<oaxis>(delta));
+    return p;
+  }
  private:
   /// \brief Top of y range.
   CoordType threshold;
@@ -71,61 +104,5 @@ typedef Clip<1, std::less> TopClip;
 typedef Clip<1, std::greater_equal> BottomClip;
 typedef Clip<0, std::greater_equal> LeftClip;
 typedef Clip<0, std::less> RightClip;
-
-template<>
-Point2 Clip<1, std::greater_equal>::clip(const Point2 & u,
-                                         const Point2 & v) const
-{
-  auto dy = v.y() - u.y();
-  auto dx = v.x() - u.x();
-  
-  // shouldn't every happen - if dy iz zero, the line is horizontal,
-  // so either both points should be inside, or both points should be
-  // outside. In either case, we should not call clip()
-  assert(!isZero(dy));
-  
-  auto t = (threshold - u.y()) / dy;
-  return Point2(u.x() + t * dx, threshold);
-}
-
-template<>
-Point2 Clip<1, std::less>::clip(const Point2 & u,
-                                const Point2 & v) const
-{
-    auto dy = v.y() - u.y();
-    auto dx = v.x() - u.x();
-    assert(!isZero(dy));
-    
-    auto t = (threshold - u.y()) / dy;
-    return Point2(u.x() + t * dx, threshold);
-}
-
-template<>
-Point2 Clip<0, std::less>::clip(const Point2 & u,
-                                const Point2 & v) const
-{
-    auto dy = v.y() - u.y();
-    auto dx = v.x() - u.x();
-    
-    // shouldn't every happen
-    assert(!isZero(dx));
-    
-    auto t = (threshold - u.x()) / dx;
-    return Point2(threshold, u.y() + t * dy);
-}
-
-template<>
-Point2 Clip<0, std::greater_equal>::clip(const Point2 & u,
-                                         const Point2 & v) const
-{
-    auto dy = v.y() - u.y();
-    auto dx = v.x() - u.x();
-    
-    // shouldn't every happen
-    assert(!isZero(dx));
-    
-    auto t = (threshold - u.x()) / dx;
-    return Point2(threshold, u.y() + t * dy);
-}
 
 } // of namespace
