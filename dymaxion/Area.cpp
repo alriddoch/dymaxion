@@ -9,6 +9,7 @@
 #include <dymaxion/Area.h>
 #include <dymaxion/Clip.h>
 #include <dymaxion/Segment.h>
+#include <dymaxion/wfmath_traits.h>
 
 #include <wfmath/intersect.h>
 #include <iostream>

@@ -5,6 +5,11 @@
 #include "Test.h"
 
 #include <dymaxion/Clip.h>
+#include <dymaxion/wfmath_traits.h>
+
+#include <wfmath/point.h>
+
+typedef WFMath::Point<2> Point2;
 
 class TopCliptest : public Test::Suite
 {
@@ -45,24 +50,24 @@ void TopCliptest::test_inside()
 {
   dymaxion::TopClip tc(0.5f);
 
-  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 1)))
-  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 0.5)))
-  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 0)))
+  ASSERT_TRUE(!tc.inside(Point2(1, 1)))
+  ASSERT_TRUE(!tc.inside(Point2(1, 0.5)))
+  ASSERT_TRUE(tc.inside(Point2(1, 0)))
 }
 
 void TopCliptest::test_clip()
 {
   dymaxion::TopClip tc(0.5f);
 
-  auto p = tc.clip({0,0}, {1,1});
+  auto p = tc.clip(Point2{0,0}, Point2{1,1});
 
   ASSERT_EQUAL(p, decltype(p)(0.5, 0.5f))
 
-  auto p1 = tc.clip({0,1}, {1,0});
+  auto p1 = tc.clip(Point2{0,1}, Point2{1,0});
 
   ASSERT_EQUAL(p1, decltype(p)(0.5, 0.5f))
 
-  auto p2 = tc.clip({1,0}, {2,1});
+  auto p2 = tc.clip(Point2{1,0}, Point2{2,1});
 
   ASSERT_EQUAL(p2, decltype(p)(1.5, 0.5f))
 }
@@ -106,24 +111,24 @@ void BottomCliptest::test_inside()
 {
   dymaxion::BottomClip tc(0.5f);
 
-  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 1)))
-  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 0.5)))
-  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 0)))
+  ASSERT_TRUE(tc.inside(Point2(1, 1)))
+  ASSERT_TRUE(tc.inside(Point2(1, 0.5)))
+  ASSERT_TRUE(!tc.inside(Point2(1, 0)))
 }
 
 void BottomCliptest::test_clip()
 {
   dymaxion::BottomClip tc(0.5f);
 
-  auto p = tc.clip({0,0}, {1,1});
+  auto p = tc.clip(Point2{0,0}, Point2{1,1});
 
   ASSERT_EQUAL(p, decltype(p)(0.5, 0.5f))
 
-  auto p1 = tc.clip({0,1}, {1,0});
+  auto p1 = tc.clip(Point2{0,1}, Point2{1,0});
 
   ASSERT_EQUAL(p1, decltype(p)(0.5, 0.5f))
 
-  auto p2 = tc.clip({1,0}, {2,1});
+  auto p2 = tc.clip(Point2{1,0}, Point2{2,1});
 
   ASSERT_EQUAL(p2, decltype(p)(1.5, 0.5f))
 }
@@ -167,24 +172,24 @@ void LeftCliptest::test_inside()
 {
   dymaxion::LeftClip tc(0.5f);
 
-  ASSERT_TRUE(tc.inside(dymaxion::Point2(1, 1)))
-  ASSERT_TRUE(tc.inside(dymaxion::Point2(0.5, 1)))
-  ASSERT_TRUE(!tc.inside(dymaxion::Point2(0, 1)))
+  ASSERT_TRUE(tc.inside(Point2(1, 1)))
+  ASSERT_TRUE(tc.inside(Point2(0.5, 1)))
+  ASSERT_TRUE(!tc.inside(Point2(0, 1)))
 }
 
 void LeftCliptest::test_clip()
 {
   dymaxion::LeftClip tc(0.5f);
 
-  auto p = tc.clip({0,0}, {1,1});
+  auto p = tc.clip(Point2{0,0}, Point2{1,1});
 
   ASSERT_EQUAL(p, decltype(p)(0.5, 0.5f))
 
-  auto p1 = tc.clip({0,1}, {1,0});
+  auto p1 = tc.clip(Point2{0,1}, Point2{1,0});
 
   ASSERT_EQUAL(p1, decltype(p)(0.5, 0.5f))
 
-  auto p2 = tc.clip({1,0}, {2,1});
+  auto p2 = tc.clip(Point2{1,0}, Point2{2,1});
 
   ASSERT_EQUAL(p2, decltype(p)(0.5, -0.5f))
 }
@@ -228,24 +233,24 @@ void RightCliptest::test_inside()
 {
   dymaxion::RightClip tc(0.5f);
 
-  ASSERT_TRUE(!tc.inside(dymaxion::Point2(1, 1)))
-  ASSERT_TRUE(!tc.inside(dymaxion::Point2(0.5, 1)))
-  ASSERT_TRUE(tc.inside(dymaxion::Point2(0, 1)))
+  ASSERT_TRUE(!tc.inside(Point2(1, 1)))
+  ASSERT_TRUE(!tc.inside(Point2(0.5, 1)))
+  ASSERT_TRUE(tc.inside(Point2(0, 1)))
 }
 
 void RightCliptest::test_clip()
 {
   dymaxion::RightClip tc(0.5f);
 
-  auto p = tc.clip({0,0}, {1,1});
+  auto p = tc.clip(Point2{0,0}, Point2{1,1});
 
   ASSERT_EQUAL(p, decltype(p)(0.5, 0.5f))
 
-  auto p1 = tc.clip({0,1}, {1,0});
+  auto p1 = tc.clip(Point2{0,1}, Point2{1,0});
 
   ASSERT_EQUAL(p1, decltype(p)(0.5, 0.5f))
 
-  auto p2 = tc.clip({1,0}, {2,1});
+  auto p2 = tc.clip(Point2{1,0}, Point2{2,1});
 
   ASSERT_EQUAL(p2, decltype(p)(0.5, -0.5f))
 }
