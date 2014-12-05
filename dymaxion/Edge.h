@@ -26,6 +26,7 @@ typedef WFMath::Vector<2> Vector2;
 template <class Point = Point2>
 class Edge
 {
+    typedef typename traits::types<Point>::coord_type coord_type;
 public: 
     /// \brief Constructor
     ///
@@ -70,9 +71,9 @@ public:
     /// Calculate the x coordinate on the edge line where the y coordinate
     /// is the value specified.
     /// @param y the y coordinate where the calculation is required.
-    WFMath::CoordType xValueAtY(WFMath::CoordType y) const
+    coord_type xValueAtY(coord_type y) const
     {
-        WFMath::CoordType x =
+        coord_type x =
             traits::point_access<decltype(m_start), 0>::get(m_start) +
             ((y - traits::point_access<decltype(m_start), 1>::get(m_start)) *
              m_inverseGradient);
@@ -92,23 +93,25 @@ public:
 
     friend class ::Edgetest;
 private:
+
     /// The point describing the start of the edge.
     Point m_start;
     /// The vector describing the edge from its start.
     Vector2 m_seg;
     /// The inverse of the gradient of the line.
-    WFMath::CoordType m_inverseGradient;
+    coord_type m_inverseGradient;
 };
 
 /// \brief The edge of an area parallel to the x axis.
 template <class Point = Point2>
 class EdgeAtY
 {
+    typedef typename traits::types<Point>::coord_type coord_type;
 public:
     /// Constructor
     ///
     /// @param y coordinate on the y axis of the edge.
-    EdgeAtY(WFMath::CoordType y) : m_y(y) {}
+    EdgeAtY(coord_type y) : m_y(y) {}
     
     /// Determine which edge crosses this edge at a lower x coordinate.
     bool operator()(const Edge<Point>& u, const Edge<Point>& v) const
@@ -118,8 +121,9 @@ public:
 
     friend class ::EdgeAtYtest;
 private:
+
     /// The coordinate on the y axis of the edge.
-    typename traits::types<Point>::coord_type m_y;
+    coord_type m_y;
 };
 
 } // of namespace
