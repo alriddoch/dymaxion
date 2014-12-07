@@ -8,8 +8,6 @@
 #include <dymaxion/tuple_traits.h>
 #include <dymaxion/wfmath_traits.h>
 
-#include <cassert>
-
 using dymaxion::traits::point_access;
 
 std::ostream & operator<<(std::ostream & os,
@@ -77,14 +75,22 @@ void Edgetest::test_xValueAtY()
 {
   dymaxion::Edge<> a(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
 
+  ASSERT_EQUAL(a.xValueAtY(3), 2);
+  ASSERT_EQUAL(a.xValueAtY(4), 3);
   ASSERT_EQUAL(a.xValueAtY(5), 4);
+  ASSERT_EQUAL(a.xValueAtY(6), 5);
+  ASSERT_EQUAL(a.xValueAtY(3.5), 2.5);
 }
 
 void Edgetest::test_xValueAtY_oob()
 {
   dymaxion::Edge<> a(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
 
+  ASSERT_EQUAL(a.xValueAtY(1), 0);
+  ASSERT_EQUAL(a.xValueAtY(-1), -2);
   ASSERT_EQUAL(a.xValueAtY(10), 9);
+  ASSERT_EQUAL(a.xValueAtY(0.5), -0.5);
+  ASSERT_EQUAL(a.xValueAtY(10.5), 9.5);
 }
 
 void Edgetest::test_sort_order()
@@ -109,6 +115,7 @@ void Edgetest::test_sort_order_equal()
   dymaxion::Edge<> b(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
 
   ASSERT_NOT_LESS(a, b);
+  ASSERT_NOT_LESS(b, a);
 }
 
 class EdgeAtYtest : public Test::Suite
