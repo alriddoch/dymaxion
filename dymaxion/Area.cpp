@@ -86,12 +86,16 @@ void Area::setShader(const Shader * shader) const
     m_shader = shader;
 }
 
-bool Area::contains(CoordType x, CoordType y) const
+template <typename FloatType>
+bool Area::contains(FloatType x, FloatType y) const
 {
     if (!WFMath::Contains(m_box, Point2(x,y), false)) return false;
     
     return WFMath::Contains(m_shape, Point2(x,y), false);
 }
+
+template
+bool Area::contains<float>(float x, float y) const;
 
 int Area::addToSegment(Segment & s) const
 {

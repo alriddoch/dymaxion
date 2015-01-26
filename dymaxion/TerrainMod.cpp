@@ -6,6 +6,8 @@
 
 #include <dymaxion/Segment.h>
 
+#include <wfmath/polygon.h>
+
 namespace dymaxion {
 
 TerrainMod::TerrainMod() : m_function(set)

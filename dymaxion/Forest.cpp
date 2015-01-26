@@ -78,7 +78,7 @@ void Forest::populate()
 
     for(int j = ly; j < hy; ++j) {
         for(int i = lx; i < hx; ++i) {
-            if (!m_area->contains(i,j)) {
+            if (!m_area->contains<float>(i,j)) {
                 continue;
             }
             auto prob = m_randCache(i,j);

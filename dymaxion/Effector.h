@@ -6,7 +6,7 @@
 #define DYMAXION_EFFECTOR_H
 
 #include <wfmath/axisbox.h>
-#include <wfmath/polygon.h>
+#include <wfmath/point.h>
 
 #include <string>
 
