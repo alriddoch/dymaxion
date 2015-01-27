@@ -7,7 +7,8 @@
 
 #include <dymaxion/Effector.h>
 
-#include <wfmath/polygon.h>
+#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/ring.hpp>
 
 namespace dymaxion
 {
@@ -27,6 +28,12 @@ class Shader;
 class Area : public Effector
 {
 public:
+    friend class Areatest;
+
+    typedef boost::geometry::model::d2::point_xy<
+        float, boost::geometry::cs::cartesian> point;
+    typedef boost::geometry::model::ring<point> ring;
+
     /// \brief Constructor
     ///
     /// @param layer layer number.
@@ -40,9 +47,9 @@ public:
     void setLayer(int layer, bool hole);
 
     /// Set the geometric shape of this area.
-    void setShape(const WFMath::Polygon<2>& p);
+    void setShape(ring const & p);
 
-    void setShader(const Shader * shader) const;
+    void setShader(Shader const * shader) const;
 
     /// Determine if a point is contained by the shape of this area.
     template <typename FloatType>
@@ -61,7 +68,7 @@ public:
     }
     
     /// Accessor for the geometric shape.
-    const WFMath::Polygon<2> & shape() const
+    const ring & shape() const
     {
         return m_shape;
     }
@@ -78,7 +85,7 @@ public:
     /**
     Test if a segment intersects this area
     */
-    bool checkIntersects(const Segment& s) const;
+    bool checkIntersects(Segment const & s) const;
 
     /// \brief Clip the shape of this area to a given segment.
     ///
@@ -87,15 +94,14 @@ public:
     /// a geometric shape.
     /// @param s the segment that the shape should be clipped to.
     /// @returns the shape of the intersection of this area with the segment.
-    WFMath::Polygon<2> clipToSegment(const Segment& s) const;
+    ring clipToSegment(Segment const & s) const;
 private:
-
     /// The layer number.
     int m_layer;
     /// A flag indicating whether this is a hole.
     bool m_hole;
     /// The geometric shape.
-    WFMath::Polygon<2> m_shape;
+    ring m_shape;
     /// Shader that shades this area
     mutable const Shader * m_shader = 0;
 };

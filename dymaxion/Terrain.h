@@ -11,6 +11,9 @@
 #include <wfmath/axisbox.h>
 #include <wfmath/point.h>
 
+#include <boost/geometry/geometries/box.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+
 #include <map>
 #include <set>
 #include <list>
@@ -37,6 +40,10 @@ class Terrain {
     /// \brief Bounding box
     typedef WFMath::AxisBox<2> Rect;
 
+    typedef boost::geometry::model::d2::point_xy<
+        float, boost::geometry::cs::cartesian> point;
+    typedef boost::geometry::model::box<point> box;
+
     /// \brief STL map to store sparse array of BasePoints.
     typedef std::map<int, BasePoint> Pointcolumn;
     /// \brief STL map to store sparse array of Segment pointers.
@@ -51,7 +58,7 @@ class Terrain {
     typedef std::map<int, const Shader *> Shaderstore;
 
     /// \brief STL map to store terrain effectors.
-    typedef std::map<const Effector *, Rect> Effectorstore;
+    typedef std::map<const Effector *, box> Effectorstore;
 
     /// \brief value provided for no flags set.
     static const unsigned int DEFAULT = 0x0000;
@@ -80,7 +87,7 @@ class Terrain {
     void addSurfaces(Segment &);
     void shadeSurfaces(Segment &);
 
-    void addEffector(const Effector * effector);
+    void addEffector(Effector const * effector);
 
     /// \brief Updates the terrain affected by an Effector.
     ///
@@ -88,8 +95,8 @@ class Terrain {
     ///
     /// @param effector The terrain effector which has changed.
     /// @return The area affected by the terrain effector before it was updated.
-    Rect updateEffector(const Effector * effector);
-    void removeEffector(const Effector * effector);
+    box updateEffector(Effector const * effector);
+    void removeEffector(Effector const * effector);
     
     /// \brief Determine whether this terrain object has shading enabled.
     ///
@@ -155,10 +162,10 @@ class Terrain {
     }
 
     /// \brief Add a new Shader to the list for this terrain.
-    void addShader(const Shader * t, int id);
-    void removeShader(const Shader * t, int id);
+    void addShader(Shader const * t, int id);
+    void removeShader(Shader const * t, int id);
     
-    void addMod(const TerrainMod * mod);
+    void addMod(TerrainMod const * mod);
 
     /// \brief Updates the terrain affected by a mod.
     ///
@@ -166,10 +173,10 @@ class Terrain {
     ///
     /// @param mod The terrain mod which has changed.
     /// @return The area affected by the terrain mod before it was updated.
-    Rect updateMod(const TerrainMod * mod);
-    void removeMod(const TerrainMod * mod);
+    box updateMod(TerrainMod const * mod);
+    void removeMod(TerrainMod const * mod);
     
-    void addArea(const Area* a);
+    void addArea(Area const * a);
 
     /// \brief Updates the terrain affected by an area.
     ///
@@ -177,8 +184,8 @@ class Terrain {
     ///
     /// @param a The terrain area which has changed.
     /// @return The area affected by the terrain area before it was updated.
-    Rect updateArea(const Area* a);
-    void removeArea(const Area* a);
+    box updateArea(Area const * a);
+    void removeArea(Area const * a);
 };
 
 } // namespace dymaxion

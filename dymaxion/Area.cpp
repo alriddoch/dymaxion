@@ -11,62 +11,19 @@
 #include <dymaxion/Segment.h>
 #include <dymaxion/wfmath_traits.h>
 
-#include <wfmath/intersect.h>
+#include <boost/geometry/algorithms/intersection.hpp>
+#include <boost/geometry/algorithms/intersects.hpp>
+#include <boost/geometry/algorithms/within.hpp>
+#include <boost/geometry/geometries/box.hpp>
+#include <boost/geometry/strategies/strategies.hpp>
+
 #include <iostream>
 #include <cmath>
 
 #include <cassert>
 
-using WFMath::CoordType;
-
 namespace dymaxion
 {
-
-typedef WFMath::Point<2> Point2;
-typedef WFMath::Vector<2> Vector2;
-
-// FIXME Why pass Clip by value?
-template <class Clip>
-WFMath::Polygon<2> sutherlandHodgmanKernel(const WFMath::Polygon<2>& inpoly, Clip clipper)
-{
-    WFMath::Polygon<2> outpoly;
-    
-    if (!inpoly.isValid()) return inpoly;
-    auto points = inpoly.numCorners();
-    if (points < 3) return outpoly; // i.e an invalid result
-    
-    auto lastPt = inpoly.getCorner(points - 1);
-    bool lastInside = clipper.inside(lastPt);
-    
-    for (std::size_t p = 0; p < points; ++p) {
-    
-        auto curPt = inpoly.getCorner(p);
-        bool inside = clipper.inside(curPt);
-        
-        if (lastInside) {
-            if (inside) {
-                // emit curPt
-                outpoly.addCorner(outpoly.numCorners(), curPt);
-            } else {
-                // emit intersection of edge with clip line
-                outpoly.addCorner(outpoly.numCorners(), clipper.clip(lastPt, curPt));
-            }
-        } else {
-            if (inside) {
-                // emit both
-                outpoly.addCorner(outpoly.numCorners(), clipper.clip(lastPt, curPt));
-                outpoly.addCorner(outpoly.numCorners(), curPt);
-            } else {
-                // don't emit anything
-            }
-        } // last was outside
-        
-        lastPt = curPt;
-        lastInside = inside;
-    }
-    
-    return outpoly;
-}
 
 Area::Area(int layer, bool hole) :
     m_layer(layer),
@@ -74,11 +31,11 @@ Area::Area(int layer, bool hole) :
 {
 }
 
-void Area::setShape(const WFMath::Polygon<2>& p)
+void Area::setShape(const ring & p)
 {
-    assert(p.isValid());
+    assert(!p.empty());
     m_shape = p;
-    m_box = p.boundingBox();
+    boost::geometry::envelope(m_shape, m_box);
 }
 
 void Area::setShader(const Shader * shader) const
@@ -89,9 +46,9 @@ void Area::setShader(const Shader * shader) const
 template <typename FloatType>
 bool Area::contains(FloatType x, FloatType y) const
 {
-    if (!WFMath::Contains(m_box, Point2(x,y), false)) return false;
+    if (!boost::geometry::within(point(x,y), m_box)) return false;
     
-    return WFMath::Contains(m_shape, Point2(x,y), false);
+    return boost::geometry::within(point(x,y), m_shape);
 }
 
 template
@@ -123,25 +80,37 @@ void Area::removeFromSegment(Segment & s) const
     }
 }
 
-WFMath::Polygon<2> Area::clipToSegment(const Segment& s) const
+Area::ring Area::clipToSegment(const Segment& s) const
 {
-    // box reject
-    if (!checkIntersects(s)) return WFMath::Polygon<2>();
-    
-    auto segBox = s.getRect();
-    auto clipped = sutherlandHodgmanKernel(m_shape, BottomClip(segBox.lowCorner().y()));
-    
-    clipped = sutherlandHodgmanKernel(clipped, TopClip(segBox.highCorner().y()));
-    clipped = sutherlandHodgmanKernel(clipped, LeftClip(segBox.lowCorner().x()));
-    clipped = sutherlandHodgmanKernel(clipped, RightClip(segBox.highCorner().x()));
-    
-    return clipped;
+  // box reject
+  if (!checkIntersects(s)) return Area::ring();
+  
+  // FIXME: This can go once s.getRect() returns a boost box
+  auto segBox = s.getRect();
+  boost::geometry::model::box<point> seg_box(
+      point(segBox.lowCorner().x(), segBox.lowCorner().y()),
+      point(segBox.highCorner().x(), segBox.highCorner().y())
+  );
+
+  std::vector<ring> clipped;
+  boost::geometry::intersection(m_shape, seg_box, clipped);
+
+  assert(clipped.size() > 0);
+  return clipped[0];
 }
 
-bool Area::checkIntersects(const Segment& s) const
+bool Area::checkIntersects(Segment const & s) const
 {
-    return WFMath::Intersect(m_shape, s.getRect(), false) ||
-        WFMath::Contains(s.getRect(), m_shape.getCorner(0), false);
+  // FIXME: This can go once s.getRect() returns a boost box
+  auto segBox = s.getRect();
+  boost::geometry::model::box<point> seg_box(
+      point(segBox.lowCorner().x(), segBox.lowCorner().y()),
+      point(segBox.highCorner().x(), segBox.highCorner().y())
+  );
+
+  Area::point const & c = m_shape[0];
+  return boost::geometry::intersects(m_shape, seg_box) ||
+      boost::geometry::within(c, seg_box);
 }
 
 } // of namespace

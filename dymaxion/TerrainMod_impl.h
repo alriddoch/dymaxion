@@ -9,12 +9,14 @@
 
 #include <dymaxion/Segment.h>
 
+#include <boost/geometry/algorithms/envelope.hpp>
+
 namespace dymaxion {
 
 template <template <int> class Shape>
 ShapeTerrainMod<Shape>::ShapeTerrainMod(const Shape<2> &s) : m_shape(s)
 {
-    m_box = m_shape.boundingBox();
+    boost::geometry::envelope(m_shape, m_box);
 }
 
 
@@ -33,7 +35,7 @@ template <template <int> class Shape>
 void ShapeTerrainMod<Shape>::setShape(const Shape<2> & s)
 {
     m_shape = s;
-    m_box = m_shape.boundingBox();
+    boost::geometry::envelope(m_shape, m_box);
 }
 
 template <template <int> class Shape> LevelTerrainMod<Shape>::~LevelTerrainMod()

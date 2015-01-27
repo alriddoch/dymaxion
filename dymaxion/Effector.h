@@ -5,8 +5,8 @@
 #ifndef DYMAXION_EFFECTOR_H
 #define DYMAXION_EFFECTOR_H
 
-#include <wfmath/axisbox.h>
-#include <wfmath/point.h>
+#include <boost/geometry/geometries/box.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
 
 #include <string>
 
@@ -25,6 +25,11 @@ class Shader;
 class Effector
 {
   public:
+
+    typedef boost::geometry::model::d2::point_xy<
+        float, boost::geometry::cs::cartesian> point;
+    typedef boost::geometry::model::box<point> box;
+
     class Context {
       public:
         Context();
@@ -43,7 +48,7 @@ class Effector
     void setContext(Context *);
 
     /// Accessor for the bounding box of the geometric shape.
-    const WFMath::AxisBox<2> & bbox() const
+    box const & bbox() const
     {
         return m_box;
     }
@@ -67,7 +72,7 @@ class Effector
     Effector & operator=(const Effector &);
 
     /// The bounding box of the geometric shape.
-    WFMath::AxisBox<2> m_box;
+    box m_box;
     
     /// The application context of this effector
     Context * m_context = 0;

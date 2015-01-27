@@ -325,10 +325,10 @@ void Terrain::addEffector(const Effector * eff)
 
     m_effectors.insert(Effectorstore::value_type(eff, eff->bbox()));
 
-    int lx=std::lrint(std::floor((eff->bbox().lowCorner()[0] - 1.f) / m_spacing));
-    int ly=std::lrint(std::floor((eff->bbox().lowCorner()[1] - 1.f) / m_spacing));
-    int hx=std::lrint(std::ceil((eff->bbox().highCorner()[0] + 1.f) / m_spacing));
-    int hy=std::lrint(std::ceil((eff->bbox().highCorner()[1] + 1.f) / m_spacing));
+    int lx=std::lrint(std::floor((eff->bbox().min_corner().get<0>() - 1.f) / m_spacing));
+    int ly=std::lrint(std::floor((eff->bbox().min_corner().get<1>() - 1.f) / m_spacing));
+    int hx=std::lrint(std::ceil((eff->bbox().max_corner().get<0>() + 1.f) / m_spacing));
+    int hy=std::lrint(std::ceil((eff->bbox().max_corner().get<1>() + 1.f) / m_spacing));
 
     for (int i=lx;i<hx;++i) {
         for (int j=ly;j<hy;++j) {
@@ -340,23 +340,23 @@ void Terrain::addEffector(const Effector * eff)
     } // of x loop
 }
 
-Terrain::Rect Terrain::updateEffector(const Effector * eff)
+Terrain::box Terrain::updateEffector(const Effector * eff)
 {
     Effectorstore::iterator I = m_effectors.find(eff);
 
     if (I == m_effectors.end()) {
-        return Rect();
+        return box();
     }
 
-    const Rect old_box = I->second;
+    box const old_box = I->second;
 
 
     std::set<Segment*> removed, added, updated;
 
-    int lx=std::lrint(std::floor((old_box.lowCorner()[0] - 1.f) / m_spacing));
-    int ly=std::lrint(std::floor((old_box.lowCorner()[1] - 1.f) / m_spacing));
-    int hx=std::lrint(std::ceil((old_box.highCorner()[0] + 1.f) / m_spacing));
-    int hy=std::lrint(std::ceil((old_box.highCorner()[1] + 1.f) / m_spacing));
+    int lx=std::lrint(std::floor((old_box.min_corner().get<0>() - 1.f) / m_spacing));
+    int ly=std::lrint(std::floor((old_box.min_corner().get<1>() - 1.f) / m_spacing));
+    int hx=std::lrint(std::ceil((old_box.max_corner().get<0>() + 1.f) / m_spacing));
+    int hy=std::lrint(std::ceil((old_box.max_corner().get<1>() + 1.f) / m_spacing));
 
     for (int i=lx;i<hx;++i) {
         for (int j=ly;j<hy;++j) {
@@ -370,10 +370,10 @@ Terrain::Rect Terrain::updateEffector(const Effector * eff)
         } // of y loop
     } // of x loop
 
-    lx=std::lrint(std::floor((eff->bbox().lowCorner()[0] - 1.f) / m_spacing));
-    ly=std::lrint(std::floor((eff->bbox().lowCorner()[1] - 1.f) / m_spacing));
-    hx=std::lrint(std::ceil((eff->bbox().highCorner()[0] + 1.f) / m_spacing));
-    hy=std::lrint(std::ceil((eff->bbox().highCorner()[1] + 1.f) / m_spacing));
+    lx=std::lrint(std::floor((eff->bbox().min_corner().get<0>() - 1.f) / m_spacing));
+    ly=std::lrint(std::floor((eff->bbox().min_corner().get<1>() - 1.f) / m_spacing));
+    hx=std::lrint(std::ceil((eff->bbox().max_corner().get<0>() + 1.f) / m_spacing));
+    hy=std::lrint(std::ceil((eff->bbox().max_corner().get<1>() + 1.f) / m_spacing));
 
     for (int i=lx;i<hx;++i) {
         for (int j=ly;j<hy;++j) {
@@ -419,12 +419,12 @@ void Terrain::removeEffector(const Effector * eff)
 {
     m_effectors.erase(eff);
 
-    const Rect & eff_box = eff->bbox();
+    const box & eff_box = eff->bbox();
 
-    int lx=std::lrint(std::floor((eff_box.lowCorner()[0] - 1.f) / m_spacing));
-    int ly=std::lrint(std::floor((eff_box.lowCorner()[1] - 1.f) / m_spacing));
-    int hx=std::lrint(std::ceil((eff_box.highCorner()[0] + 1.f) / m_spacing));
-    int hy=std::lrint(std::ceil((eff_box.highCorner()[1] + 1.f) / m_spacing));
+    int lx=std::lrint(std::floor((eff_box.min_corner().get<0>() - 1.f) / m_spacing));
+    int ly=std::lrint(std::floor((eff_box.min_corner().get<1>() - 1.f) / m_spacing));
+    int hx=std::lrint(std::ceil((eff_box.max_corner().get<0>() + 1.f) / m_spacing));
+    int hy=std::lrint(std::ceil((eff_box.max_corner().get<1>() + 1.f) / m_spacing));
 
     for (int i=lx;i<hx;++i) {
         for (int j=ly;j<hy;++j) {
@@ -448,7 +448,7 @@ void Terrain::addMod(const TerrainMod * mod)
     addEffector(mod);
 }
 
-Terrain::Rect Terrain::updateMod(const TerrainMod * mod)
+Terrain::box Terrain::updateMod(const TerrainMod * mod)
 {
     return updateEffector(mod);
 }
@@ -475,7 +475,7 @@ void Terrain::addArea(const Area * area)
 }
 
 /// \brief Apply changes to an area modifier to the terrain.
-Terrain::Rect Terrain::updateArea(const Area * area)
+Terrain::box Terrain::updateArea(const Area * area)
 {
     return updateEffector(area);
 }

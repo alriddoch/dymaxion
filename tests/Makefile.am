@@ -1,10 +1,10 @@
 TESTS = mercatortest Terraintest Shadertest TerrainModtest Intersecttest \
-        testPhys timeSeg Planttest Foresttest testQRNG Areatest \
+        testPhys timeSeg Planttest Foresttest testQRNG Areatest Areatest1 \
         TileShadertest ShaderFactorytest testWFMath Buffertest \
         Segmenttest AreaShadertest BasePointtest DepthShadertest \
         FillShadertest GrassShadertest ThresholdShadertest Matrixtest \
         TerrainaddAreatest Segmentperf traitstest Edgetest Interptest \
-        Cliptest
+        Cliptest Effectortest
 
 AM_CPPFLAGS = -I$(top_srcdir)
 
@@ -50,6 +50,9 @@ Foresttest_SOURCES = Foresttest.cpp
 testQRNG_SOURCES = testQRNG.cpp
 
 Areatest_SOURCES = Areatest.cpp
+
+Areatest1_SOURCES = Areatest1.cpp
+Areatest1_LDADD = $(top_builddir)/dymaxion/Area.lo
 
 TileShadertest_SOURCES = TileShadertest.cpp
 
@@ -97,3 +100,6 @@ Interptest_LDADD =
 
 Cliptest_SOURCES = Cliptest.cpp
 Cliptest_LDADD =
+
+Effectortest_SOURCES = Effectortest.cpp
+Effectortest_LDADD = $(top_builddir)/dymaxion/Effector.lo
