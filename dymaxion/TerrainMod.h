@@ -7,9 +7,6 @@
 
 #include <dymaxion/Effector.h>
 
-#include <wfmath/intersect.h>
-#include <wfmath/ball.h>
-
 namespace dymaxion {
 
 class Segment;
@@ -52,29 +49,31 @@ public:
 ///
 /// This template extends TerrainMod by adding the ability to query the
 /// bounding box of the shape that defines this modification to the terrain.
-template <template <int> class Shape>
+template <class Shape>
 class ShapeTerrainMod : public TerrainMod
 {
 public:
     /// \brief Constructor
     ///
     /// @param s shape of the modifier.
-    ShapeTerrainMod(const Shape<2> &s);
+    ShapeTerrainMod(const Shape &s);
     virtual ~ShapeTerrainMod(); // {}
 
     virtual bool checkIntersects(const Segment& s) const;
 
-    void setShape(const Shape<2> & s);
+    void setShape(const Shape & s);
 protected:
     /// \brief Shape of the modifier.
-    Shape<2> m_shape;
+    Shape m_shape;
+
+    typedef typename boost::range_value<Shape>::type point_type;
 };
 
 
 /// \brief Terrain modifier that defines an area of fixed height.
 ///
 /// This modifier sets all points inside the shape to the same altitude
-template <template <int> class Shape>
+template <class Shape>
 class LevelTerrainMod : public ShapeTerrainMod<Shape>
 {
 public:
@@ -82,14 +81,14 @@ public:
     ///
     /// @param level The height level of all points affected.
     /// @param s shape of the modifier.
-    LevelTerrainMod(float level, const Shape<2> &s)
+    LevelTerrainMod(float level, const Shape &s)
         : ShapeTerrainMod<Shape>(s), m_level(level) {}
 
     virtual ~LevelTerrainMod();
 
     virtual void apply(float &point, int x, int y) const;
 
-    void setShape(float level, const Shape<2> & s);
+    void setShape(float level, const Shape & s);
 private:
     /// \brief Copy constructor.
     LevelTerrainMod(LevelTerrainMod&); // {}
@@ -97,13 +96,15 @@ private:
 protected:
     /// \brief The height level of all points affected.
     float m_level;
+
+    typedef typename ShapeTerrainMod<Shape>::point_type point_type;
 };
 
 /// \brief Terrain modifier that defines an area of adjusted height.
 ///
 /// This modifier changes the altitude of all points inside the shape
 /// by the same amount.
-template <template <int> class Shape>
+template <class Shape>
 class AdjustTerrainMod : public ShapeTerrainMod<Shape>
 {
 public:
@@ -112,14 +113,14 @@ public:
     ///
     /// @param dist adjustment to the height of all points affected.
     /// @param s shape of the modifier.
-    AdjustTerrainMod(float dist, const Shape<2> &s)
+    AdjustTerrainMod(float dist, const Shape &s)
         : ShapeTerrainMod<Shape>(s), m_dist(dist) {}
 
     virtual ~AdjustTerrainMod();
 
     virtual void apply(float &point, int x, int y) const;
 
-    void setShape(float dist, const Shape<2> & s);
+    void setShape(float dist, const Shape & s);
 private:
     /// \brief Copy constructor.
     AdjustTerrainMod(AdjustTerrainMod&); // {}
@@ -127,13 +128,15 @@ private:
 protected:
     /// \brief Adjustment to the height of all points affected.
     float m_dist;
+
+    typedef typename ShapeTerrainMod<Shape>::point_type point_type;
 };
 
 /// \brief Terrain modifier that defines an area of sloped height.
 ///
 /// This modifier creates a sloped area. The center point is set to a level
 /// and all other points are set based on specified gradients.
-template <template <int> class Shape>
+template <class Shape>
 class SlopeTerrainMod : public ShapeTerrainMod<Shape>
 {
 public:
@@ -144,14 +147,14 @@ public:
     /// @param dx the rate of change of the height along X.
     /// @param dy the rate of change of the height along Y.
     /// @param s shape of the modifier.
-    SlopeTerrainMod(float level, float dx, float dy, const Shape<2> &s)
+    SlopeTerrainMod(float level, float dx, float dy, const Shape &s)
         : ShapeTerrainMod<Shape>(s), m_level(level), m_dx(dx), m_dy(dy) {}
 
     virtual ~SlopeTerrainMod();
 
     virtual void apply(float &point, int x, int y) const;
 
-    void setShape(float level, float dx, float dy, const Shape<2> & s);
+    void setShape(float level, float dx, float dy, const Shape & s);
 private:
     /// \brief Copy constructor.
     SlopeTerrainMod(SlopeTerrainMod&); // {}
@@ -163,27 +166,29 @@ protected:
     float m_dx;
     /// \brief The rate of change of the height along Y.
     float m_dy;
+
+    typedef typename ShapeTerrainMod<Shape>::point_type point_type;
 };
 
 /// \brief Terrain modifier that defines a crater.
 ///
 /// This modifier creates an area where a sphere shaped volume has been
 /// subtracted from the terrain surface to create a spherical crater.
-template <template <int> class Shape>
+template <class Shape>
 class CraterTerrainMod : public ShapeTerrainMod<Shape>
 {
 public:
     /// \brief Constructor
     ///
     /// @param s Sphere that defines the shape of the crater.
-    CraterTerrainMod(float level, const Shape<2> &s)
+    CraterTerrainMod(float level, const Shape &s)
         : ShapeTerrainMod<Shape>(s), m_level(level) {}
 
     virtual ~CraterTerrainMod();
 
     virtual void apply(float &point, int x, int y) const;
 
-    void setShape(float level, const Shape<2> & s);
+    void setShape(float level, const Shape & s);
 private:
     /// \brief Copy constructor.
     CraterTerrainMod(CraterTerrainMod&); // {}
@@ -191,6 +196,8 @@ private:
 protected:
     /// \brief The height level of the crater center
     float m_level;
+
+    typedef typename ShapeTerrainMod<Shape>::point_type point_type;
 };
 
 } //namespace dymaxion

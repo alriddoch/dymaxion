@@ -9,89 +9,110 @@
 
 #include <dymaxion/Segment.h>
 
+#include <wfmath/point.h>
+
+#include <boost/geometry/algorithms/centroid.hpp>
 #include <boost/geometry/algorithms/envelope.hpp>
+#include <boost/geometry/algorithms/intersects.hpp>
+#include <boost/geometry/algorithms/within.hpp>
+#include <boost/geometry/strategies/strategies.hpp>
 
 namespace dymaxion {
 
-template <template <int> class Shape>
-ShapeTerrainMod<Shape>::ShapeTerrainMod(const Shape<2> &s) : m_shape(s)
+template <class Shape>
+ShapeTerrainMod<Shape>::ShapeTerrainMod(const Shape &s) : m_shape(s)
 {
     boost::geometry::envelope(m_shape, m_box);
 }
 
 
-template <template <int> class Shape> ShapeTerrainMod<Shape>::~ShapeTerrainMod()
+template <class Shape> ShapeTerrainMod<Shape>::~ShapeTerrainMod()
 {
 }
 
-template <template <int> class Shape>
+template <class Shape>
 bool ShapeTerrainMod<Shape>::checkIntersects(const Segment& s) const
 {
-    return WFMath::Intersect(m_shape, s.getRect(), false) ||
-        WFMath::Contains(s.getRect(), m_shape.getCorner(0), false);
+  // FIXME: This can go once s.getRect() returns a boost box
+  auto segBox = s.getRect();
+  boost::geometry::model::box<point_type> seg_box(
+      point_type(segBox.lowCorner().x(), segBox.lowCorner().y()),
+      point_type(segBox.highCorner().x(), segBox.highCorner().y())
+  );
+
+  point_type const & c = m_shape[0];
+  return boost::geometry::intersects(m_shape, seg_box) ||
+      boost::geometry::within(c, seg_box);
 }
     
-template <template <int> class Shape>
-void ShapeTerrainMod<Shape>::setShape(const Shape<2> & s)
+template <class Shape>
+void ShapeTerrainMod<Shape>::setShape(const Shape & s)
 {
-    m_shape = s;
-    boost::geometry::envelope(m_shape, m_box);
+  m_shape = s;
+  boost::geometry::envelope(m_shape, m_box);
 }
 
-template <template <int> class Shape> LevelTerrainMod<Shape>::~LevelTerrainMod()
+template <class Shape> LevelTerrainMod<Shape>::~LevelTerrainMod()
 {
 }
     
-template <template <int> class Shape>
+template <class Shape>
 void LevelTerrainMod<Shape>::apply(float &point, int x, int y) const
 {
-    if (Contains(this->m_shape,WFMath::Point<2>(x,y),true)) {
-        point = this->m_function(point, m_level);
-    }
+  if (boost::geometry::within(point_type(x, y), this->m_shape)) {
+    point = this->m_function(point, m_level);
+  }
 }
 
-template <template <int> class Shape>
-void LevelTerrainMod<Shape>::setShape(float level, const Shape<2> & s)
+template <class Shape>
+void LevelTerrainMod<Shape>::setShape(float level, const Shape & s)
 {
     ShapeTerrainMod<Shape>::setShape(s);
     m_level = level;
 }
 
-template <template <int> class Shape> AdjustTerrainMod<Shape>::~AdjustTerrainMod()
+template <class Shape> AdjustTerrainMod<Shape>::~AdjustTerrainMod()
 {
 }
     
-template <template <int> class Shape>
+template <class Shape>
 void AdjustTerrainMod<Shape>::apply(float &point, int x, int y) const
 {
-    if (Contains(this->m_shape,WFMath::Point<2>(x,y),true)) {
-        point += m_dist;
-    }
+  if (boost::geometry::within(point_type(x, y), this->m_shape)) {
+    point += m_dist;
+  }
 }
     
-template <template <int> class Shape>
-void AdjustTerrainMod<Shape>::setShape(float dist, const Shape<2> & s)
+template <class Shape>
+void AdjustTerrainMod<Shape>::setShape(float dist, const Shape & s)
 {
     ShapeTerrainMod<Shape>::setShape(s);
     m_dist = dist;
 }
 
-template <template <int> class Shape> SlopeTerrainMod<Shape>::~SlopeTerrainMod()
+template <class Shape> SlopeTerrainMod<Shape>::~SlopeTerrainMod()
 {
 }
     
-template <template <int> class Shape>
+template <class Shape>
 void SlopeTerrainMod<Shape>::apply(float &point, int x, int y) const
 {
-    if (Contains(this->m_shape,WFMath::Point<2>(x,y),true)) {
-        float level = m_level + (this->m_shape.getCenter()[0] - x) * m_dx 
-                              + (this->m_shape.getCenter()[1] - y) * m_dy;
+    if (boost::geometry::within(point_type(x, y), this->m_shape)) {
+        // FIXME The centroid is possibly non-trivial to compute
+        // so should be computed when the shape is set.
+        // FIXME Why does g++ think that centroid may be used uninitialised?
+        point_type centroid;
+        boost::geometry::centroid(this->m_shape, centroid);
+        float level = m_level + (centroid.x() - x) * m_dx 
+                              + (centroid.y() - y) * m_dy;
         point = this->m_function(point, level);
     }
 }
     
-template <template <int> class Shape>
-void SlopeTerrainMod<Shape>::setShape(float level, float dx, float dy, const Shape<2> & s)
+template <class Shape>
+void SlopeTerrainMod<Shape>::setShape(float level,
+                                      float dx, float dy,
+                                      const Shape & s)
 {
     ShapeTerrainMod<Shape>::setShape(s);
     m_level = level;
@@ -100,20 +121,20 @@ void SlopeTerrainMod<Shape>::setShape(float level, float dx, float dy, const Sha
 }
 
 
-template <template <int> class Shape> CraterTerrainMod<Shape>::~CraterTerrainMod()
+template <class Shape> CraterTerrainMod<Shape>::~CraterTerrainMod()
 {
 }
     
-template <template <int> class Shape>
+template <class Shape>
 void CraterTerrainMod<Shape>::apply(float &point, int x, int y) const
 {
-    if (Contains(this->m_shape,WFMath::Point<2>(x,y),true)) {
+    if (boost::geometry::within(point_type(x, y), this->m_shape)) {
         point += m_level;
     }
 }
     
-template <template <int> class Shape>
-void CraterTerrainMod<Shape>::setShape(float level, const Shape<2> & s)
+template <class Shape>
+void CraterTerrainMod<Shape>::setShape(float level, const Shape & s)
 {
     ShapeTerrainMod<Shape>::setShape(s);
     m_level = level;
