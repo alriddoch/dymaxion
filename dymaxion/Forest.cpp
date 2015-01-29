@@ -68,10 +68,10 @@ void Forest::populate()
     m_plants.clear();
     WFMath::MTRand rng;
 
-    int lx = std::lrint(bbox.lowCorner().x()),
-        ly = std::lrint(bbox.lowCorner().y()),
-        hx = std::lrint(bbox.highCorner().x()),
-        hy = std::lrint(bbox.highCorner().y());
+    int lx = std::lrint(bbox.min_corner().x()),
+        ly = std::lrint(bbox.min_corner().y()),
+        hx = std::lrint(bbox.max_corner().x()),
+        hy = std::lrint(bbox.max_corner().y());
 
     PlantSpecies::const_iterator I;
     PlantSpecies::const_iterator Iend = m_species.end();

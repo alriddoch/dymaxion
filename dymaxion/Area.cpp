@@ -9,7 +9,6 @@
 #include <dymaxion/Area.h>
 #include <dymaxion/Clip.h>
 #include <dymaxion/Segment.h>
-#include <dymaxion/wfmath_traits.h>
 
 #include <boost/geometry/algorithms/intersection.hpp>
 #include <boost/geometry/algorithms/intersects.hpp>
@@ -85,12 +84,7 @@ Area::ring Area::clipToSegment(const Segment& s) const
   // box reject
   if (!checkIntersects(s)) return Area::ring();
   
-  // FIXME: This can go once s.getRect() returns a boost box
-  auto segBox = s.getRect();
-  boost::geometry::model::box<point> seg_box(
-      point(segBox.lowCorner().x(), segBox.lowCorner().y()),
-      point(segBox.highCorner().x(), segBox.highCorner().y())
-  );
+  boost::geometry::model::box<point> seg_box = s.getRect();
 
   std::vector<ring> clipped;
   boost::geometry::intersection(m_shape, seg_box, clipped);
@@ -101,12 +95,7 @@ Area::ring Area::clipToSegment(const Segment& s) const
 
 bool Area::checkIntersects(Segment const & s) const
 {
-  // FIXME: This can go once s.getRect() returns a boost box
-  auto segBox = s.getRect();
-  boost::geometry::model::box<point> seg_box(
-      point(segBox.lowCorner().x(), segBox.lowCorner().y()),
-      point(segBox.highCorner().x(), segBox.highCorner().y())
-  );
+  boost::geometry::model::box<point> seg_box = s.getRect();
 
   Area::point const & c = m_shape[0];
   return boost::geometry::intersects(m_shape, seg_box) ||

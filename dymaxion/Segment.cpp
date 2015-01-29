@@ -13,6 +13,10 @@
 
 #include <wfmath/MersenneTwister.h>
 
+#include <boost/geometry.hpp>
+#include <boost/geometry/algorithms/transform.hpp>
+#include <boost/geometry/strategies/strategies.hpp>
+
 #include <cmath>
 #include <cassert>
 
@@ -53,18 +57,17 @@ Segment::~Segment()
     if (m_normals != 0) {
         delete [] m_normals;
     }
-    
+
     Segment::Surfacestore::const_iterator I = m_surfaces.begin();
     Segment::Surfacestore::const_iterator Iend = m_surfaces.end();
     for(; I != Iend; ++I) {
         delete I->second;
     }
-    
 }
 
 /// \brief Populate the Segment with heightfield data.
 ///
-/// Storage for the heightfield data is allocated if necessary, the 
+/// Storage for the heightfield data is allocated if necessary, the
 /// qRMD algorithm is used to calculate the heightfield data, and
 /// required modifications are applied.
 void Segment::populate() // const Matrix<2, 2, BasePoint> & base)
@@ -72,7 +75,7 @@ void Segment::populate() // const Matrix<2, 2, BasePoint> & base)
     if (m_points == 0) {
         m_points = new float[m_size * m_size];
     }
-    fill2d(m_controlPoints(0, 0), m_controlPoints(1, 0), 
+    fill2d(m_controlPoints(0, 0), m_controlPoints(1, 0),
            m_controlPoints(1, 1), m_controlPoints(0, 1));
 
     ModList::iterator I = m_modList.begin();
@@ -131,7 +134,7 @@ void Segment::populateNormals()
     }
 
     float * np = m_normals;
-    
+
     // Fill in the damn normals
     float h1,h2,h3,h4;
     for (decltype(getResolution()) j = 1; j < m_res; ++j) {
@@ -140,7 +143,7 @@ void Segment::populateNormals()
            h2 = get(i, j + 1);
            h3 = get(i + 1, j);
            h4 = get(i, j - 1);
-           
+
            // Caclulate the normal vector.
            np[j * m_size * 3 + i * 3]     = (h1 - h3) / 2.f;
            np[j * m_size * 3 + i * 3 + 1] = (h4 - h2) / 2.f;
@@ -149,33 +152,33 @@ void Segment::populateNormals()
     }
 
     //edges have one axis pegged to 0
-    
+
     //top and bottom boundary
     for (decltype(getResolution()) i=1; i < m_res; ++i) {
         h1 = get(i - 1, 0);
         h2 = get(i + 1, 0);
-        
+
         np[i * 3]     = (h1 - h2) / 2.f;
         np[i * 3 + 1] = 0.0;
         np[i * 3 + 2] = 1.0;
- 
+
         h1 = get(i - 1, m_res);
         h2 = get(i + 1, m_res);
-        
+
         np[m_res * m_size * 3 + i * 3]     = (h1 - h2) / 2.f;
         np[m_res * m_size * 3 + i * 3 + 1] = 0.0f;
         np[m_res * m_size * 3 + i * 3 + 2] = 1.0f;
     }
-    
+
     //left and right boundary
     for (decltype(getResolution()) j=1; j < m_res; ++j) {
         h1 = get(0, j - 1);
         h2 = get(0, j + 1);
-        
+
         np[j * m_size * 3]     = 0;
         np[j * m_size * 3 + 1] = (h1 - h2) / 2.f;
         np[j * m_size * 3 + 2] = 1.f;
- 
+
         h1 = get(m_res, j - 1);
         h2 = get(m_res, j + 1);
 
@@ -197,7 +200,7 @@ void Segment::populateNormals()
     np[m_res * 3]     = 0.f;
     np[m_res * 3 + 1] = 0.f;
     np[m_res * 3 + 2] = 1.f;
-    
+
     np[m_res * m_size * 3 + m_res * 3]     = 0.f;
     np[m_res * m_size * 3 + m_res * 3 + 1] = 0.f;
     np[m_res * m_size * 3 + m_res * 3 + 2] = 1.f;
@@ -232,7 +235,7 @@ float Segment::qRMD(WFMath::MTRand& rng, float nn, float fn, float ff, float nf,
     float max = std::max(std::max(nn, fn), std::max(nf, ff)),
           min = std::min(std::min(nn, fn), std::min(nf, ff)),
           heightDifference = max - min;
- 
+
     return ((nn+fn+ff+nf)/4.f) + randHalf(rng) * roughness * heightDifference / (1.f+std::pow(depth,falloff));
 }
 
@@ -256,13 +259,13 @@ inline void Segment::checkMaxMin(float h)
 /// Falloff is the decay of displacement as the fractal is refined.
 /// Array is size + 1 long. array[0] and array[size] are filled
 /// with the control points for the fractal.
-void Segment::fill1d(const BasePoint& l, const BasePoint &h, 
+void Segment::fill1d(const BasePoint& l, const BasePoint &h,
                      float *array) const
 {
     array[0] = l.height();
     array[m_res] = h.height();
     LinInterp li(m_res, l.roughness(), h.roughness());
-   
+
     // seed the RNG.
     // The RNG is seeded only once for the line and the seed is based on the
     // two endpoints -because they are the common parameters for two adjoining
@@ -274,13 +277,13 @@ void Segment::fill1d(const BasePoint& l, const BasePoint &h,
     // stride is used to step across the array in a deterministic fashion
     // effectively we do the 1/2  point, then the 1/4 points, then the 1/8th
     // points etc. this has to be the same order every time because we call
-    // on the RNG at every point 
+    // on the RNG at every point
     decltype(getResolution()) stride = m_res/2;
 
     // depth is used to indicate what level we are on. the displacement is
     // reduced each time we traverse the array.
     float depth=1;
- 
+
     while (stride) {
         for (decltype(getResolution()) i=stride;i<m_res;i+=stride*2) {
             auto hh = array[i-stride];
@@ -290,9 +293,9 @@ void Segment::fill1d(const BasePoint& l, const BasePoint &h,
 
             //eliminate the problem where hd is nearly zero, leaving a flat section.
             if ((hd*100.f) < roughness) {
-                hd+=0.05f * roughness;       
+                hd+=0.05f * roughness;
             }
-          
+
             array[i] = ((hh+lh)/2.f) + randHalf(rng) * roughness  * hd / (1.f+std::pow(depth,BasePoint::FALLOFF));
         }
         stride >>= 1;
@@ -305,22 +308,22 @@ void Segment::fill1d(const BasePoint& l, const BasePoint &h,
 /// For a tile where edges are to be filled by 1d fractals.
 /// Size must be a power of 2, array is (size + 1) * (size + 1) with the
 /// corners the control points.
-void Segment::fill2d(const BasePoint& p1, const BasePoint& p2, 
+void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
                      const BasePoint& p3, const BasePoint& p4)
 {
     assert(m_points!=0);
-    
+
     // int line = m_res+1;
-    
+
     // calculate the edges first. This is necessary so that segments tile
     // seamlessly note the order in which the edges are calculated and the
     // direction. opposite edges are calculated the same way (eg left->right)
     // so that the top of one tile matches the bottom of another, likewise
     // with sides.
-    
+
     // temporary array used to hold each edge
     float * edge = new float[m_size];
-    
+
     // calc top edge and copy into m_points
     fill1d(p1,p2,edge);
     for (decltype(getResolution()) i=0;i<=m_res;i++) {
@@ -334,7 +337,7 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
         m_points[i*m_size + 0] = edge[i];
         checkMaxMin(edge[i]);
     }
-   
+
     // calc right edge and copy into m_points
     fill1d(p2,p3,edge);
     for (decltype(getResolution()) i=0;i<=m_res;i++) {
@@ -348,7 +351,7 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
         m_points[m_res*m_size + i] = edge[i];
         checkMaxMin(edge[i]);
     }
-    
+
     // seed the RNG - this is the 5th and last seeding for the tile.
     // it was seeded once for each edge, now once for the tile.
     //srand(p1.seed()*20 + p2.seed()*15 + p3.seed()*10 + p4.seed()*5);
@@ -359,7 +362,7 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
 
     float f = BasePoint::FALLOFF;
     float depth=0;
-    
+
     // center of m_points is done separately
     decltype(getResolution()) stride = m_res/2;
 
@@ -371,7 +374,7 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
                                         m_points[m_res*m_size + stride],
                                         roughness,
                                         f, depth);
-                    
+
 
     checkMaxMin(m_points[stride*m_size + stride]);
 
@@ -396,7 +399,7 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
               checkMaxMin(m_points[j*m_size + i]);
           }
       }
- 
+
       depth++;
       //Plus shape - + contributes to value at X
       //. + .
@@ -408,12 +411,12 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
               m_points[j*m_size + i] = qRMD(rng, m_points[(i-stride) + (j) * (m_size)],
                                        m_points[(i+stride) + (j) * (m_size)],
                                        m_points[(i) + (j+stride) * (m_size)],
-                                       m_points[(i) + (j-stride) * (m_size)], 
+                                       m_points[(i) + (j-stride) * (m_size)],
                                        roughness, f , depth);
               checkMaxMin(m_points[j*m_size + i]);
           }
       }
-               
+
       for (decltype(getResolution()) i=stride;i<m_res;i+=stride*2) {
           for (decltype(getResolution()) j=stride*2;j<m_res;j+=stride*2) {
               roughness=qi.calc(i,j);
@@ -452,7 +455,7 @@ void Segment::getHeightAndNormal(float x, float y, float& h,
     assert(x >= 0.0f);
     assert(y <= m_res);
     assert(y >= 0.0f);
-    
+
     // get index of the actual tile in the segment
     int tile_x = std::lrint(std::floor(x));
     int tile_y = std::lrint(std::floor(y));
@@ -460,7 +463,7 @@ void Segment::getHeightAndNormal(float x, float y, float& h,
     // work out the offset into that tile
     float off_x = x - tile_x;
     float off_y = y - tile_y;
- 
+
     float h1=get(tile_x, tile_y);
     float h2=get(tile_x, tile_y+1);
     float h3=get(tile_x+1, tile_y+1);
@@ -477,7 +480,7 @@ void Segment::getHeightAndNormal(float x, float y, float& h,
         }
         normal.normalize();
         h = h1 + (h3-h2) * off_x + (h2-h1) * off_y;
-    } 
+    }
     // bottom triangle /|
     else {
         normal = WFMath::Vector<3>(h1-h4, h4-h3, 1.0f);
@@ -495,23 +498,23 @@ void Segment::getHeightAndNormal(float x, float y, float& h,
 /// @param ly lower y coordinate of intersection area.
 /// @param hy upper y coordinate of intersection area.
 /// @return true if the box intersects with this Segment, false otherwise.
-bool Segment::clipToSegment(const WFMath::AxisBox<2> &bbox,
+bool Segment::clipToSegment(box_type const & bbox,
                             unsigned int &lx, unsigned int &hx,
                             unsigned int &ly, unsigned int &hy) const
 {
-    lx = std::lrint(bbox.lowCorner()[0]); 
+    lx = std::lrint(bbox.min_corner().get<0>());
     if (lx > m_res) return false;
     if (lx < 0) lx = 0;
-    
-    hx = std::lrint(bbox.highCorner()[0]); 
+
+    hx = std::lrint(bbox.max_corner().get<0>());
     if (hx < 0) return false;
     if (hx > m_res) hx = m_res;
-    
-    ly = std::lrint(bbox.lowCorner()[1]); 
+
+    ly = std::lrint(bbox.min_corner().get<1>());
     if (ly > m_res) return false;
     if (ly < 0) ly = 0;
-    
-    hy = std::lrint(bbox.highCorner()[1]); 
+
+    hy = std::lrint(bbox.max_corner().get<1>());
     if (hy < 0) return false;
     if (hy > m_res) hy = m_res;
 
@@ -522,7 +525,7 @@ bool Segment::clipToSegment(const WFMath::AxisBox<2> &bbox,
 ///
 /// Called from Terrain::addMod(). If this point data is already valid,
 /// the modification will be applied directly.
-int Segment::addMod(const TerrainMod *t) 
+int Segment::addMod(const TerrainMod *t)
 {
     m_modList.insert(t);
     invalidate();
@@ -563,7 +566,7 @@ int Segment::removeMod(const TerrainMod * tm)
 ///
 /// Usually called from the destructor. It is not normally necessary to call
 /// this function from the application.
-void Segment::clearMods() 
+void Segment::clearMods()
 {
     if (m_modList.size() != 0) {
         m_modList.clear();
@@ -576,12 +579,17 @@ void Segment::clearMods()
 ///
 /// Usually called from Segment::populate(). It is not normally necessary to
 /// call this function from the application.
-void Segment::applyMod(const TerrainMod *t) 
+void Segment::applyMod(const TerrainMod *t)
 {
     unsigned int lx,hx,ly,hy;
-    WFMath::AxisBox<2> bbox=t->bbox();
-    bbox.shift(WFMath::Vector<2>(-m_xRef, -m_yRef));
-    if (clipToSegment(bbox, lx, hx, ly, hy)) {
+    box_type const & bbox=t->bbox();
+
+    box_type local_box;
+    boost::geometry::strategy::transform::translate_transformer<float, 2, 2>
+        translate((float)-m_xRef, (float)-m_yRef);
+    boost::geometry::transform(bbox, local_box, translate);
+
+    if (clipToSegment(local_box, lx, hx, ly, hy)) {
         for (unsigned int i=ly; i<=hy; i++) {
             for (unsigned int j=lx; j<=hx; j++) {
                 t->apply(m_points[i * m_size + j], j + m_xRef, i + m_yRef);
@@ -621,7 +629,7 @@ int Segment::addArea(const Area* ar)
     if (ar->getShader() == 0) {
         return 0;
     }
-    
+
     m_surfaces[ar->getLayer()] = ar->getShader()->newSurface(*this);
 
     return 0;
@@ -668,16 +676,16 @@ int Segment::removeArea(const Area* area)
     return -1;
 }
 
-WFMath::AxisBox<2> Segment::getRect() const
+Segment::box_type Segment::getRect() const
 {
-    WFMath::Point<2> lp(m_xRef, m_yRef), 
+    point_type lp(m_xRef, m_yRef),
         hp(lp.x() + m_res, lp.y() + m_res);
-    return WFMath::AxisBox<2>(lp, hp);
+    return box_type(lp, hp);
 }
 
 WFMath::AxisBox<3> Segment::getBox() const
 {
-    WFMath::Point<3> lp(m_xRef, m_yRef, m_min), 
+    WFMath::Point<3> lp(m_xRef, m_yRef, m_min),
         hp(lp.x() + m_res, lp.y() + m_res, m_max);
     return WFMath::AxisBox<3>(lp, hp);
 }

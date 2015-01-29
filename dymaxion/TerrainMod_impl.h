@@ -33,12 +33,7 @@ template <class Shape> ShapeTerrainMod<Shape>::~ShapeTerrainMod()
 template <class Shape>
 bool ShapeTerrainMod<Shape>::checkIntersects(const Segment& s) const
 {
-  // FIXME: This can go once s.getRect() returns a boost box
-  auto segBox = s.getRect();
-  boost::geometry::model::box<point_type> seg_box(
-      point_type(segBox.lowCorner().x(), segBox.lowCorner().y()),
-      point_type(segBox.highCorner().x(), segBox.highCorner().y())
-  );
+  boost::geometry::model::box<point_type> seg_box = s.getRect();
 
   point_type const & c = m_shape[0];
   return boost::geometry::intersects(m_shape, seg_box) ||

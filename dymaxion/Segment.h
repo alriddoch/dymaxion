@@ -12,6 +12,9 @@
 #include <wfmath/vector.h>
 #include <wfmath/axisbox.h>
 
+#include <boost/geometry/geometries/box.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+
 #include <set>
 #include <map>
 
@@ -35,6 +38,10 @@ class Area;
 /// square area of terrain defined by four adjacent BasePoint objects.
 class Segment {
   public:
+    typedef boost::geometry::model::d2::point_xy<
+        float, boost::geometry::cs::cartesian> point_type;
+    typedef boost::geometry::model::box<point_type> box_type;
+
     /// STL map of pointers to Surface objects.
     typedef std::map<int, Surface *> Surfacestore;
     
@@ -168,7 +175,7 @@ class Segment {
 
     void getHeightAndNormal(float x, float y, float &h, 
                     WFMath::Vector<3> &normal) const;
-    bool clipToSegment(const WFMath::AxisBox<2> &bbox,
+    bool clipToSegment(box_type const & bbox,
                        unsigned int &lx,
                        unsigned int &hx,
                        unsigned int &ly,
@@ -185,7 +192,7 @@ class Segment {
     float getMin() const { return m_min; }
 
     /// \brief The 2d area covered by this segment
-    WFMath::AxisBox<2> getRect() const;
+    box_type getRect() const;
 
     /// \brief The 3d box covered by this segment
     WFMath::AxisBox<3> getBox() const;
