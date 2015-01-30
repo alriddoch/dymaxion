@@ -18,7 +18,7 @@ using boost_point = boost::geometry::model::d2::point_xy<
 
 template <class PointT>
 std::ostream & operator<<(std::ostream & os,
-                          const dymaxion::Edge<PointT> & e)
+                          dymaxion::Edge<PointT> const & e)
 {
   os << "Edge(" << boost::geometry::traits::access<PointT, 0>::get(e.start())
      << "," << boost::geometry::traits::access<PointT, 1>::get(e.start())
@@ -28,7 +28,7 @@ std::ostream & operator<<(std::ostream & os,
 }
 
 std::ostream & operator<<(std::ostream & os,
-                          const dymaxion::Point2 & e)
+                          dymaxion::Point2 const & e)
 {
   os << "Point2("
      << boost::geometry::traits::access<dymaxion::Point2, 0>::get(e) << ","
@@ -37,7 +37,7 @@ std::ostream & operator<<(std::ostream & os,
 }
 
 std::ostream & operator<<(std::ostream & os,
-                          const boost_point & e)
+                          boost_point const & e)
 {
   os << "Point2("
      << boost::geometry::traits::access<boost_point, 0>::get(e) << ","
@@ -45,7 +45,7 @@ std::ostream & operator<<(std::ostream & os,
   return os;
 }
 
-bool operator!=(const boost_point & lhs, const boost_point & rhs)
+bool operator!=(boost_point const & lhs, boost_point const & rhs)
 {
   return (lhs.x() != rhs.x() || lhs.y() != rhs.y());
 }
