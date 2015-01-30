@@ -10,6 +10,9 @@
 #include <dymaxion/tuple_traits.h>
 #include <dymaxion/wfmath_traits.h>
 
+#include <boost/geometry/algorithms/transform.hpp>
+#include <boost/geometry/strategies/strategies.hpp>
+
 #include <list>
 #include <set>
 #include <iostream>
@@ -70,26 +73,30 @@ static void span(Surface& s,
 template <class Polygon>
 static void scanConvert(const Polygon & inPoly, Surface& sf)
 {
-    typedef typename traits::types<Polygon>::point_type Point;
+    typedef typename boost::range_value<Polygon>::type point_type;
+    typedef typename boost::geometry::traits::coordinate_type<point_type>::type coord_type;
 
-    if (!inPoly.isValid()) return;
+    if (inPoly.size() == 0)
+    {
+      return;
+    }
     
     // TODO templatize Edge, so it will work with whatever we have here
-    std::list<Edge<Point>> pending;
-    std::vector<Edge<Point>> active;
+    std::list<Edge<point_type>> pending;
+    std::vector<Edge<point_type>> active;
 
-    auto lastPt = inPoly.getCorner(inPoly.numCorners() - 1);
-    for (std::size_t p=0; p < inPoly.numCorners(); ++p) {
-        auto curPt = inPoly.getCorner(p);
+    auto lastPt = inPoly[inPoly.size() - 1];
+    for (std::size_t p = 0; p < inPoly.size(); ++p) {
+        auto curPt = inPoly[p];
         
         // skip horizontal edges
         if (curPt.y() != lastPt.y())
-            pending.push_back(
-                Edge<Point>(Point(point_access<Point, 0>::get(lastPt),
-                                  point_access<Point, 1>::get(lastPt)),
-                            Point(point_access<Point, 0>::get(curPt),
-                                  point_access<Point, 1>::get(curPt)))
-            );
+        {
+          point_type e1(lastPt.x(), lastPt.y()),
+                     e2(curPt.x(), curPt.y());
+          Edge<point_type> edge(e1, e2);
+          pending.push_back(edge);
+        }
         
         lastPt = curPt;
     }
@@ -105,7 +112,7 @@ static void scanConvert(const Polygon & inPoly, Surface& sf)
     // middle of sample rows - we do this by offseting by 1/2 a row height
     // if you don't do this, you'll find alternating rows are over/under
     // sampled, producing a charming striped effect.
-    typename traits::types<Point>::coord_type y = std::floor(active.front().start().y()) + ROW_HEIGHT * 0.5f;
+    coord_type y = std::floor(active.front().start().y()) + ROW_HEIGHT * 0.5f;
     
     for (; !pending.empty() || !active.empty();  y += ROW_HEIGHT)
     {
@@ -115,7 +122,7 @@ static void scanConvert(const Polygon & inPoly, Surface& sf)
         }
         
         // sort by x value - note active will be close to sorted anyway
-        std::sort(active.begin(), active.end(), EdgeAtY<Point>(y));
+        std::sort(active.begin(), active.end(), EdgeAtY<point_type>(y));
         
         // delete finished edges
         for (decltype(active.size()) i = 0; i < active.size(); ) {
@@ -167,17 +174,19 @@ void AreaShader::shade(Surface &s) const
 
 void AreaShader::shadeArea(Surface& s, const Area* const ar) const
 {
-    auto clipped = ar->clipToSegment(s.getSegment());
-    assert(clipped.isValid());
+    Area::ring const clipped = ar->clipToSegment(s.getSegment());
     
-    if (clipped.numCorners() == 0) return;
+    if (clipped.size() == 0) return;
  
-    auto segOrigin = s.getSegment().getRect().lowCorner();
-    clipped.shift(traits::point_subtract<WFMath::Vector<2>,
-                                         Point2,
-                                         decltype(segOrigin),
-                                         2>::op(Point2(0,0), segOrigin));
-    scanConvert(clipped, s);
+    auto segOrigin = s.getSegment().getRect().min_corner();
+
+    boost::geometry::strategy::transform::translate_transformer<float, 2, 2>
+        translate(-segOrigin.x(), -segOrigin.y());
+
+    Area::ring local_clipped;
+    boost::geometry::transform(clipped, local_clipped, translate);
+
+    scanConvert(local_clipped, s);
 }
 
 } // of namespace

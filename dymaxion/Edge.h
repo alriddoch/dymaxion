@@ -5,8 +5,6 @@
 #ifndef DYMAXION_EDGE_H
 #define DYMAXION_EDGE_H
 
-#include <dymaxion/traits.h>
-
 #include <wfmath/vector.h>
 
 #include <boost/geometry/core/access.hpp>

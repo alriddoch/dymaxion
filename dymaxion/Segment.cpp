@@ -13,7 +13,6 @@
 
 #include <wfmath/MersenneTwister.h>
 
-#include <boost/geometry.hpp>
 #include <boost/geometry/algorithms/transform.hpp>
 #include <boost/geometry/strategies/strategies.hpp>
 
