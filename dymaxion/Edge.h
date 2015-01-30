@@ -9,6 +9,9 @@
 
 #include <wfmath/vector.h>
 
+#include <boost/geometry/core/access.hpp>
+#include <boost/geometry/core/coordinate_type.hpp>
+
 #include <tuple>
 
 #include <cassert>
@@ -26,7 +29,7 @@ typedef WFMath::Vector<2> Vector2;
 template <class Point = Point2>
 class Edge
 {
-    typedef typename traits::types<Point>::coord_type coord_type;
+    typedef typename boost::geometry::traits::coordinate_type<Point>::type coord_type;
 public: 
     /// \brief Constructor
     ///
@@ -35,22 +38,22 @@ public:
     Edge(const Point & a, const Point & b)
     {
         // horizontal segments should be discarded earlier
-        assert((traits::point_access<Point, 1>::get(a)) !=
-               (traits::point_access<Point, 1>::get(b)));
+        assert((boost::geometry::traits::access<Point, 1>::get(a)) !=
+               (boost::geometry::traits::access<Point, 1>::get(b)));
         
-        if (traits::point_access<Point, 1>::get(a) <
-            traits::point_access<Point, 1>::get(b)) {
+        if (boost::geometry::traits::access<Point, 1>::get(a) <
+            boost::geometry::traits::access<Point, 1>::get(b)) {
             m_start = a;
-            m_seg = traits::point_subtract<decltype(m_seg),
-                                           Point,
-                                           Point,
-                                           2>::op(b, a);
+            m_seg.x() = boost::geometry::traits::access<Point, 0>::get(b) -
+                        boost::geometry::traits::access<Point, 0>::get(a);
+            m_seg.y() = boost::geometry::traits::access<Point, 1>::get(b) -
+                        boost::geometry::traits::access<Point, 1>::get(a);
         } else {
             m_start = b;
-            m_seg = traits::point_subtract<decltype(m_seg),
-                                           Point,
-                                           Point,
-                                           2>::op(a, b);
+            m_seg.x() = boost::geometry::traits::access<Point, 0>::get(a) -
+                        boost::geometry::traits::access<Point, 0>::get(b);
+            m_seg.y() = boost::geometry::traits::access<Point, 1>::get(a) -
+                        boost::geometry::traits::access<Point, 1>::get(b);
         }
         
         // normal gradient is y/x, here we use x/y. seg.y() will be != 0,
@@ -74,8 +77,8 @@ public:
     coord_type xValueAtY(coord_type y) const
     {
         coord_type x =
-            traits::point_access<decltype(m_start), 0>::get(m_start) +
-            ((y - traits::point_access<decltype(m_start), 1>::get(m_start)) *
+            boost::geometry::traits::access<Point, 0>::get(m_start) +
+            ((y - boost::geometry::traits::access<Point, 1>::get(m_start)) *
              m_inverseGradient);
      //   std::cout << "edge (" << m_start << ", " << m_start + m_seg << ") at y=" << y << " has x=" << x << std::endl; 
         return x;
@@ -106,7 +109,7 @@ private:
 template <class Point = Point2>
 class EdgeAtY
 {
-    typedef typename traits::types<Point>::coord_type coord_type;
+    typedef typename boost::geometry::traits::coordinate_type<Point>::type coord_type;
 public:
     /// Constructor
     ///
