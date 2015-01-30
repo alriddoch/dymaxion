@@ -214,13 +214,13 @@ void EdgeAtYtest<PointT>::test_intersect_false()
 
 int main()
 {
-    Edgetest<dymaxion::Point2> t;
-    Edgetest<WFMath::Point<2>> tw;
-    Edgetest<boost_point> tb;
+  Edgetest<dymaxion::Point2> t;
+  Edgetest<WFMath::Point<2>> tw;
+  Edgetest<boost_point> tb;
 
-    EdgeAtYtest<dymaxion::Point2> t2;
-    EdgeAtYtest<WFMath::Point<2>> t2w;
-    EdgeAtYtest<boost_point> t2b;
+  EdgeAtYtest<dymaxion::Point2> t2;
+  EdgeAtYtest<WFMath::Point<2>> t2w;
+  EdgeAtYtest<boost_point> t2b;
 
-    return t.run() + tw.run() + tb.run() + t2.run() + t2w.run() + t2b.run();
+  return t.run() + tw.run() + tb.run() + t2.run() + t2w.run() + t2b.run();
 }
