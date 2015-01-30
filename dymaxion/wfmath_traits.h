@@ -11,6 +11,10 @@
 #include <wfmath/point.h>
 #include <wfmath/vector.h>
 
+#include <boost/geometry/core/access.hpp>
+#include <boost/geometry/core/coordinate_system.hpp>
+#include <boost/geometry/core/coordinate_type.hpp>
+
 namespace dymaxion
 {
 
@@ -429,5 +433,64 @@ class types<WFMath::Polygon<dim>>
 
 }
 
-#endif // DYMAXION_WFMATH_TRAITS_H
+namespace boost { namespace geometry {
 
+namespace traits
+{
+
+template <int dim>
+struct tag<WFMath::Point<dim>>
+{
+  typedef point_tag type;
+};
+
+template <int dim>
+struct coordinate_type<WFMath::Point<dim>>
+{
+  typedef WFMath::CoordType type;
+};
+
+template <int dim>
+struct coordinate_system<WFMath::Point<dim>>
+{
+  typedef cs::cartesian type;
+};
+
+template <int dim>
+struct dimension<WFMath::Point<dim>>
+    : boost::mpl::int_<dim>
+{ };
+
+template <int dim>
+struct access<WFMath::Point<dim>, 0>
+{
+  static WFMath::CoordType get(WFMath::Point<dim> const & p)
+  {
+    return p.x();
+  }
+
+  static void set(WFMath::Point<dim> & p, WFMath::CoordType value)
+  {
+    p.x() = value;
+  }
+};
+
+template <int dim>
+struct access<WFMath::Point<dim>, 1>
+{
+  static WFMath::CoordType get(WFMath::Point<dim> const & p)
+  {
+    return p.y();
+  }
+
+  static void set(WFMath::Point<dim> & p, WFMath::CoordType value)
+  {
+    p.y() = value;
+  }
+};
+
+}
+
+}}
+
+#endif // DYMAXION_WFMATH_TRAITS_H
