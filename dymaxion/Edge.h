@@ -16,7 +16,9 @@
 
 #include <cassert>
 
+template <class PointT>
 class Edgetest;
+template <class PointT>
 class EdgeAtYtest;
 
 namespace dymaxion
@@ -64,10 +66,11 @@ public:
     /// Accessor for the point describing the start of the edge.
     Point start() const { return m_start; }
     /// Determine the point describing the end of the edge.
-    Point end() const { return traits::point_add<Point,
-                                                 Point,
-                                                 decltype(m_seg),
-                                                 2>::op(m_start, m_seg); }
+    Point end() const { return Point(
+          boost::geometry::traits::access<Point, 0>::get(m_start) + m_seg.x(),
+          boost::geometry::traits::access<Point, 1>::get(m_start) + m_seg.y()
+      );
+    }
     
     /// \brief Determine the x coordinate at a given y coordinate.
     ///
@@ -90,11 +93,11 @@ public:
     /// y coordinate of the start of the edges.
     bool operator<(const Edge& other) const
     {
-        return traits::point_access<decltype(m_start), 1>::get(m_start) <
-               traits::point_access<decltype(m_start), 1>::get(other.m_start);
+        return boost::geometry::traits::access<Point, 1>::get(m_start) <
+               boost::geometry::traits::access<Point, 1>::get(other.m_start);
     }
 
-    friend class ::Edgetest;
+    friend class ::Edgetest<Point>;
 private:
 
     /// The point describing the start of the edge.
@@ -122,7 +125,7 @@ public:
         return u.xValueAtY(m_y) < v.xValueAtY(m_y);
     }
 
-    friend class ::EdgeAtYtest;
+    friend class ::EdgeAtYtest<Point>;
 private:
 
     /// The coordinate on the y axis of the edge.

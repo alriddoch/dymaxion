@@ -8,26 +8,49 @@
 #include <dymaxion/tuple_traits.h>
 #include <dymaxion/wfmath_traits.h>
 
-using dymaxion::traits::point_access;
+#include <boost/geometry/core/cs.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
 
+using boost_point = boost::geometry::model::d2::point_xy<
+    float,
+    boost::geometry::cs::cartesian
+>;
+
+template <class PointT>
 std::ostream & operator<<(std::ostream & os,
-                          const dymaxion::Edge<dymaxion::Point2> & e)
+                          const dymaxion::Edge<PointT> & e)
 {
-  os << "Edge(" << point_access<dymaxion::Point2, 0>::get(e.start())
-     << "," << point_access<dymaxion::Point2, 1>::get(e.start())
-     << "),(" << point_access<dymaxion::Point2, 0>::get(e.end())
-     << "," << point_access<dymaxion::Point2, 1>::get(e.end()) << ")";
+  os << "Edge(" << boost::geometry::traits::access<PointT, 0>::get(e.start())
+     << "," << boost::geometry::traits::access<PointT, 1>::get(e.start())
+     << "),(" << boost::geometry::traits::access<PointT, 0>::get(e.end())
+     << "," << boost::geometry::traits::access<PointT, 1>::get(e.end()) << ")";
   return os;
 }
 
 std::ostream & operator<<(std::ostream & os,
                           const dymaxion::Point2 & e)
 {
-  os << "Point2(" << point_access<dymaxion::Point2, 0>::get(e)
-     << "," << point_access<dymaxion::Point2, 1>::get(e) << ")";
+  os << "Point2("
+     << boost::geometry::traits::access<dymaxion::Point2, 0>::get(e) << ","
+     << boost::geometry::traits::access<dymaxion::Point2, 1>::get(e) << ")";
   return os;
 }
 
+std::ostream & operator<<(std::ostream & os,
+                          const boost_point & e)
+{
+  os << "Point2("
+     << boost::geometry::traits::access<boost_point, 0>::get(e) << ","
+     << boost::geometry::traits::access<boost_point, 1>::get(e) << ")";
+  return os;
+}
+
+bool operator!=(const boost_point & lhs, const boost_point & rhs)
+{
+  return (lhs.x() != rhs.x() || lhs.y() != rhs.y());
+}
+
+template <typename PointT>
 class Edgetest : public Test::Suite
 {
  public:
@@ -44,36 +67,41 @@ class Edgetest : public Test::Suite
   void test_sort_order_equal();
 };
 
-Edgetest::Edgetest()
+template <typename PointT>
+Edgetest<PointT>::Edgetest()
 {
-  ADD_TEST(Edgetest::test_Edge);
-  ADD_TEST(Edgetest::test_xValueAtY);
-  ADD_TEST(Edgetest::test_xValueAtY_oob);
-  ADD_TEST(Edgetest::test_sort_order);
-  ADD_TEST(Edgetest::test_sort_order_inv);
-  ADD_TEST(Edgetest::test_sort_order_equal);
+  ADD_TEST(Edgetest<PointT>::test_Edge);
+  ADD_TEST(Edgetest<PointT>::test_xValueAtY);
+  ADD_TEST(Edgetest<PointT>::test_xValueAtY_oob);
+  ADD_TEST(Edgetest<PointT>::test_sort_order);
+  ADD_TEST(Edgetest<PointT>::test_sort_order_inv);
+  ADD_TEST(Edgetest<PointT>::test_sort_order_equal);
 }
 
-void Edgetest::setup()
+template <typename PointT>
+void Edgetest<PointT>::setup()
 {
 }
 
-void Edgetest::teardown()
+template <typename PointT>
+void Edgetest<PointT>::teardown()
 {
 }
 
-void Edgetest::test_Edge()
+template <typename PointT>
+void Edgetest<PointT>::test_Edge()
 {
-  dymaxion::Edge<> a(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
+  dymaxion::Edge<PointT> a(PointT(1, 2), PointT(7, 8));
 
-  ASSERT_EQUAL(a.m_start, dymaxion::Point2(1, 2));
+  ASSERT_EQUAL(a.m_start, PointT(1, 2));
   ASSERT_EQUAL(a.m_seg, dymaxion::Vector2(6, 6));
   ASSERT_EQUAL(a.m_inverseGradient, 1);
 }
 
-void Edgetest::test_xValueAtY()
+template <typename PointT>
+void Edgetest<PointT>::test_xValueAtY()
 {
-  dymaxion::Edge<> a(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
+  dymaxion::Edge<PointT> a(PointT(1, 2), PointT(7, 8));
 
   ASSERT_EQUAL(a.xValueAtY(3), 2);
   ASSERT_EQUAL(a.xValueAtY(4), 3);
@@ -82,9 +110,10 @@ void Edgetest::test_xValueAtY()
   ASSERT_EQUAL(a.xValueAtY(3.5), 2.5);
 }
 
-void Edgetest::test_xValueAtY_oob()
+template <typename PointT>
+void Edgetest<PointT>::test_xValueAtY_oob()
 {
-  dymaxion::Edge<> a(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
+  dymaxion::Edge<PointT> a(PointT(1, 2), PointT(7, 8));
 
   ASSERT_EQUAL(a.xValueAtY(1), 0);
   ASSERT_EQUAL(a.xValueAtY(-1), -2);
@@ -93,31 +122,35 @@ void Edgetest::test_xValueAtY_oob()
   ASSERT_EQUAL(a.xValueAtY(10.5), 9.5);
 }
 
-void Edgetest::test_sort_order()
+template <typename PointT>
+void Edgetest<PointT>::test_sort_order()
 {
-  dymaxion::Edge<> a(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
-  dymaxion::Edge<> b(dymaxion::Point2(2, 3), dymaxion::Point2(7, 8));
+  dymaxion::Edge<PointT> a(PointT(1, 2), PointT(7, 8));
+  dymaxion::Edge<PointT> b(PointT(2, 3), PointT(7, 8));
 
   ASSERT_LESS(a, b);
 }
 
-void Edgetest::test_sort_order_inv()
+template <typename PointT>
+void Edgetest<PointT>::test_sort_order_inv()
 {
-  dymaxion::Edge<> a(dymaxion::Point2(2, 3), dymaxion::Point2(7, 8));
-  dymaxion::Edge<> b(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
+  dymaxion::Edge<PointT> a(PointT(2, 3), PointT(7, 8));
+  dymaxion::Edge<PointT> b(PointT(1, 2), PointT(7, 8));
 
   ASSERT_NOT_LESS(a, b);
 }
 
-void Edgetest::test_sort_order_equal()
+template <typename PointT>
+void Edgetest<PointT>::test_sort_order_equal()
 {
-  dymaxion::Edge<> a(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
-  dymaxion::Edge<> b(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
+  dymaxion::Edge<PointT> a(PointT(1, 2), PointT(7, 8));
+  dymaxion::Edge<PointT> b(PointT(1, 2), PointT(7, 8));
 
   ASSERT_NOT_LESS(a, b);
   ASSERT_NOT_LESS(b, a);
 }
 
+template <class PointT>
 class EdgeAtYtest : public Test::Suite
 {
  public:
@@ -131,52 +164,63 @@ class EdgeAtYtest : public Test::Suite
   void test_intersect_false();
 };
 
-EdgeAtYtest::EdgeAtYtest()
+template <class PointT>
+EdgeAtYtest<PointT>::EdgeAtYtest()
 {
-  ADD_TEST(EdgeAtYtest::test_EdgeAtY);
-  ADD_TEST(EdgeAtYtest::test_intersect);
-  ADD_TEST(EdgeAtYtest::test_intersect_false);
+  ADD_TEST(EdgeAtYtest<PointT>::test_EdgeAtY);
+  ADD_TEST(EdgeAtYtest<PointT>::test_intersect);
+  ADD_TEST(EdgeAtYtest<PointT>::test_intersect_false);
 }
 
-void EdgeAtYtest::setup()
+template <class PointT>
+void EdgeAtYtest<PointT>::setup()
 {
 }
 
-void EdgeAtYtest::teardown()
+template <class PointT>
+void EdgeAtYtest<PointT>::teardown()
 {
 }
 
-void EdgeAtYtest::test_EdgeAtY()
+template <class PointT>
+void EdgeAtYtest<PointT>::test_EdgeAtY()
 {
-  dymaxion::EdgeAtY<> a(1);
+  dymaxion::EdgeAtY<PointT> a(1);
 
   ASSERT_EQUAL(a.m_y, 1);
 }
 
-void EdgeAtYtest::test_intersect()
+template <class PointT>
+void EdgeAtYtest<PointT>::test_intersect()
 {
-  dymaxion::EdgeAtY<> a(2);
+  dymaxion::EdgeAtY<PointT> a(2);
 
-  dymaxion::Edge<> c(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
-  dymaxion::Edge<> d(dymaxion::Point2(2, 2), dymaxion::Point2(8, 8));
+  dymaxion::Edge<PointT> c(PointT(1, 2), PointT(7, 8));
+  dymaxion::Edge<PointT> d(PointT(2, 2), PointT(8, 8));
   
   ASSERT_TRUE(a(c, d));
 }
 
-void EdgeAtYtest::test_intersect_false()
+template <class PointT>
+void EdgeAtYtest<PointT>::test_intersect_false()
 {
-  dymaxion::EdgeAtY<> a(2);
+  dymaxion::EdgeAtY<PointT> a(2);
 
-  dymaxion::Edge<> c(dymaxion::Point2(2, 2), dymaxion::Point2(8, 8));
-  dymaxion::Edge<> d(dymaxion::Point2(1, 2), dymaxion::Point2(7, 8));
+  dymaxion::Edge<PointT> c(PointT(2, 2), PointT(8, 8));
+  dymaxion::Edge<PointT> d(PointT(1, 2), PointT(7, 8));
   
   ASSERT_TRUE(!a(c, d));
 }
 
 int main()
 {
-    Edgetest t;
-    EdgeAtYtest t2;
+    Edgetest<dymaxion::Point2> t;
+    Edgetest<WFMath::Point<2>> tw;
+    Edgetest<boost_point> tb;
 
-    return t.run() + t2.run();
+    EdgeAtYtest<dymaxion::Point2> t2;
+    EdgeAtYtest<WFMath::Point<2>> t2w;
+    EdgeAtYtest<boost_point> t2b;
+
+    return t.run() + tw.run() + tb.run() + t2.run() + t2w.run() + t2b.run();
 }
