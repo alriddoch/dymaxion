@@ -41,11 +41,13 @@ int main()
  
 
     dymaxion::Forest forest(4249162ul);
-    WFMath::Polygon<2> p;
-    p.addCorner(p.numCorners(), Point2(-50, -50));
-    p.addCorner(p.numCorners(), Point2(50, -50));
-    p.addCorner(p.numCorners(), Point2(50, 50));
-    p.addCorner(p.numCorners(), Point2(-50, 50));    
+    dymaxion::Area::ring p;
+    p.push_back(dymaxion::Area::point(-50, -50));
+    p.push_back(dymaxion::Area::point(50, -50));
+    p.push_back(dymaxion::Area::point(50, 50));
+    p.push_back(dymaxion::Area::point(-50, 50));    
+    p.push_back(dymaxion::Area::point(-50, 50));    
+    p.push_back(dymaxion::Area::point(-50, -50));
     
     dymaxion::Area* ar = new dymaxion::Area(1, false);
     ar->setShape(p);
@@ -60,10 +62,10 @@ int main()
     std::cout << "time per 100x100 forest = "<< (time.interval()*100.0) << " ms" << std::endl;
 
     p.clear();
-    p.addCorner(p.numCorners(), Point2(-100, -100));
-    p.addCorner(p.numCorners(), Point2(100, -100));
-    p.addCorner(p.numCorners(), Point2(100, 100));
-    p.addCorner(p.numCorners(), Point2(-100, 100));    
+    p.push_back(dymaxion::Area::point(-100, -100));
+    p.push_back(dymaxion::Area::point(100, -100));
+    p.push_back(dymaxion::Area::point(100, 100));
+    p.push_back(dymaxion::Area::point(-100, 100));    
     
     ar = new dymaxion::Area(1, false);
     ar->setShape(p);
