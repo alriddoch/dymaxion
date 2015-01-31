@@ -94,14 +94,14 @@ int main()
         assert(species.empty());
 
         dymaxion::Area* ar = new dymaxion::Area(1, false);
-        WFMath::Polygon<2> p;
-        
-        p.addCorner(p.numCorners(), Point2(5, 8));
-        p.addCorner(p.numCorners(), Point2(40, -1));
-        p.addCorner(p.numCorners(), Point2(45, 16));
-        p.addCorner(p.numCorners(), Point2(30, 28));
-        p.addCorner(p.numCorners(), Point2(-2, 26));
-        p.addCorner(p.numCorners(), Point2(1, 5));
+        dymaxion::Area::ring p;
+        p.push_back(dymaxion::Area::point(5, 8));
+        p.push_back(dymaxion::Area::point(1, 5));
+        p.push_back(dymaxion::Area::point(-2, 26));
+        p.push_back(dymaxion::Area::point(30, 28));
+        p.push_back(dymaxion::Area::point(45, 16));
+        p.push_back(dymaxion::Area::point(40, -1));
+        p.push_back(dymaxion::Area::point(5, 8));
         
         ar->setShape(p);
         forest.setArea(ar);
