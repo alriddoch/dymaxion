@@ -12,6 +12,8 @@
 #include <wfmath/vector.h>
 
 #include <boost/geometry/core/access.hpp>
+#include <boost/geometry/core/cs.hpp>
+#include <boost/geometry/core/coordinate_dimension.hpp>
 #include <boost/geometry/core/coordinate_system.hpp>
 #include <boost/geometry/core/coordinate_type.hpp>
 
