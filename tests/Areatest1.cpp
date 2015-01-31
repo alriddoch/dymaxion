@@ -199,10 +199,10 @@ Segment::~Segment()
 {
 }
 
-WFMath::AxisBox<2> Segment::getRect() const
+Segment::box_type Segment::getRect() const
 {
-  WFMath::Point<2> lp(0,0), hp(64,64);
-  return WFMath::AxisBox<2>(lp, hp);
+  point_type lp(0,0), hp(64,64);
+  return box_type(lp, hp);
 }
 
 int Segment::addArea(Area const * area)
