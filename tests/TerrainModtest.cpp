@@ -6,102 +6,140 @@
 #include <dymaxion/Segment.h>
 #include <dymaxion/TerrainMod.h>
 
+#include <boost/geometry/algorithms/equals.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/ring.hpp>
+
 #include <iostream>
 
 #include <cassert>
 
+using boost_point = boost::geometry::model::d2::point_xy<
+  float,
+  boost::geometry::cs::cartesian
+>;
+using boost_ring = boost::geometry::model::ring<boost_point>;
+
+bool operator==(dymaxion::Effector::box const & lhs,
+                dymaxion::Effector::box const & rhs)
+{
+  return boost::geometry::equals(lhs, rhs);
+}
+
 int terrain_mod_context_test(dymaxion::Terrain & terrain)
 {
-    const WFMath::Ball<2> circ2(WFMath::Point<2>(0.0,0.0), 12.0);
-    dymaxion::TerrainMod * mp = new dymaxion::LevelTerrainMod<WFMath::Ball>(10.0f, circ2);
-    terrain.addMod(mp);
+  boost_ring mod_shape;
+  mod_shape.push_back(boost_point(0.f, 0.f));
+  mod_shape.push_back(boost_point(0.f, 1.f));
+  mod_shape.push_back(boost_point(1.f, 1.f));
+  mod_shape.push_back(boost_point(1.f, 0.f));
+  mod_shape.push_back(boost_point(0.f, 0.f));
 
-    mp->setContext(new dymaxion::TerrainMod::Context);
-    mp->context()->setId("foo");
+  dymaxion::TerrainMod * mp = new dymaxion::LevelTerrainMod<boost_ring>(10.0f, mod_shape);
+  terrain.addMod(mp);
 
-    terrain.removeMod(mp);
+  mp->setContext(new dymaxion::TerrainMod::Context);
+  mp->context()->setId("foo");
 
-    delete mp;
+  terrain.removeMod(mp);
 
-    return 0;
+  delete mp;
+
+  return 0;
 }
 
 int main()
 {
-    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED);
+  dymaxion::Terrain terrain(dymaxion::Terrain::SHADED);
 
-    terrain.setBasePoint(0, 0, 2.8);
-    terrain.setBasePoint(1, 0, 7.1);
-    terrain.setBasePoint(2, 0, 7.1);
-    terrain.setBasePoint(0, 1, 0.2);
-    terrain.setBasePoint(1, 1, 0.2);
-    terrain.setBasePoint(2, 1, 0.2);
-    terrain.setBasePoint(0, 2, 14.7);
-    terrain.setBasePoint(1, 2, 14.7);
-    terrain.setBasePoint(2, 2, 14.7);
+  terrain.setBasePoint(0, 0, 2.8);
+  terrain.setBasePoint(1, 0, 7.1);
+  terrain.setBasePoint(2, 0, 7.1);
+  terrain.setBasePoint(0, 1, 0.2);
+  terrain.setBasePoint(1, 1, 0.2);
+  terrain.setBasePoint(2, 1, 0.2);
+  terrain.setBasePoint(0, 2, 14.7);
+  terrain.setBasePoint(1, 2, 14.7);
+  terrain.setBasePoint(2, 2, 14.7);
 
-    const WFMath::Ball<2> circ2(WFMath::Point<2>(0.0,0.0), 12.0);
-    dymaxion::TerrainMod * mp1 = new dymaxion::LevelTerrainMod<WFMath::Ball>(10.0f, circ2);
-    terrain.addMod(mp1);
+  boost_ring mod_shape;
+  mod_shape.push_back(boost_point(0.f, 0.f));
+  mod_shape.push_back(boost_point(0.f, 5.f));
+  mod_shape.push_back(boost_point(5.f, 5.f));
+  mod_shape.push_back(boost_point(5.f, 0.f));
+  mod_shape.push_back(boost_point(0.f, 0.f));
 
-    const WFMath::RotBox<2> rot(
-          WFMath::Point<2>(-80.,-130.) ,
-          WFMath::Vector<2>(150.0,120.0),
-          WFMath::RotMatrix<2>().rotation(WFMath::numeric_constants<WFMath::CoordType>::pi()/4));
-    dymaxion::TerrainMod * mp2 = new dymaxion::LevelTerrainMod<WFMath::RotBox>(10.0f, rot);
-    terrain.addMod(mp2);
+  dymaxion::TerrainMod * mp1 = new dymaxion::LevelTerrainMod<boost_ring>(10.0f, mod_shape);
+  terrain.addMod(mp1);
 
-    const WFMath::Ball<2> ball(WFMath::Point<2>(80, 80), 10);
-    dymaxion::CraterTerrainMod<WFMath::Ball> * mp3 = new dymaxion::CraterTerrainMod<WFMath::Ball>(-5.f, ball);
-    terrain.addMod(mp3);
+  boost_ring crater_shape;
+  crater_shape.push_back(boost_point(80.f, 80.f));
+  crater_shape.push_back(boost_point(80.f, 85.f));
+  crater_shape.push_back(boost_point(85.f, 85.f));
+  crater_shape.push_back(boost_point(85.f, 80.f));
+  crater_shape.push_back(boost_point(80.f, 80.f));
 
-    dymaxion::Segment * segment = terrain.getSegment(0, 0);
+  dymaxion::CraterTerrainMod<boost_ring> * mp3 =
+      new dymaxion::CraterTerrainMod<boost_ring>(-5.f, crater_shape);
+  terrain.addMod(mp3);
 
-    if (segment == 0) {
-        std::cerr << "Segment not created by addition of required basepoints"
-                  << std::endl << std::flush;
-        return 1;
-    }
+  dymaxion::Segment * segment = terrain.getSegment(0, 0);
 
-    segment->populate();
+  if (segment == 0) {
+    std::cerr << "Segment not created by addition of required basepoints"
+              << std::endl << std::flush;
+    return 1;
+  }
 
-    segment = terrain.getSegment(1, 1);
+  segment->populate();
 
-    if (segment == 0) {
-        std::cerr << "Segment not created by addition of required basepoints"
-                  << std::endl << std::flush;
-        return 1;
-    }
+  segment = terrain.getSegment(1, 1);
 
-    segment->populate();
+  if (segment == 0) {
+    std::cerr << "Segment not created by addition of required basepoints"
+              << std::endl << std::flush;
+    return 1;
+  }
 
-    assert(segment->isValid());
+  segment->populate();
 
-    terrain.updateMod(mp3);
+  assert(segment->isValid());
 
-    assert(!segment->isValid());
+  terrain.updateMod(mp3);
 
-    //Check that the stored bbox is correctly updated when calling updateMod().
-    WFMath::AxisBox<2> mp3_rect1 = mp3->bbox();
-    mp3->setShape(-5.f, WFMath::Ball<2>(WFMath::Point<2>(-80, 80), 10));
-    WFMath::AxisBox<2> mp3_rect2 = terrain.updateMod(mp3);
-    assert(mp3_rect1 == mp3_rect2);
-    WFMath::AxisBox<2> mp3_rect3 = mp3->bbox();
-    mp3->setShape(-5.f, WFMath::Ball<2>(WFMath::Point<2>(-80, -80), 10));
-    WFMath::AxisBox<2> mp3_rect4 = terrain.updateMod(mp3);
-    assert(mp3_rect3 == mp3_rect4);
+  assert(!segment->isValid());
 
-    terrain.removeMod(mp1);
+  boost_ring new_shape;
+  new_shape.push_back(boost_point(-80.f, 80.f));
+  new_shape.push_back(boost_point(-80.f, 85.f));
+  new_shape.push_back(boost_point(-75.f, 85.f));
+  new_shape.push_back(boost_point(-75.f, 80.f));
+  new_shape.push_back(boost_point(-80.f, 80.f));
 
-    delete mp1;
+  boost_ring new_shape2;
+  new_shape2.push_back(boost_point(-80.f, -80.f));
+  new_shape2.push_back(boost_point(-80.f, -75.f));
+  new_shape2.push_back(boost_point(-75.f, -75.f));
+  new_shape2.push_back(boost_point(-75.f, -80.f));
+  new_shape2.push_back(boost_point(-80.f, -80.f));
 
-    terrain.removeMod(mp2);
+  //Check that the stored bbox is correctly updated when calling updateMod().
+  auto mp3_rect1 = mp3->bbox();
+  mp3->setShape(-5.f, new_shape);
+  auto mp3_rect2 = terrain.updateMod(mp3);
+  assert(mp3_rect1 == mp3_rect2);
+  auto mp3_rect3 = mp3->bbox();
+  mp3->setShape(-5.f, new_shape2);
+  auto mp3_rect4 = terrain.updateMod(mp3);
+  assert(mp3_rect3 == mp3_rect4);
 
-    delete mp2;
+  terrain.removeMod(mp1);
 
-    terrain.removeMod(mp3);
+  delete mp1;
 
-    delete mp3;
+  terrain.removeMod(mp3);
 
-    return terrain_mod_context_test(terrain);
+  delete mp3;
+
+  return terrain_mod_context_test(terrain);
 }
