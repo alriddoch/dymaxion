@@ -41,17 +41,16 @@ int main()
     // Create a test area with a shape which intersects
     // the Segment at 0,0
     dymaxion::Area* a1 = new dymaxion::Area(0, false);
-    
-    WFMath::Polygon<2> p;
-    p.addCorner(p.numCorners(), WFMath::Point<2>(3, 4));
-    p.addCorner(p.numCorners(), WFMath::Point<2>(10, 10));
-    p.addCorner(p.numCorners(), WFMath::Point<2>(14, 6));
-    p.addCorner(p.numCorners(), WFMath::Point<2>(18, 4));
-    p.addCorner(p.numCorners(), WFMath::Point<2>(17, 19));
-    p.addCorner(p.numCorners(), WFMath::Point<2>(6, 20));
-    p.addCorner(p.numCorners(), WFMath::Point<2>(-1, 18));
-    p.addCorner(p.numCorners(), WFMath::Point<2>(-8, 11));
-    
+
+    dymaxion::Area::ring p;
+    p.push_back(dymaxion::Area::point(3, 4));
+    p.push_back(dymaxion::Area::point(3, 10));
+    p.push_back(dymaxion::Area::point(14, 12));
+    p.push_back(dymaxion::Area::point(18, 4));
+    p.push_back(dymaxion::Area::point(17, 2));
+    p.push_back(dymaxion::Area::point(6, -2));
+    p.push_back(dymaxion::Area::point(3, 4));
+
     a1->setShape(p);
 
     // Add enough base points to force the creation of the Segment at 0,0
@@ -92,7 +91,7 @@ int main()
     assert(sfce->isValid());
 
     // Modify the areas shape
-    p.addCorner(p.numCorners(), WFMath::Point<2>(-9, 12));
+    p[5] = dymaxion::Area::point(-9, -2);
     a1->setShape(p);
 
     // and cause an area update

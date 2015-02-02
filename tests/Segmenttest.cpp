@@ -27,7 +27,10 @@ int main()
     s.getHeightAndNormal(17.1, 23.9, h, normal);
 
     unsigned int lx, ly, hx, hy;
-    s.clipToSegment(WFMath::AxisBox<2>(WFMath::Point<2>(50,50), WFMath::Point<2>(100,100)), lx, hx, ly, hy);
+    s.clipToSegment(dymaxion::Segment::box_type(
+                        dymaxion::Segment::point_type(50,50),
+                        dymaxion::Segment::point_type(100,100)
+                    ), lx, hx, ly, hy);
 
     return 0;
 }

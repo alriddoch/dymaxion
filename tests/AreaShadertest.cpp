@@ -41,16 +41,14 @@ void AreaShadertest::test_AreaShader()
 {
     dymaxion::Area* a1 = new dymaxion::Area(1, false);
     
-    WFMath::Polygon<2> p;
-    p.addCorner(p.numCorners(), Point2(3, 4));
-    p.addCorner(p.numCorners(), Point2(10, 10));
-    p.addCorner(p.numCorners(), Point2(14, 6));
-    p.addCorner(p.numCorners(), Point2(18, 4));
-    p.addCorner(p.numCorners(), Point2(17, 19));
-    p.addCorner(p.numCorners(), Point2(6, 20));
-    p.addCorner(p.numCorners(), Point2(-1, 18));
-    p.addCorner(p.numCorners(), Point2(-8, 11));
-    
+    dymaxion::Area::ring p;
+    p.push_back(dymaxion::Area::point(3, 4));
+    p.push_back(dymaxion::Area::point(3, 10));
+    p.push_back(dymaxion::Area::point(14, 12));
+    p.push_back(dymaxion::Area::point(18, 4));
+    p.push_back(dymaxion::Area::point(17, 2));
+    p.push_back(dymaxion::Area::point(6, -2));
+    p.push_back(dymaxion::Area::point(3, 4));
     a1->setShape(p);
     
     dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
