@@ -29,9 +29,9 @@ public:
 
     virtual ~TerrainMod();
 
-    int addToSegment(Segment &) const;
-    void updateToSegment(Segment &) const;
-    void removeFromSegment(Segment &) const;
+    int addToSegment(Segment &) const override;
+    void updateToSegment(Segment &) const override;
+    void removeFromSegment(Segment &) const override;
 
     /// \brief Change the function used to apply this mod to existing points
     void setFunction(effector_func f) {

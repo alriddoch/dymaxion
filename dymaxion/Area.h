@@ -78,9 +78,9 @@ public:
         return m_shader;
     }
 
-    int addToSegment(Segment &) const;
-    void updateToSegment(Segment &) const;
-    void removeFromSegment(Segment &) const;
+    int addToSegment(Segment &) const override;
+    void updateToSegment(Segment &) const override;
+    void removeFromSegment(Segment &) const override;
     
     /**
     Test if a segment intersects this area
