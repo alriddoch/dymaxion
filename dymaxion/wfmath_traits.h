@@ -491,6 +491,57 @@ struct access<WFMath::Point<dim>, 1>
   }
 };
 
+template <int dim>
+struct tag<WFMath::Vector<dim>>
+{
+  typedef point_tag type;
+};
+
+template <int dim>
+struct coordinate_type<WFMath::Vector<dim>>
+{
+  typedef WFMath::CoordType type;
+};
+
+template <int dim>
+struct coordinate_system<WFMath::Vector<dim>>
+{
+  typedef cs::cartesian type;
+};
+
+template <int dim>
+struct dimension<WFMath::Vector<dim>>
+    : boost::mpl::int_<dim>
+{ };
+
+template <int dim>
+struct access<WFMath::Vector<dim>, 0>
+{
+  static WFMath::CoordType get(WFMath::Vector<dim> const & p)
+  {
+    return p.x();
+  }
+
+  static void set(WFMath::Vector<dim> & p, WFMath::CoordType value)
+  {
+    p.x() = value;
+  }
+};
+
+template <int dim>
+struct access<WFMath::Vector<dim>, 1>
+{
+  static WFMath::CoordType get(WFMath::Vector<dim> const & p)
+  {
+    return p.y();
+  }
+
+  static void set(WFMath::Vector<dim> & p, WFMath::CoordType value)
+  {
+    p.y() = value;
+  }
+};
+
 }
 
 }}
