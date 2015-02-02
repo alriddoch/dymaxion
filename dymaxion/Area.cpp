@@ -74,9 +74,12 @@ void Area::updateToSegment(Segment & s) const
 
 void Area::removeFromSegment(Segment & s) const
 {
-    if (checkIntersects(s)) {
-        s.removeArea(this);
-    }
+  // We can't do a check here, because the shape of this area has probably
+  // been modified (which is why it's being removed), so checkIntersects()
+  // tells us nothing about whether this Area used to intersect with
+  // a given Segment. Instead we just call removeArea(), which has no effect
+  // if this Area never intersected it.
+  s.removeArea(this);
 }
 
 Area::ring Area::clipToSegment(const Segment& s) const
