@@ -29,28 +29,29 @@ void testAreaShader()
 {
     dymaxion::Area* a1 = new dymaxion::Area(1, false);
     
-    WFMath::Polygon<2> p;
-    p.addCorner(p.numCorners(), Point2(3, 4));
-    p.addCorner(p.numCorners(), Point2(10, 10));
-    p.addCorner(p.numCorners(), Point2(14, 6));
-    p.addCorner(p.numCorners(), Point2(18, 4));
-    p.addCorner(p.numCorners(), Point2(17, 19));
-    p.addCorner(p.numCorners(), Point2(6, 20));
-    p.addCorner(p.numCorners(), Point2(-1, 18));
-    p.addCorner(p.numCorners(), Point2(-8, 11));
+    dymaxion::Area::ring p;
+    p.push_back(dymaxion::Area::point(3, 4));
+    p.push_back(dymaxion::Area::point(3, 10));
+    p.push_back(dymaxion::Area::point(14, 12));
+    p.push_back(dymaxion::Area::point(18, 4));
+    p.push_back(dymaxion::Area::point(17, 2));
+    p.push_back(dymaxion::Area::point(6, -2));
+    p.push_back(dymaxion::Area::point(3, 4));
     
     a1->setShape(p);
     
     dymaxion::Area* a2 = new dymaxion::Area(1, false);
     
-    WFMath::Polygon<2> p2;
-    p2.addCorner(p2.numCorners(), Point2(25, 18));
-    p2.addCorner(p2.numCorners(), Point2(72, 22));
-    p2.addCorner(p2.numCorners(), Point2(60, 30));
-    p2.addCorner(p2.numCorners(), Point2(27, 28));
-    p2.addCorner(p2.numCorners(), Point2(25, 45));
-    p2.addCorner(p2.numCorners(), Point2(3, 41));
-    p2.addCorner(p2.numCorners(), Point2(-2, 20));
+    dymaxion::Area::ring p2;
+    p2.push_back(dymaxion::Area::point(-2, 2));
+    p2.push_back(dymaxion::Area::point(2, 18));
+    p2.push_back(dymaxion::Area::point(72, 22));
+    p2.push_back(dymaxion::Area::point(60, 30));
+    p2.push_back(dymaxion::Area::point(67, 2));
+    p2.push_back(dymaxion::Area::point(25, 4));
+    p2.push_back(dymaxion::Area::point(3, 4));
+    p2.push_back(dymaxion::Area::point(2, 8));
+    p2.push_back(dymaxion::Area::point(-2, 2));
     a2->setShape(p2);
     
     dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
@@ -90,11 +91,12 @@ void testAddToSegment()
 {
     dymaxion::Area* a1 = new dymaxion::Area(1, false);
     
-    WFMath::Polygon<2> p;
-    p.addCorner(p.numCorners(), Point2(1, 1));
-    p.addCorner(p.numCorners(), Point2(6, 1));
-    p.addCorner(p.numCorners(), Point2(6, 6));
-    p.addCorner(p.numCorners(), Point2(1, 6));
+    dymaxion::Area::ring p;
+    p.push_back(dymaxion::Area::point(1, 1));
+    p.push_back(dymaxion::Area::point(1, 6));
+    p.push_back(dymaxion::Area::point(6, 6));
+    p.push_back(dymaxion::Area::point(6, 1));
+    p.push_back(dymaxion::Area::point(1, 1));
     
     a1->setShape(p);
     
@@ -113,11 +115,14 @@ int main(int argc, char* argv[])
 {
     dymaxion::Area* a1 = new dymaxion::Area(1, false);
     
-    WFMath::Polygon<2> p;
-    p.addCorner(p.numCorners(), Point2(3, 4));
-    p.addCorner(p.numCorners(), Point2(10, 10));
-    p.addCorner(p.numCorners(), Point2(-1, 18));
-    p.addCorner(p.numCorners(), Point2(-8, 11));
+    dymaxion::Area::ring p;
+    p.push_back(dymaxion::Area::point(-3, 4));
+    p.push_back(dymaxion::Area::point(3, 5));
+    p.push_back(dymaxion::Area::point(4, 10));
+    p.push_back(dymaxion::Area::point(6, 18));
+    p.push_back(dymaxion::Area::point(7, 1));
+    p.push_back(dymaxion::Area::point(-2, 1));
+    p.push_back(dymaxion::Area::point(-3, 4));
     
     a1->setShape(p);
     
@@ -133,6 +138,7 @@ int main(int argc, char* argv[])
     terrain.setBasePoint(-1, -1, 4);
     terrain.setBasePoint(-1, 0, 6);
     terrain.setBasePoint(-1, 1, 10);
+    terrain.setBasePoint(-1, 2, 10);
     
     terrain.setBasePoint(0, -1, 2);
     terrain.setBasePoint(0, 0, -1);
@@ -147,10 +153,12 @@ int main(int argc, char* argv[])
     terrain.setBasePoint(2, -1, 3);
     terrain.setBasePoint(2, 0, 8);
     terrain.setBasePoint(2, 1, 2);
+    terrain.setBasePoint(2, 2, 2);
 
     terrain.setBasePoint(3, -1, 6);
     terrain.setBasePoint(3, 0, 7);
     terrain.setBasePoint(3, 1, 9);
+    terrain.setBasePoint(3, 2, 9);
     
     terrain.addArea(a1);
     
@@ -164,8 +172,8 @@ int main(int argc, char* argv[])
     assert(seg->getAreas().count(1) == 0);
     assert(a1->checkIntersects(*seg) == false);
 
-    WFMath::Polygon<2> clipped = a1->clipToSegment(*seg);
-    assert(clipped.isValid());
+    auto clipped = a1->clipToSegment(*seg);
+    assert(clipped.empty());
     
     seg = terrain.getSegment(-1,0);
     assert(seg->getAreas().size() == 1);
@@ -173,26 +181,49 @@ int main(int argc, char* argv[])
     assert(a1->checkIntersects(*seg));
     
     clipped = a1->clipToSegment(*seg);
-    assert(clipped.isValid());
+    assert(!clipped.empty());
     
+    seg = terrain.getSegment(-1,-1);
+    assert(seg->getAreas().size() == 0);
+    assert(seg->getAreas().count(1) == 0);
+    assert(a1->checkIntersects(*seg) == false);
+
+    seg = terrain.getSegment(-1,1);
+    assert(seg->getAreas().size() == 0);
+    assert(seg->getAreas().count(1) == 0);
+    assert(a1->checkIntersects(*seg) == false);
+
     seg = terrain.getSegment(0,1);
     assert(seg->getAreas().size() == 1);
     assert(seg->getAreas().count(1) == 1);
     assert(a1->checkIntersects(*seg));
     
     clipped = a1->clipToSegment(*seg);
-    assert(clipped.isValid());
+    assert(!clipped.empty());
+
+    seg = terrain.getSegment(1,1);
+    assert(seg->getAreas().size() == 0);
+    assert(seg->getAreas().count(1) == 0);
+    assert(a1->checkIntersects(*seg) == false);
 
     seg = terrain.getSegment(2,0);
     assert(seg->getAreas().size() == 0);
     assert(seg->getAreas().count(1) == 0);
     assert(a1->checkIntersects(*seg) == false);
 
+    seg = terrain.getSegment(2,1);
+    assert(seg->getAreas().size() == 0);
+    assert(seg->getAreas().count(1) == 0);
+    assert(a1->checkIntersects(*seg) == false);
+
     p.clear();
-    p.addCorner(p.numCorners(), Point2(3 + seg_size, 4));
-    p.addCorner(p.numCorners(), Point2(10 + seg_size, 10));
-    p.addCorner(p.numCorners(), Point2(-1 + seg_size, 18));
-    p.addCorner(p.numCorners(), Point2(-8 + seg_size, 11));
+    p.push_back(dymaxion::Area::point(-3 + seg_size, 4));
+    p.push_back(dymaxion::Area::point(3 + seg_size, 5));
+    p.push_back(dymaxion::Area::point(4 + seg_size, 10));
+    p.push_back(dymaxion::Area::point(6 + seg_size, 18));
+    p.push_back(dymaxion::Area::point(7 + seg_size, 1));
+    p.push_back(dymaxion::Area::point(-2 + seg_size, 1));
+    p.push_back(dymaxion::Area::point(-3 + seg_size, 4));
     
     a1->setShape(p);
 
@@ -203,13 +234,16 @@ int main(int argc, char* argv[])
     assert(seg->getAreas().count(1) == 1);
     assert(a1->checkIntersects(*seg));
     
+    clipped = a1->clipToSegment(*seg);
+    assert(!clipped.empty());
+
     seg = terrain.getSegment(1,0);
     assert(seg->getAreas().size() == 1);
     assert(seg->getAreas().count(1) == 1);
     assert(a1->checkIntersects(*seg));
 
     clipped = a1->clipToSegment(*seg);
-    assert(clipped.isValid());
+    assert(!clipped.empty());
     
     seg = terrain.getSegment(-1,0);
     assert(seg->getAreas().size() == 0);
@@ -217,20 +251,17 @@ int main(int argc, char* argv[])
     assert(a1->checkIntersects(*seg) == false);
     
     seg = terrain.getSegment(0,1);
-    assert(seg->getAreas().size() == 1);
-    assert(seg->getAreas().count(1) == 1);
-    assert(a1->checkIntersects(*seg));
+    assert(seg->getAreas().size() == 0);
+    assert(seg->getAreas().count(1) == 0);
+    assert(a1->checkIntersects(*seg) == false);
     
-    clipped = a1->clipToSegment(*seg);
-    assert(clipped.isValid());
-
     seg = terrain.getSegment(2,0);
     assert(seg->getAreas().size() == 0);
     assert(seg->getAreas().count(1) == 0);
     assert(a1->checkIntersects(*seg) == false);
 
     clipped = a1->clipToSegment(*seg);
-    assert(clipped.isValid());
+    assert(clipped.empty());
 
     terrain.removeArea(a1);
 
