@@ -10,7 +10,6 @@
 #include <dymaxion/BasePoint.h>
 
 #include <wfmath/vector.h>
-#include <wfmath/axisbox.h>
 
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
@@ -40,7 +39,11 @@ class Segment {
   public:
     typedef boost::geometry::model::d2::point_xy<
         float, boost::geometry::cs::cartesian> point_type;
-    typedef boost::geometry::model::box<point_type> box_type;
+    typedef boost::geometry::model::box<point_type> rect_type;
+
+    typedef boost::geometry::model::point<
+        float, 3, boost::geometry::cs::cartesian> point3_type;
+    typedef boost::geometry::model::box<point3_type> box_type;
 
     /// STL map of pointers to Surface objects.
     typedef std::map<int, Surface *> Surfacestore;
@@ -175,7 +178,7 @@ class Segment {
 
     void getHeightAndNormal(float x, float y, float &h, 
                     WFMath::Vector<3> &normal) const;
-    bool clipToSegment(box_type const & bbox,
+    bool clipToSegment(rect_type const & bbox,
                        unsigned int &lx,
                        unsigned int &hx,
                        unsigned int &ly,
@@ -192,10 +195,10 @@ class Segment {
     float getMin() const { return m_min; }
 
     /// \brief The 2d area covered by this segment
-    box_type getRect() const;
+    rect_type getRect() const;
 
     /// \brief The 3d box covered by this segment
-    WFMath::AxisBox<3> getBox() const;
+    box_type getBox() const;
 
     int addMod(const TerrainMod *t);
     int updateMod(const TerrainMod *t);

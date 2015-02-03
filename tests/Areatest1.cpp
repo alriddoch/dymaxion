@@ -199,10 +199,10 @@ Segment::~Segment()
 {
 }
 
-Segment::box_type Segment::getRect() const
+Segment::rect_type Segment::getRect() const
 {
   point_type lp(0,0), hp(64,64);
-  return box_type(lp, hp);
+  return rect_type(lp, hp);
 }
 
 int Segment::addArea(Area const * area)

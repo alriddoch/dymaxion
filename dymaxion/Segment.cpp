@@ -497,7 +497,7 @@ void Segment::getHeightAndNormal(float x, float y, float& h,
 /// @param ly lower y coordinate of intersection area.
 /// @param hy upper y coordinate of intersection area.
 /// @return true if the box intersects with this Segment, false otherwise.
-bool Segment::clipToSegment(box_type const & bbox,
+bool Segment::clipToSegment(rect_type const & bbox,
                             unsigned int &lx, unsigned int &hx,
                             unsigned int &ly, unsigned int &hy) const
 {
@@ -581,9 +581,9 @@ void Segment::clearMods()
 void Segment::applyMod(const TerrainMod *t)
 {
     unsigned int lx,hx,ly,hy;
-    box_type const & bbox=t->bbox();
+    Effector::box const & bbox=t->bbox();
 
-    box_type local_box;
+    rect_type local_box;
     boost::geometry::strategy::transform::translate_transformer<float, 2, 2>
         translate((float)-m_xRef, (float)-m_yRef);
     boost::geometry::transform(bbox, local_box, translate);
@@ -675,18 +675,18 @@ int Segment::removeArea(const Area* area)
     return -1;
 }
 
-Segment::box_type Segment::getRect() const
+Segment::rect_type Segment::getRect() const
 {
     point_type lp(m_xRef, m_yRef),
         hp(lp.x() + m_res, lp.y() + m_res);
-    return box_type(lp, hp);
+    return rect_type(lp, hp);
 }
 
-WFMath::AxisBox<3> Segment::getBox() const
+Segment::box_type Segment::getBox() const
 {
-    WFMath::Point<3> lp(m_xRef, m_yRef, m_min),
-        hp(lp.x() + m_res, lp.y() + m_res, m_max);
-    return WFMath::AxisBox<3>(lp, hp);
+    point3_type lp(m_xRef, m_yRef, m_min),
+        hp(m_xRef + m_res, m_yRef + m_res, m_max);
+    return box_type(lp, hp);
 }
 
 } // namespace dymaxion

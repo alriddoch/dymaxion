@@ -27,7 +27,7 @@ int main()
     s.getHeightAndNormal(17.1, 23.9, h, normal);
 
     unsigned int lx, ly, hx, hy;
-    s.clipToSegment(dymaxion::Segment::box_type(
+    s.clipToSegment(dymaxion::Segment::rect_type(
                         dymaxion::Segment::point_type(50,50),
                         dymaxion::Segment::point_type(100,100)
                     ), lx, hx, ly, hy);
