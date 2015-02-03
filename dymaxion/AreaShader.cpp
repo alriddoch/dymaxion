@@ -23,6 +23,11 @@
 
 #include <cassert>
 
+namespace
+{
+  typedef std::tuple<float, float> Vector2;
+}
+
 namespace dymaxion
 {
 
@@ -82,8 +87,8 @@ static void scanConvert(const Polygon & inPoly, Surface& sf)
     }
     
     // TODO templatize Edge, so it will work with whatever we have here
-    std::list<Edge<point_type>> pending;
-    std::vector<Edge<point_type>> active;
+    std::list<Edge<point_type, Vector2>> pending;
+    std::vector<Edge<point_type, Vector2>> active;
 
     auto lastPt = inPoly[inPoly.size() - 1];
     for (std::size_t p = 0; p < inPoly.size(); ++p) {
@@ -94,7 +99,7 @@ static void scanConvert(const Polygon & inPoly, Surface& sf)
         {
           point_type e1(lastPt.x(), lastPt.y()),
                      e2(curPt.x(), curPt.y());
-          Edge<point_type> edge(e1, e2);
+          Edge<point_type, Vector2> edge(e1, e2);
           pending.push_back(edge);
         }
         
@@ -122,7 +127,8 @@ static void scanConvert(const Polygon & inPoly, Surface& sf)
         }
         
         // sort by x value - note active will be close to sorted anyway
-        std::sort(active.begin(), active.end(), EdgeAtY<point_type>(y));
+        std::sort(active.begin(), active.end(),
+                  EdgeAtY<point_type, Vector2>(y));
         
         // delete finished edges
         for (decltype(active.size()) i = 0; i < active.size(); ) {

@@ -5,12 +5,8 @@
 #ifndef DYMAXION_EDGE_H
 #define DYMAXION_EDGE_H
 
-#include <dymaxion/tuple_traits.h>
-
 #include <boost/geometry/core/access.hpp>
 #include <boost/geometry/core/coordinate_type.hpp>
-
-#include <tuple>
 
 #include <cassert>
 
@@ -22,11 +18,8 @@ class EdgeAtYtest;
 namespace dymaxion
 {
 
-typedef std::tuple<float, float> Point2;
-typedef std::tuple<float, float> Vector2;
-
 /// \brief The edge of an area.
-template <class Point = Point2, class Vector = Vector2>
+template <class Point, class Vector>
 class Edge
 {
     typedef typename boost::geometry::traits::coordinate_type<Point>::type coord_type;
@@ -64,7 +57,7 @@ public:
         // as we already asserted above.
         m_inverseGradient =
             boost::geometry::traits::access<Vector, 0>::get(m_seg) /
-            boost::geometry::traits::access<Vector2, 1>::get(m_seg);
+            boost::geometry::traits::access<Vector, 1>::get(m_seg);
     }
     
     /// Accessor for the point describing the start of the edge.
@@ -115,7 +108,7 @@ private:
 };
 
 /// \brief The edge of an area parallel to the x axis.
-template <class Point = Point2>
+template <class Point, class Vector>
 class EdgeAtY
 {
     typedef typename boost::geometry::traits::coordinate_type<Point>::type coord_type;
@@ -126,7 +119,8 @@ public:
     EdgeAtY(coord_type y) : m_y(y) {}
     
     /// Determine which edge crosses this edge at a lower x coordinate.
-    bool operator()(const Edge<Point>& u, const Edge<Point>& v) const
+    bool operator()(const Edge<Point, Vector>& u,
+                    const Edge<Point, Vector>& v) const
     {
         return u.xValueAtY(m_y) < v.xValueAtY(m_y);
     }
