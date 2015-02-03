@@ -5,7 +5,7 @@
 #ifndef DYMAXION_EDGE_H
 #define DYMAXION_EDGE_H
 
-#include <wfmath/vector.h>
+#include <dymaxion/tuple_traits.h>
 
 #include <boost/geometry/core/access.hpp>
 #include <boost/geometry/core/coordinate_type.hpp>
@@ -23,10 +23,10 @@ namespace dymaxion
 {
 
 typedef std::tuple<float, float> Point2;
-typedef WFMath::Vector<2> Vector2;
+typedef std::tuple<float, float> Vector2;
 
 /// \brief The edge of an area.
-template <class Point = Point2>
+template <class Point = Point2, class Vector = Vector2>
 class Edge
 {
     typedef typename boost::geometry::traits::coordinate_type<Point>::type coord_type;
@@ -44,29 +44,37 @@ public:
         if (boost::geometry::traits::access<Point, 1>::get(a) <
             boost::geometry::traits::access<Point, 1>::get(b)) {
             m_start = a;
-            m_seg.x() = boost::geometry::traits::access<Point, 0>::get(b) -
-                        boost::geometry::traits::access<Point, 0>::get(a);
-            m_seg.y() = boost::geometry::traits::access<Point, 1>::get(b) -
-                        boost::geometry::traits::access<Point, 1>::get(a);
+            boost::geometry::traits::access<Vector, 0>::set(m_seg,
+                boost::geometry::traits::access<Point, 0>::get(b) -
+                    boost::geometry::traits::access<Point, 0>::get(a));
+            boost::geometry::traits::access<Vector, 1>::set(m_seg,
+                boost::geometry::traits::access<Point, 1>::get(b) -
+                    boost::geometry::traits::access<Point, 1>::get(a));
         } else {
             m_start = b;
-            m_seg.x() = boost::geometry::traits::access<Point, 0>::get(a) -
-                        boost::geometry::traits::access<Point, 0>::get(b);
-            m_seg.y() = boost::geometry::traits::access<Point, 1>::get(a) -
-                        boost::geometry::traits::access<Point, 1>::get(b);
+            boost::geometry::traits::access<Vector, 0>::set(m_seg,
+                boost::geometry::traits::access<Point, 0>::get(a) -
+                    boost::geometry::traits::access<Point, 0>::get(b));
+            boost::geometry::traits::access<Vector, 1>::set(m_seg,
+                boost::geometry::traits::access<Point, 1>::get(a) -
+                    boost::geometry::traits::access<Point, 1>::get(b));
         }
         
         // normal gradient is y/x, here we use x/y. seg.y() will be != 0,
         // as we already asserted above.
-        m_inverseGradient = m_seg.x() / m_seg.y();
+        m_inverseGradient =
+            boost::geometry::traits::access<Vector, 0>::get(m_seg) /
+            boost::geometry::traits::access<Vector2, 1>::get(m_seg);
     }
     
     /// Accessor for the point describing the start of the edge.
     Point start() const { return m_start; }
     /// Determine the point describing the end of the edge.
     Point end() const { return Point(
-          boost::geometry::traits::access<Point, 0>::get(m_start) + m_seg.x(),
-          boost::geometry::traits::access<Point, 1>::get(m_start) + m_seg.y()
+          boost::geometry::traits::access<Point, 0>::get(m_start) +
+              boost::geometry::traits::access<Vector, 0>::get(m_seg),
+          boost::geometry::traits::access<Point, 1>::get(m_start) +
+              boost::geometry::traits::access<Vector, 1>::get(m_seg)
       );
     }
     
@@ -101,7 +109,7 @@ private:
     /// The point describing the start of the edge.
     Point m_start;
     /// The vector describing the edge from its start.
-    Vector2 m_seg;
+    Vector m_seg;
     /// The inverse of the gradient of the line.
     coord_type m_inverseGradient;
 };
