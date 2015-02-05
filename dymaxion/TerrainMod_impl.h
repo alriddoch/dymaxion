@@ -9,8 +9,6 @@
 
 #include <dymaxion/Segment.h>
 
-#include <wfmath/point.h>
-
 #include <boost/geometry/algorithms/centroid.hpp>
 #include <boost/geometry/algorithms/envelope.hpp>
 #include <boost/geometry/algorithms/intersects.hpp>
