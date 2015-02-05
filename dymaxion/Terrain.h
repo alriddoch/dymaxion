@@ -8,8 +8,7 @@
 #include <dymaxion/dymaxion.h>
 #include <dymaxion/BasePoint.h>
 
-#include <wfmath/axisbox.h>
-#include <wfmath/point.h>
+#include <wfmath/vector.h>
 
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
@@ -38,7 +37,6 @@ class Effector;
 class Terrain {
   public:
     /// \brief Bounding box
-    typedef WFMath::AxisBox<2> Rect;
 
     typedef boost::geometry::model::d2::point_xy<
         float, boost::geometry::cs::cartesian> point;
