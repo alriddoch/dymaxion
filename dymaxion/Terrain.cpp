@@ -191,7 +191,7 @@ float Terrain::get(float x, float y) const
 /// normal value.
 /// @return true if heightdata was available, false otherwise.
 bool Terrain::getHeightAndNormal(float x, float y, float & h,
-                                 WFMath::Vector<3> & n) const
+                                 std::tuple<float,float,float> & n) const
 {
     int ix = std::lrint(std::floor(x / m_spacing));
     int iy = std::lrint(std::floor(y / m_spacing));

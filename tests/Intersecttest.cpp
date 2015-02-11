@@ -170,9 +170,8 @@ int main()
  
     //check the height value
     float h;
-    WFMath::Vector<3> n;
+    std::tuple<float,float,float> n;
     terrain.getHeightAndNormal(intPoint[0], intPoint[1], h, n);
-    n.normalize();
 
     if (n != intNorm) {
         std::cerr << "calculated normal is different from getHeightAndNormal" << std::endl;

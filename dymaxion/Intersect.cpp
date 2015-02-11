@@ -87,7 +87,7 @@ bool Intersect(const Terrain &t, const WFMath::AxisBox<3> &bbox)
 
 static float HOT(const Terrain &t, const WFMath::Point<3> &pt, float & h) 
 {
-    WFMath::Vector<3> normal; 
+    std::tuple<float,float,float> normal; 
     float terrHeight;
     if (!t.getHeightAndNormal(pt[0], pt[1], terrHeight, normal)) {
         return false;
@@ -104,10 +104,12 @@ bool Intersect(const Terrain &t, const WFMath::Point<3> &pt)
 }
 
 //helper function for ray terrain intersection
-static bool cellIntersect(float h1, float h2, float h3, float h4, float X, float Y, 
-                   const WFMath::Vector<3> &nDir, float dirLen,
-                   const WFMath::Point<3> &sPt, WFMath::Point<3> &intersection,
-                   WFMath::Vector<3> &normal, float &par)
+static bool cellIntersect(float h1, float h2, float h3, float h4,
+                          float X, float Y, 
+                          const WFMath::Vector<3> &nDir, float dirLen,
+                          const WFMath::Point<3> &sPt,
+                          WFMath::Point<3> &intersection,
+                          WFMath::Vector<3> &normal, float &par)
 {
     //ray plane intersection roughly using the following:
     //parametric ray eqn:  p=po + par V
@@ -215,8 +217,11 @@ static bool cellIntersect(float h1, float h2, float h3, float h4, float X, float
 //par is the distance along the ray where intersection occurs
 //0.0 == start, 1.0 == end.
 
-bool Intersect(const Terrain &t, const WFMath::Point<3> &sPt, const WFMath::Vector<3>& dir,
-        WFMath::Point<3> &intersection, WFMath::Vector<3> &normal, float &par)
+bool Intersect(const Terrain &t,
+               const WFMath::Point<3> &sPt,
+               const WFMath::Vector<3>& dir,
+               WFMath::Point<3> &intersection,
+               WFMath::Vector<3> &normal, float &par)
 {
     //FIXME early reject using segment max
     //FIXME handle height point getting in a more optimal way

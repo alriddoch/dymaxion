@@ -434,6 +434,29 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
     delete [] edge;
 }
 
+static inline void shift(std::tuple<float,float,float> & vec,
+                         float x, float y, float z)
+{
+  std::get<0>(vec) += x;
+  std::get<1>(vec) += y;
+  std::get<2>(vec) += z;
+}
+
+static inline float sqr(float val)
+{
+  return val * val;
+}
+
+static inline void normalise(std::tuple<float,float,float> & vec)
+{
+  float mag = std::sqrt(sqr(std::get<0>(vec)) +
+                        sqr(std::get<1>(vec)) +
+                        sqr(std::get<2>(vec)));
+  std::get<0>(vec) /= mag;
+  std::get<1>(vec) /= mag;
+  std::get<2>(vec) /= mag;
+}
+
 /// \brief Get an accurate height and normal vector at a given coordinate
 /// relative to this segment.
 ///
@@ -447,7 +470,7 @@ void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
 /// triangle has relative vertex coordinates (0,0) (1,0) (1,1) and
 /// the second triangle has vertex coordinates (0,0) (0,1) (1,1).
 void Segment::getHeightAndNormal(float x, float y, float& h,
-                                 WFMath::Vector<3> &normal) const
+                                 std::tuple<float,float,float> & normal) const
 {
     // FIXME this ignores edges and corners
     assert(x <= m_res);
@@ -471,19 +494,19 @@ void Segment::getHeightAndNormal(float x, float y, float& h,
     // square is broken into two triangles
     // top triangle |/
     if ((off_x - off_y) <= 0.f) {
-        normal = WFMath::Vector<3>(h2-h3, h1-h2, 1.0f);
+        normal = std::tuple<float,float,float>{h2-h3, h1-h2, 1.0f};
 
         //normal for intersection of both triangles
         if (off_x == off_y) {
-            normal += WFMath::Vector<3>(h1-h4, h4-h3, 1.0f);
+            shift(normal, h1-h4, h4-h3, 1.0f);
         }
-        normal.normalize();
+        normalise(normal);
         h = h1 + (h3-h2) * off_x + (h2-h1) * off_y;
     }
     // bottom triangle /|
     else {
-        normal = WFMath::Vector<3>(h1-h4, h4-h3, 1.0f);
-        normal.normalize();
+        normal = std::tuple<float,float,float>{h1-h4, h4-h3, 1.0f};
+        normalise(normal);
         h = h1 + (h4-h1) * off_x + (h3-h4) * off_y;
     }
 }

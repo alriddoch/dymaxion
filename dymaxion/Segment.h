@@ -177,7 +177,7 @@ class Segment {
     }
 
     void getHeightAndNormal(float x, float y, float &h, 
-                    WFMath::Vector<3> &normal) const;
+                            std::tuple<float,float,float> & normal) const;
     bool clipToSegment(rect_type const & bbox,
                        unsigned int &lx,
                        unsigned int &hx,

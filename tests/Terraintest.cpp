@@ -162,7 +162,7 @@ int main()
     //If not, something has changed regarding the algorithm used for generating the terrain.
     segment->populate();
     float height = 0;
-    WFMath::Vector<3> normal;
+    std::tuple<float,float,float> normal;
     terrain.getHeightAndNormal(5.5f, 6.5f, height, normal);
     if (!WFMath::Equal(height, 2.00456953f)) {
         std::cerr << "Height sampling is incorrect. This is caused by the underlying algorithm being changed."

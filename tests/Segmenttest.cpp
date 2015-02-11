@@ -21,7 +21,7 @@ int main()
     s.populateSurfaces();
 
     float h;
-    WFMath::Vector<3> normal;
+    std::tuple<float,float,float> normal;
     s.getHeightAndNormal(17.0, 23.0, h, normal);
     s.getHeightAndNormal(17.9, 23.1, h, normal);
     s.getHeightAndNormal(17.1, 23.9, h, normal);

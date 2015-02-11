@@ -111,7 +111,8 @@ class Terrain {
     ~Terrain();
 
     float get(float x, float y) const;
-    bool getHeightAndNormal(float x, float y, float&, WFMath::Vector<3>&) const;
+    bool getHeightAndNormal(float x, float y, float & height,
+                            std::tuple<float,float,float> & normal) const;
 
     bool getBasePoint(int x, int y, BasePoint& z) const;
     void setBasePoint(int x, int y, const BasePoint& z);
