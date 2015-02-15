@@ -6,6 +6,8 @@
 #include <dymaxion/Segment.h>
 #include <dymaxion/Intersect.h>
 
+#include <wfmath/vector.h>
+
 #include <iostream>
 
 std::ostream & operator<<(std::ostream & os,

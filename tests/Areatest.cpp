@@ -10,8 +10,6 @@
 #include <iostream>
 #include <fstream>
 
-typedef WFMath::Point<2> Point2;
-
 void writePGMForSurface(const std::string& fileName, int sz, dymaxion::Surface* s)
 {
     assert(s);

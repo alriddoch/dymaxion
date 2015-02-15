@@ -11,8 +11,6 @@
 
 #include <cassert>
 
-typedef WFMath::Point<2> Point2;
-
 class AreaShadertest : public Test::Suite
 {
  public:

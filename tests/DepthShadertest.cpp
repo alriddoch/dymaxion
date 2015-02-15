@@ -9,8 +9,6 @@
 
 #include <cassert>
 
-typedef WFMath::Point<2> Point2;
-
 void testDepthShader()
 {
     dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);

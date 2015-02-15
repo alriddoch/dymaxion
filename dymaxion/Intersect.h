@@ -6,7 +6,6 @@
 #define DYMAXION_INTERSECT
 
 #include <wfmath/axisbox.h>
-#include <wfmath/vector.h>
 #include <wfmath/point.h>
 #include <dymaxion/Terrain.h>
 

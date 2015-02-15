@@ -8,8 +8,6 @@
 
 #include <cassert>
 
-typedef WFMath::Point<2> Point2;
-
 void testHighShader()
 {
     dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);

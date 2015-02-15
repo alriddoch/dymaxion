@@ -8,8 +8,6 @@
 #include <dymaxion/dymaxion.h>
 #include <dymaxion/BasePoint.h>
 
-#include <wfmath/vector.h>
-
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 
