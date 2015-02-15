@@ -18,8 +18,6 @@
 
 #include <cassert>
 
-typedef WFMath::Point<2> Point2;
-
 void dumpPlants(const dymaxion::Forest::PlantStore & plants)
 {
     dymaxion::Forest::PlantStore::const_iterator I = plants.begin();
@@ -30,9 +28,10 @@ void dumpPlants(const dymaxion::Forest::PlantStore & plants)
             std::cout << "Query found plant at [" << I->first
                       << ", " << J->first << "] with height "
                       << p.getHeight();
+            auto dp = p.getDisplacement<WFMath::Point<2>>();
             std::cout << " displaced to "
-                      << (WFMath::Vector<2>(I->first, J->first) +
-                          p.getDisplacement<WFMath::Point<2>>())
+                      << I->first + dp[0] << ","
+                      << J->first + dp[1]
                       << std::endl << std::flush;
         }
     }
