@@ -5,8 +5,21 @@
 #include <dymaxion/Terrain.h>
 #include <dymaxion/Segment.h>
 #include <dymaxion/Intersect.h>
+#include <dymaxion/tuple_vector.h>
+#include <dymaxion/wfmath_traits.h>
 
 #include <iostream>
+
+std::ostream & operator<<(std::ostream & os,
+                          std::tuple<float,float,float> const & arg)
+{
+  os << "("
+     << std::get<0>(arg) << ","
+     << std::get<1>(arg) << ","
+     << std::get<2>(arg)
+     << ")" << std::endl;
+  return os;
+}
 
 //test intersection using a rudimentary physics simulation
 //this drops a particle onto the terrain and it bounces around a bit
@@ -30,11 +43,11 @@ int main()
     segment->populate();
     
     WFMath::Point<3> pos(30.0,30.0,100.0); //starting position
-    WFMath::Vector<3> vel(0.0,1.0,0.0); //starting velocity
-    WFMath::Vector<3> grav(0.0,0.0,-9.8); //gravity
+    std::tuple<float,float,float> vel(0.0,1.0,0.0); //starting velocity
+    std::tuple<float,float,float> grav(0.0,0.0,-9.8); //gravity
 
     WFMath::Point<3> intersection;
-    WFMath::Vector<3> intnormal;
+    std::tuple<float,float,float> intnormal;
     
     float timestep = 0.1;
     float e = 0.2; //elasticity of collision
@@ -43,17 +56,20 @@ int main()
     float t = timestep;
 
     while (totalT > timestep) {
-        vel += t * grav;
-        if (dymaxion::Intersect(terrain, pos, vel * t, intersection, intnormal, par)) {
+        dymaxion::add_i(vel, dymaxion::scale(grav, t));
+        if (dymaxion::Intersect(terrain, pos, dymaxion::scale(vel, t), intersection, intnormal, par)) {
             //set pos to collision time, 
             //less a small amout to keep objects apart
-            pos = intersection - (vel * .01 * t); 
+            pos = dymaxion::translate(intersection,
+                                      dymaxion::scale(vel, -.01 * t));
                                                       
-            WFMath::Vector<3> impulse = intnormal * (Dot(vel, intnormal) * -2);
+            std::tuple<float,float,float> impulse =
+                dymaxion::scale(intnormal, dymaxion::dot(vel, intnormal) * -2);
             std::cerr << "HIT" << std::endl;
-            vel = (vel + impulse) * e; //not sure of the impulse equation, but this will do
+            //not sure of the impulse equation, but this will do
+            vel = dymaxion::scale(dymaxion::add(vel, impulse), e);
                 
-            if (vel.sqrMag() < 0.01) {
+            if (dymaxion::sqr_mag(vel) < 0.01) {
                 //stop if velocities are small
                 std::cerr << "friction stop" << std::endl;
                 break;
@@ -62,7 +78,7 @@ int main()
             t = (1.0-par)*t;
         }
         else {
-            pos += vel*t;
+            dymaxion::translate_i(pos, dymaxion::scale(vel, t));
             totalT -= t;
             t = timestep;
         }

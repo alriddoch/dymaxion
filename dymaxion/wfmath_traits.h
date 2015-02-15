@@ -492,6 +492,20 @@ struct access<WFMath::Point<dim>, 1>
 };
 
 template <int dim>
+struct access<WFMath::Point<dim>, 2>
+{
+  static WFMath::CoordType get(WFMath::Point<dim> const & p)
+  {
+    return p.z();
+  }
+
+  static void set(WFMath::Point<dim> & p, WFMath::CoordType value)
+  {
+    p.z() = value;
+  }
+};
+
+template <int dim>
 struct tag<WFMath::Vector<dim>>
 {
   typedef point_tag type;
@@ -539,6 +553,20 @@ struct access<WFMath::Vector<dim>, 1>
   static void set(WFMath::Vector<dim> & p, WFMath::CoordType value)
   {
     p.y() = value;
+  }
+};
+
+template <int dim>
+struct access<WFMath::Vector<dim>, 2>
+{
+  static WFMath::CoordType get(WFMath::Vector<dim> const & p)
+  {
+    return p.z();
+  }
+
+  static void set(WFMath::Vector<dim> & p, WFMath::CoordType value)
+  {
+    p.z() = value;
   }
 };
 

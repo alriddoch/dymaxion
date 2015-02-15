@@ -8,6 +8,17 @@
 
 #include <iostream>
 
+std::ostream & operator<<(std::ostream & os,
+                          std::tuple<float,float,float> const & arg)
+{
+  os << "("
+     << std::get<0>(arg) << ","
+     << std::get<1>(arg) << ","
+     << std::get<2>(arg)
+     << ")" << std::endl;
+  return os;
+}
+
 int main()
 {
     dymaxion::Terrain terrain;
@@ -96,74 +107,74 @@ int main()
 
 
     WFMath::Point<3> intPoint;
-    WFMath::Vector<3> intNorm;
+    std::tuple<float,float,float> intNorm;
     float par;
     //test vertical ray
     if (dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(0.0,0.0,50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(0.0,0.0,50.0), intPoint, intNorm, par)) {
         std::cerr << "vertical ray intersected when it shouldnt" << std::endl;
         return 1;
     }
     
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(0.0,0.0,-50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(0.0,0.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "vertical ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
     //test each quadrant
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(10.0,10.0,-100.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(10.0,10.0,-100.0), intPoint, intNorm, par)) {
         std::cerr << "quad1 ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(10.0,-15.0,-50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(10.0,-15.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "quad2 ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(-10.0,-10.0,-50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(-10.0,-10.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "quad3 ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(-10.0,10.0,-50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(-10.0,10.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "quad4 ray didnt intersect when it should" << std::endl;
         return 1;
     }
     
     //test dx==0 and dy==0
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(0.0,10.0,-50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(0.0,10.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "y+ ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(0.0,-10.0,-50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(0.0,-10.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "y- ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(-10.0,0.0,-50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(-10.0,0.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "x- ray didnt intersect when it should" << std::endl;
         return 1;
     }
 
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(20.1, 20.2, segmax + 3), 
-                               WFMath::Vector<3>(10.0,0.0,-50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(10.0,0.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "x+ ray didnt intersect when it should" << std::endl;
         return 1;
     }
     
     //test a longer ray
     if (!dymaxion::Intersect(terrain, WFMath::Point<3>(-10.08, -20.37, segmax + 3), 
-                               WFMath::Vector<3>(100.0,183.0,-50.0), intPoint, intNorm, par)) {
+                               std::tuple<float,float,float>(100.0,183.0,-50.0), intPoint, intNorm, par)) {
         std::cerr << "long ray didnt intersect when it should" << std::endl;
         return 1;
     }

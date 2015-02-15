@@ -8,6 +8,8 @@
 
 #include <dymaxion/Intersect.h>
 #include <dymaxion/Segment.h>
+#include <dymaxion/tuple_vector.h>
+#include <dymaxion/wfmath_traits.h>
 
 namespace dymaxion {
 //floor and ceil functions that return d-1 and d+1
@@ -106,10 +108,10 @@ bool Intersect(const Terrain &t, const WFMath::Point<3> &pt)
 //helper function for ray terrain intersection
 static bool cellIntersect(float h1, float h2, float h3, float h4,
                           float X, float Y, 
-                          const WFMath::Vector<3> &nDir, float dirLen,
+                          const std::tuple<float,float,float> &nDir, float dirLen,
                           const WFMath::Point<3> &sPt,
                           WFMath::Point<3> &intersection,
-                          WFMath::Vector<3> &normal, float &par)
+                          std::tuple<float,float,float> &normal, float &par)
 {
     //ray plane intersection roughly using the following:
     //parametric ray eqn:  p=po + par V
@@ -131,21 +133,21 @@ static bool cellIntersect(float h1, float h2, float h3, float h4,
     WFMath::Point<3> topInt, botInt;
     
     //point to use in plane equation for both triangles
-    WFMath::Vector<3> p0 = WFMath::Vector<3>(X, Y, h1);
+    std::tuple<float,float,float> p0 = std::tuple<float,float,float>(X, Y, h1);
 
     // square is broken into two triangles
     // top triangle |/
     bool topIntersected = false;
-    WFMath::Vector<3> topNormal(h2-h3, h1-h2, 1.0);
-    topNormal.normalize();
-    auto t = Dot(nDir, topNormal);
+    std::tuple<float,float,float> topNormal(h2-h3, h1-h2, 1.0);
+    normalise_i(topNormal);
+    float t = dot(nDir, topNormal);
 
     decltype(t) topP=0.0;
 
     if ((t > 1e-7) || (t < -1e-7)) {
-        topP = - (Dot((sPt-WFMath::Point<3>(0.,0.,0.)), topNormal) 
-               - Dot(topNormal, p0)) / t; 
-        topInt = sPt + nDir*topP;
+        topP = - (dot(std::tuple<float,float,float>(sPt[0], sPt[1], sPt[2]), topNormal) 
+               - dot(topNormal, p0)) / t; 
+        topInt = translate(sPt, scale(nDir, topP));
         //check the intersection is inside the triangle, and within the ray extents
         if ((topP <= dirLen) && (topP > 0.0) &&
             (topInt[0] >= X ) && (topInt[1] <= Y + 1 ) &&
@@ -156,15 +158,15 @@ static bool cellIntersect(float h1, float h2, float h3, float h4,
 
     // bottom triangle /|
     bool botIntersected = false;
-    WFMath::Vector<3> botNormal(h1-h4, h4-h3, 1.0);
-    botNormal.normalize();
-    auto b = Dot(nDir, botNormal);
+    std::tuple<float,float,float> botNormal(h1-h4, h4-h3, 1.0);
+    normalise_i(botNormal);
+    auto b = dot(nDir, botNormal);
     decltype(b) botP=0.0;
 
     if ((b > 1e-7) || (b < -1e-7)) {
-        botP = - (Dot((sPt-WFMath::Point<3>(0.,0.,0.)), botNormal) 
-               - Dot(botNormal, p0)) / b; 
-        botInt = sPt + nDir*botP;
+        botP = - (dot(std::tuple<float,float,float>(sPt[0], sPt[1], sPt[2]), botNormal) 
+                  - dot(botNormal, p0)) / b; 
+        botInt = translate(sPt, scale(nDir, botP));
         //check the intersection is inside the triangle, and within the ray extents
         if ((botP <= dirLen) && (botP > 0.0) &&
             (botInt[0] <= X + 1 ) && (botInt[1] >= Y ) && 
@@ -179,8 +181,8 @@ static bool cellIntersect(float h1, float h2, float h3, float h4,
             normal = botNormal; 
             par=botP/dirLen;
             if (botP == topP) {
-                normal += topNormal;
-                normal.normalize();
+                add_i(normal, topNormal);
+                normalise_i(normal);
             }
             return true;    
         }
@@ -219,9 +221,9 @@ static bool cellIntersect(float h1, float h2, float h3, float h4,
 
 bool Intersect(const Terrain &t,
                const WFMath::Point<3> &sPt,
-               const WFMath::Vector<3>& dir,
+               const std::tuple<float,float,float>& dir,
                WFMath::Point<3> &intersection,
-               WFMath::Vector<3> &normal, float &par)
+               std::tuple<float,float,float> &normal, float &par)
 {
     //FIXME early reject using segment max
     //FIXME handle height point getting in a more optimal way
@@ -237,31 +239,38 @@ bool Intersect(const Terrain &t,
     float h1,h2,h3,h4,height;
 
     WFMath::Point<3> last(sPt), next(sPt);
-    WFMath::Vector<3> nDir(dir);
-    nDir.normalize();
-    auto dirLen = dir.mag();
+    std::tuple<float,float,float> nDir(dir);
+    normalise_i(nDir);
+    auto dirLen = mag(dir);
     
     //work out where the ray first crosses an X grid line
-    if (dir[0] != 0.0f) {
-        paraX = 1.0f/dir[0];
-        float crossX = (dir[0] > 0.0f) ? gridceil(last[0]) : gridfloor(last[0]);
+    if (std::get<0>(dir) != 0.0f)
+    {
+        paraX = 1.0f/std::get<0>(dir);
+        float crossX = (std::get<0>(dir) > 0.0f) ?
+                        gridceil(last[0]) :
+                        gridfloor(last[0]);
         pX = (crossX - last[0]) * paraX;
         pX = std::min(pX, 1.0f);
     }
-    else { //parallel: never crosses
+    else
+    { //parallel: never crosses
         pX = 1.0f;
     }
 
     //work out where the ray first crosses a Y grid line
-    if (dir[1] != 0.0f) {
-        paraY = 1.0f/dir[1];
-        float crossY = (dir[1] > 0.0f) ? gridceil(last[1]) : gridfloor(last[1]);
+    if (std::get<1>(dir) != 0.0f) {
+        paraY = 1.0f / std::get<1>(dir);
+        float crossY = (std::get<1>(dir) > 0.0f) ?
+                        gridceil(last[1]) :
+                        gridfloor(last[1]);
         pY = (crossY - sPt[1]) * paraY;
         pY = std::min(pY, 1.0f);
     }
-    else { //parallel: never crosses
+    else
+    { //parallel: never crosses
         pY = 1.0f;
-    }
+    } 
 
     //ensure we traverse the ray forwards 
     paraX = std::abs(paraX);
@@ -272,11 +281,11 @@ bool Intersect(const Terrain &t,
     while (1) {
         last = next;
         if (pX < pY) { // cross x grid line first
-            next = sPt + (pX * dir);
+            next = translate(sPt, scale(dir, pX));
             pX += paraX; // set x accumulator to current p
         }
         else { //cross y grid line first
-            next = sPt + (pY * dir);
+            next = translate(sPt, scale(dir, pY));
             if (pX == pY) {
                 pX += paraX; //unusual case where ray crosses corner
             }
@@ -284,8 +293,10 @@ bool Intersect(const Terrain &t,
         }
 
         //FIXME these gets could be optimized a bit
-        float x= (dir[0] > 0) ? std::floor(last[0]) : std::floor(next[0]);
-        float y= (dir[1] > 0) ? std::floor(last[1]) : std::floor(next[1]);
+        float x= (std::get<0>(dir) > 0) ? std::floor(last[0])
+                                        : std::floor(next[0]);
+        float y= (std::get<1>(dir) > 0) ? std::floor(last[1])
+                                        : std::floor(next[1]);
         h1 = t.get(x, y);
         h2 = t.get(x, y+1);
         h3 = t.get(x+1, y+1);
