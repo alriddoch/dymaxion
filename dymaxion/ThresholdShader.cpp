@@ -21,11 +21,11 @@ HighShader::HighShader(float threshold) : m_threshold(threshold)
 
 HighShader::HighShader(const Parameters & params) : m_threshold(default_threshold)
 {
-    Parameters::const_iterator I = params.find(key_threshold);
-    Parameters::const_iterator Iend = params.end();
-    if (I != Iend) {
-        m_threshold = I->second;
-    }
+  Parameters::const_iterator I = params.find(key_threshold);
+  Parameters::const_iterator Iend = params.end();
+  if (I != Iend) {
+    m_threshold = I->second;
+  }
 }
 
 HighShader::~HighShader()
@@ -34,37 +34,37 @@ HighShader::~HighShader()
 
 bool HighShader::checkIntersect(const Segment & s) const
 {
-    if (s.getMax() > m_threshold) {
-        return true;
-    } else {
-        return false;
-    }
+  if (s.getMax() > m_threshold) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 void HighShader::shade(Surface & s) const
 {
-    auto channels = s.getChannels();
-    assert(channels > 0);
-    decltype(channels) colours = channels - 1;
-    auto * data = s.getData();
-    auto const * height_data = s.getSegment().getPoints();
-    if (height_data == 0) {
-        std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
-                  << std::endl << std::flush;
-        return;
-    }
-    auto size = s.getSegment().getSize();
+  auto channels = s.getChannels();
+  assert(channels > 0);
+  decltype(channels) colours = channels - 1;
+  auto * data = s.getData();
+  auto const * height_data = s.getSegment().getPoints();
+  if (height_data == 0) {
+    std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
+              << std::endl << std::flush;
+    return;
+  }
+  auto size = s.getSegment().getSize();
 
-    decltype(size) count = size * size;
-    int j = -1;
-    for (decltype(count) i = 0; i < count; ++i) {
-        for (decltype(colours) k = 0; k < colours; ++k) {
-            data[++j] = std::numeric_limits<ColorT>::max();
-        }
-        data[++j] = ((height_data[i] > m_threshold) ?
-                        std::numeric_limits<ColorT>::max() :
-                        std::numeric_limits<ColorT>::min());
+  decltype(size) count = size * size;
+  int j = -1;
+  for (decltype(count) i = 0; i < count; ++i) {
+    for (decltype(colours) k = 0; k < colours; ++k) {
+      data[++j] = std::numeric_limits<ColorT>::max();
     }
+    data[++j] = ((height_data[i] > m_threshold) ?
+                 std::numeric_limits<ColorT>::max() :
+                 std::numeric_limits<ColorT>::min());
+  }
 }
 
 const std::string LowShader::key_threshold("threshold");
@@ -77,11 +77,11 @@ LowShader::LowShader(float threshold) : m_threshold(threshold)
 
 LowShader::LowShader(const Parameters & params) : m_threshold(default_threshold)
 {
-    Parameters::const_iterator I = params.find(key_threshold);
-    Parameters::const_iterator Iend = params.end();
-    if (I != Iend) {
-        m_threshold = I->second;
-    }
+  Parameters::const_iterator I = params.find(key_threshold);
+  Parameters::const_iterator Iend = params.end();
+  if (I != Iend) {
+    m_threshold = I->second;
+  }
 }
 
 LowShader::~LowShader()
@@ -90,37 +90,37 @@ LowShader::~LowShader()
 
 bool LowShader::checkIntersect(const Segment & s) const
 {
-    if (s.getMin() < m_threshold) {
-        return true;
-    } else {
-        return false;
-    }
+  if (s.getMin() < m_threshold) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 void LowShader::shade(Surface & s) const
 {
-    auto channels = s.getChannels();
-    assert(channels > 0);
-    decltype(channels) colours = channels - 1;
-    auto * data = s.getData();
-    auto const * height_data = s.getSegment().getPoints();
-    if (height_data == 0) {
-        std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
-                  << std::endl << std::flush;
-        return;
-    }
-    auto size = s.getSegment().getSize();
+  auto channels = s.getChannels();
+  assert(channels > 0);
+  decltype(channels) colours = channels - 1;
+  auto * data = s.getData();
+  auto const * height_data = s.getSegment().getPoints();
+  if (height_data == 0) {
+    std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
+              << std::endl << std::flush;
+    return;
+  }
+  auto size = s.getSegment().getSize();
 
-    decltype(size) count = size * size;
-    int j = -1;
-    for (decltype(count) i = 0; i < count; ++i) {
-        for (decltype(colours) k = 0; k < colours; ++k) {
-            data[++j] = std::numeric_limits<ColorT>::max();
-        }
-        data[++j] = ((height_data[i] < m_threshold) ?
-                        std::numeric_limits<ColorT>::max() :
-                        std::numeric_limits<ColorT>::min());
+  decltype(size) count = size * size;
+  int j = -1;
+  for (decltype(count) i = 0; i < count; ++i) {
+    for (decltype(colours) k = 0; k < colours; ++k) {
+      data[++j] = std::numeric_limits<ColorT>::max();
     }
+    data[++j] = ((height_data[i] < m_threshold) ?
+                 std::numeric_limits<ColorT>::max() :
+                 std::numeric_limits<ColorT>::min());
+  }
 }
 
 const std::string BandShader::key_lowThreshold("lowThreshold");
@@ -129,23 +129,23 @@ const std::string BandShader::key_highThreshold("highThreshold");
 const float BandShader::default_lowThreshold = -1.f;
 const float BandShader::default_highThreshold = 1.f;
 
-BandShader::BandShader(float low_threshold, float high_threshold) : 
-    m_lowThreshold(low_threshold), m_highThreshold(high_threshold)
+BandShader::BandShader(float low_threshold, float high_threshold) :
+  m_lowThreshold(low_threshold), m_highThreshold(high_threshold)
 {
 }
 
 BandShader::BandShader(const Parameters & params) :
-    m_lowThreshold(default_lowThreshold), m_highThreshold(default_highThreshold)
+  m_lowThreshold(default_lowThreshold), m_highThreshold(default_highThreshold)
 {
-    Parameters::const_iterator I = params.find(key_lowThreshold);
-    Parameters::const_iterator Iend = params.end();
-    if (I != Iend) {
-        m_lowThreshold = I->second;
-    }
-    I = params.find(key_highThreshold);
-    if (I != Iend) {
-        m_highThreshold = I->second;
-    }
+  Parameters::const_iterator I = params.find(key_lowThreshold);
+  Parameters::const_iterator Iend = params.end();
+  if (I != Iend) {
+    m_lowThreshold = I->second;
+  }
+  I = params.find(key_highThreshold);
+  if (I != Iend) {
+    m_highThreshold = I->second;
+  }
 }
 
 BandShader::~BandShader()
@@ -154,39 +154,39 @@ BandShader::~BandShader()
 
 bool BandShader::checkIntersect(const Segment & s) const
 {
-    if ((s.getMin() < m_highThreshold) &&
-        (s.getMax() > m_lowThreshold)) {
-        return true;
-    } else {
-        return false;
-    }
+  if ((s.getMin() < m_highThreshold) &&
+      (s.getMax() > m_lowThreshold)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 void BandShader::shade(Surface & s) const
 {
-    auto channels = s.getChannels();
-    assert(channels > 0);
-    decltype(channels) colours = channels - 1;
-    auto * data = s.getData();
-    auto const * height_data = s.getSegment().getPoints();
-    if (height_data == 0) {
-        std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
-                  << std::endl << std::flush;
-        return;
-    }
-    auto size = s.getSegment().getSize();
+  auto channels = s.getChannels();
+  assert(channels > 0);
+  decltype(channels) colours = channels - 1;
+  auto * data = s.getData();
+  auto const * height_data = s.getSegment().getPoints();
+  if (height_data == 0) {
+    std::cerr << "WARNING: Mercator: Attempting to shade empty segment."
+              << std::endl << std::flush;
+    return;
+  }
+  auto size = s.getSegment().getSize();
 
-    decltype(size) count = size * size;
-    int j = -1;
-    for (decltype(count) i = 0; i < count; ++i) {
-        for (decltype(colours) k = 0; k < colours; ++k) {
-            data[++j] = std::numeric_limits<ColorT>::max();
-        }
-        data[++j] = (((height_data[i] > m_lowThreshold) &&
-                      (height_data[i] < m_highThreshold)) ?
-                        std::numeric_limits<ColorT>::max() :
-                        std::numeric_limits<ColorT>::min());
+  decltype(size) count = size * size;
+  int j = -1;
+  for (decltype(count) i = 0; i < count; ++i) {
+    for (decltype(colours) k = 0; k < colours; ++k) {
+      data[++j] = std::numeric_limits<ColorT>::max();
     }
+    data[++j] = (((height_data[i] > m_lowThreshold) &&
+                  (height_data[i] < m_highThreshold)) ?
+                 std::numeric_limits<ColorT>::max() :
+                 std::numeric_limits<ColorT>::min());
+  }
 }
 
 } // namespace dymaxion

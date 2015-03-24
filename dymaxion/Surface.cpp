@@ -29,11 +29,11 @@ Surface::~Surface()
 /// Call the shader to full this surface buffer with surface data.
 void Surface::populate()
 {
-    if (!isValid()) {
-        allocate();
-    }
+  if (!isValid()) {
+    allocate();
+  }
 
-    m_shader.shade(*this);
+  m_shader.shade(*this);
 }
 
 } // namespace dymaxion
