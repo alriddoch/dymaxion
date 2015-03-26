@@ -35,7 +35,8 @@ class Edge
            (boost::geometry::traits::access<Point, 1>::get(b)));
 
     if (boost::geometry::traits::access<Point, 1>::get(a) <
-        boost::geometry::traits::access<Point, 1>::get(b)) {
+        boost::geometry::traits::access<Point, 1>::get(b))
+    {
       m_start = a;
       boost::geometry::traits::access<Vector, 0>::set(m_seg,
                                                       boost::geometry::traits::access<Point, 0>::get(b) -
@@ -43,7 +44,9 @@ class Edge
       boost::geometry::traits::access<Vector, 1>::set(m_seg,
                                                       boost::geometry::traits::access<Point, 1>::get(b) -
                                                       boost::geometry::traits::access<Point, 1>::get(a));
-    } else {
+    }
+    else
+    {
       m_start = b;
       boost::geometry::traits::access<Vector, 0>::set(m_seg,
                                                       boost::geometry::traits::access<Point, 0>::get(a) -

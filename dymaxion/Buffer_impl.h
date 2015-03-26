@@ -17,7 +17,8 @@ Buffer<DataType>::Buffer(const Segment & segment, unsigned int channels) :
 template <typename DataType>
 Buffer<DataType>::~Buffer()
 {
-  if (m_data != 0) {
+  if (m_data != 0)
+  {
     delete[] m_data;
   }
 }

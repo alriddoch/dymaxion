@@ -51,7 +51,8 @@ template <class Shape> LevelTerrainMod<Shape>::~LevelTerrainMod()
 template <class Shape>
 void LevelTerrainMod<Shape>::apply(float &point, int x, int y) const
 {
-  if (boost::geometry::within(point_type(x, y), this->m_shape)) {
+  if (boost::geometry::within(point_type(x, y), this->m_shape))
+  {
     point = this->m_function(point, m_level);
   }
 }
@@ -70,7 +71,8 @@ template <class Shape> AdjustTerrainMod<Shape>::~AdjustTerrainMod()
 template <class Shape>
 void AdjustTerrainMod<Shape>::apply(float &point, int x, int y) const
 {
-  if (boost::geometry::within(point_type(x, y), this->m_shape)) {
+  if (boost::geometry::within(point_type(x, y), this->m_shape))
+  {
     point += m_dist;
   }
 }
@@ -89,7 +91,8 @@ template <class Shape> SlopeTerrainMod<Shape>::~SlopeTerrainMod()
 template <class Shape>
 void SlopeTerrainMod<Shape>::apply(float &point, int x, int y) const
 {
-  if (boost::geometry::within(point_type(x, y), this->m_shape)) {
+  if (boost::geometry::within(point_type(x, y), this->m_shape))
+  {
     // FIXME The centroid is possibly non-trivial to compute
     // so should be computed when the shape is set.
     // FIXME Why does g++ think that centroid may be used uninitialised?
@@ -119,7 +122,8 @@ template <class Shape> CraterTerrainMod<Shape>::~CraterTerrainMod()
 template <class Shape>
 void CraterTerrainMod<Shape>::apply(float &point, int x, int y) const
 {
-  if (boost::geometry::within(point_type(x, y), this->m_shape)) {
+  if (boost::geometry::within(point_type(x, y), this->m_shape))
+  {
     point += m_level;
   }
 }

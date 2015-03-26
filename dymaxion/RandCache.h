@@ -66,7 +66,8 @@ class RandCache
     size_type cache_order = (*m_ordering)(x, y);
 
     // make sure we've cached the value
-    if (cache_order >= m_cache.size()) {
+    if (cache_order >= m_cache.size())
+    {
       size_type old_size = m_cache.size();
       m_cache.resize(cache_order + 64); //do 64 at once
       while (old_size < m_cache.size())
@@ -91,17 +92,36 @@ class ZeroSpiralOrdering : public RandCache::Ordering
  public:
   RandCache::size_type operator()(int x, int y)
   {
-    if (x == 0 && y == 0) { return 0; }
+    if (x == 0 && y == 0)
+    {
+      return 0;
+    }
 
     int d = std::max(std::abs(x), std::abs(y));
     int min = (2 * d - 1) * (2 * d - 1);
 
-    if (y == d) { return min + 2 * d - x; }
-    if (x == -d) { return min + 4 * d - y; }
-    if (y == -d) { return min + 6 * d + x; }
-    else {     //if (x == d) {
-      if (y >= 0) { return min + y; }
-      else{ return min + 8 * d + y; }
+    if (y == d)
+    {
+      return min + 2 * d - x;
+    }
+    if (x == -d)
+    {
+      return min + 4 * d - y;
+    }
+    if (y == -d)
+    {
+      return min + 6 * d + x;
+    }
+    else       //if (x == d) {
+    {
+      if (y >= 0)
+      {
+        return min + y;
+      }
+      else
+      {
+        return min + 8 * d + y;
+      }
     }
   }
 

@@ -39,7 +39,8 @@ class LinInterp {
   LinInterp(float size, float l, float h) : m_size(size),
                                             ep1(l / size), ep2(h / size)
   {
-    if (l == h) {
+    if (l == h)
+    {
       ep1 = l;
       noCalc = true;
     }
@@ -81,7 +82,8 @@ class QuadInterp {
   QuadInterp(float size, float e1, float e2, float e3, float e4)
     : m_size(size), ep1(e1 / size), ep2(e2 / size), ep3(e3 / size), ep4(e4 / size)
   {
-    if ((e1 == e2) && (e3 == e4) && (e2 == e3)) {
+    if ((e1 == e2) && (e3 == e4) && (e2 == e3))
+    {
       ep1 = e1;
       noCalc = true;
     }
