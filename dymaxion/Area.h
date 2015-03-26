@@ -27,83 +27,84 @@ class Shader;
 /// select the layer carefully.
 class Area : public Effector
 {
-public:
-    friend class Areatest;
+ public:
+  friend class Areatest;
 
-    typedef boost::geometry::model::d2::point_xy<
-        float, boost::geometry::cs::cartesian> point;
-    typedef boost::geometry::model::ring<point> ring;
+  typedef boost::geometry::model::d2::point_xy<
+    float, boost::geometry::cs::cartesian> point;
+  typedef boost::geometry::model::ring<point> ring;
 
-    /// \brief Constructor
-    ///
-    /// @param layer layer number.
-    /// @param hole flag indicating whether this is a hole.
-    Area(int layer, bool hole);
-    
-    /// \brief Set the layer number and flag indicating whether this is a hole.
-    ///
-    /// @param layer layer number.
-    /// @param hole flag indicating whether this is a hole.
-    void setLayer(int layer, bool hole);
+  /// \brief Constructor
+  ///
+  /// @param layer layer number.
+  /// @param hole flag indicating whether this is a hole.
+  Area(int layer, bool hole);
 
-    /// Set the geometric shape of this area.
-    void setShape(ring const & p);
+  /// \brief Set the layer number and flag indicating whether this is a hole.
+  ///
+  /// @param layer layer number.
+  /// @param hole flag indicating whether this is a hole.
+  void setLayer(int layer, bool hole);
 
-    void setShader(Shader const * shader) const;
+  /// Set the geometric shape of this area.
+  void setShape(ring const & p);
 
-    /// Determine if a point is contained by the shape of this area.
-    template <typename FloatType>
-    bool contains(FloatType x, FloatType y) const;
+  void setShader(Shader const * shader) const;
 
-    /// Accessor for the layer number.
-    int getLayer() const
-    {
-        return m_layer;
-    }
-    
-    /// Accessor for the flag indicating whether this is a hole.
-    bool isHole() const
-    {
-        return m_hole;
-    }
-    
-    /// Accessor for the geometric shape.
-    const ring & shape() const
-    {
-        return m_shape;
-    }
+  /// Determine if a point is contained by the shape of this area.
+  template <typename FloatType>
+  bool contains(FloatType x, FloatType y) const;
 
-    const Shader * getShader() const
-    {
-        return m_shader;
-    }
+  /// Accessor for the layer number.
+  int getLayer() const
+  {
+    return m_layer;
+  }
 
-    int addToSegment(Segment &) const override;
-    void updateToSegment(Segment &) const override;
-    void removeFromSegment(Segment &) const override;
-    
-    /**
-    Test if a segment intersects this area
-    */
-    bool checkIntersects(Segment const & s) const;
+  /// Accessor for the flag indicating whether this is a hole.
+  bool isHole() const
+  {
+    return m_hole;
+  }
 
-    /// \brief Clip the shape of this area to a given segment.
-    ///
-    /// Determines the intersection of the geometric shape of this area
-    /// with a square terrain segment, and returns the intersection as
-    /// a geometric shape.
-    /// @param s the segment that the shape should be clipped to.
-    /// @returns the shape of the intersection of this area with the segment.
-    ring clipToSegment(Segment const & s) const;
-private:
-    /// The layer number.
-    int m_layer;
-    /// A flag indicating whether this is a hole.
-    bool m_hole;
-    /// The geometric shape.
-    ring m_shape;
-    /// Shader that shades this area
-    mutable const Shader * m_shader = 0;
+  /// Accessor for the geometric shape.
+  const ring & shape() const
+  {
+    return m_shape;
+  }
+
+  const Shader * getShader() const
+  {
+    return m_shader;
+  }
+
+  int addToSegment(Segment &) const override;
+  void updateToSegment(Segment &) const override;
+  void removeFromSegment(Segment &) const override;
+
+  /**
+     Test if a segment intersects this area
+   */
+  bool checkIntersects(Segment const & s) const;
+
+  /// \brief Clip the shape of this area to a given segment.
+  ///
+  /// Determines the intersection of the geometric shape of this area
+  /// with a square terrain segment, and returns the intersection as
+  /// a geometric shape.
+  /// @param s the segment that the shape should be clipped to.
+  /// @returns the shape of the intersection of this area with the segment.
+  ring clipToSegment(Segment const & s) const;
+
+ private:
+  /// The layer number.
+  int m_layer;
+  /// A flag indicating whether this is a hole.
+  bool m_hole;
+  /// The geometric shape.
+  ring m_shape;
+  /// Shader that shades this area
+  mutable const Shader * m_shader = 0;
 };
 
 }

@@ -24,58 +24,65 @@ class Shader;
 /// on the subclass.
 class Effector
 {
-  public:
+ public:
 
-    typedef boost::geometry::model::d2::point_xy<
-        float, boost::geometry::cs::cartesian> point;
-    typedef boost::geometry::model::box<point> box;
+  typedef boost::geometry::model::d2::point_xy<
+    float, boost::geometry::cs::cartesian> point;
+  typedef boost::geometry::model::box<point> box;
 
-    class Context {
-      public:
-        Context();
+  class Context {
+   public:
+    Context();
 
-        virtual ~Context();
+    virtual ~Context();
 
-        const std::string & id() { return m_id; }
-
-        void setId(const std::string &);
-      protected:
-        std::string m_id;
-    };
-
-    Context * context() const { return m_context; }
-
-    void setContext(Context *);
-
-    /// Accessor for the bounding box of the geometric shape.
-    box const & bbox() const
+    const std::string & id()
     {
-        return m_box;
+      return m_id;
     }
 
-    virtual ~Effector() = 0;
+    void setId(const std::string &);
 
-    virtual bool checkIntersects(const Segment& s) const = 0;
+   protected:
+    std::string m_id;
+  };
 
-    virtual int addToSegment(Segment &) const = 0;
-    virtual void updateToSegment(Segment &) const = 0;
-    virtual void removeFromSegment(Segment &) const = 0;
-    
-  protected:
-    /// \brief Constructor
-    Effector();
+  Context * context() const
+  {
+    return m_context;
+  }
 
-    /// \brief Copy constructor
-    Effector(const Effector &);
+  void setContext(Context *);
 
-    /// \brief Assignment
-    Effector & operator=(const Effector &);
+  /// Accessor for the bounding box of the geometric shape.
+  box const & bbox() const
+  {
+    return m_box;
+  }
 
-    /// The bounding box of the geometric shape.
-    box m_box;
-    
-    /// The application context of this effector
-    Context * m_context = 0;
+  virtual ~Effector() = 0;
+
+  virtual bool checkIntersects(const Segment& s) const = 0;
+
+  virtual int addToSegment(Segment &) const = 0;
+  virtual void updateToSegment(Segment &) const = 0;
+  virtual void removeFromSegment(Segment &) const = 0;
+
+ protected:
+  /// \brief Constructor
+  Effector();
+
+  /// \brief Copy constructor
+  Effector(const Effector &);
+
+  /// \brief Assignment
+  Effector & operator=(const Effector &);
+
+  /// The bounding box of the geometric shape.
+  box m_box;
+
+  /// The application context of this effector
+  Context * m_context = 0;
 };
 
 /// \brief Function used to apply an effector to an existing height point

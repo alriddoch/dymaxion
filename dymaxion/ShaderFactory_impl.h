@@ -22,7 +22,7 @@ ShaderFactory<T>::~ShaderFactory()
 template <class T>
 Shader * ShaderFactory<T>::newShader(const Shader::Parameters & params) const
 {
-    return new T(params);
+  return new T(params);
 }
 
 } // namespace dymaxion

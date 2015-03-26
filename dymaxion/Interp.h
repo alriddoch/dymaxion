@@ -28,23 +28,24 @@ class LinInterp {
   inline float calc(float loc)
   {
     return ((noCalc) ? ep1 :
-            ((m_size-loc) * ep1 + loc * ep2));
+            ((m_size - loc) * ep1 + loc * ep2));
   }
+
   /// \brief Constructor
   ///
   /// @param size length of the line.
   /// @param l value at one end of the line.
   /// @param h value at one end of the line.
-  LinInterp(float size,float l, float h) : m_size(size),
-            ep1(l/size), ep2(h/size)
+  LinInterp(float size, float l, float h) : m_size(size),
+                                            ep1(l / size), ep2(h / size)
   {
-    if (l==h) {
+    if (l == h) {
       ep1 = l;
-      noCalc=true;
+      noCalc = true;
     }
   }
 
-  friend class ::LinInterptest;
+  friend class::LinInterptest;
 };
 
 /// \brief Helper to interpolate in a quad.
@@ -66,9 +67,10 @@ class QuadInterp {
   inline float calc(float locX, float locY)
   {
     return  ((noCalc) ? ep1 :
-             (( ep1*(m_size-locX) + ep2 * locX) * (m_size-locY) +
-              ( ep4*(m_size-locX) + ep3 * locX) * (locY) ) / m_size );
+             (( ep1 * (m_size - locX) + ep2 * locX) * (m_size - locY) +
+              ( ep4 * (m_size - locX) + ep3 * locX) * (locY) ) / m_size );
   }
+
   /// \brief Constructor
   ///
   /// @param size length of one side of the square quad.
@@ -76,16 +78,16 @@ class QuadInterp {
   /// @param e2 value at one corner of the square quad.
   /// @param e3 value at one corner of the square quad.
   /// @param e4 value at one corner of the square quad.
-  QuadInterp(float size,float e1, float e2, float e3, float e4)
-      : m_size(size), ep1(e1/size), ep2(e2/size), ep3(e3/size), ep4(e4/size)
+  QuadInterp(float size, float e1, float e2, float e3, float e4)
+    : m_size(size), ep1(e1 / size), ep2(e2 / size), ep3(e3 / size), ep4(e4 / size)
   {
-    if ((e1==e2) && (e3==e4) && (e2==e3)) {
+    if ((e1 == e2) && (e3 == e4) && (e2 == e3)) {
       ep1 = e1;
-      noCalc=true;
+      noCalc = true;
     }
   }
 
-  friend class ::QuadInterptest;
+  friend class::QuadInterptest;
 };
 
 } // namespace dymaxion

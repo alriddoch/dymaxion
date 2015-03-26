@@ -27,8 +27,8 @@ namespace traits
 template <>
 class types<TuplePoint2>
 {
-  public:
-    typedef float coord_type;
+ public:
+  typedef float coord_type;
 };
 
 template <int idx>
@@ -41,16 +41,17 @@ class point_access<TuplePoint2, idx>
   static coord_type get(const point_type & p)
   {
     static_assert(2 > idx,
-        "Index of accessed coordinate must be smaller than dimensions");
+                  "Index of accessed coordinate must be smaller than dimensions");
     return std::get<idx>(p);
   }
 
   static void set(point_type & p, coord_type v)
   {
     static_assert(2 > idx,
-        "Index of accessed coordinate must be smaller than dimensions");
+                  "Index of accessed coordinate must be smaller than dimensions");
     std::get<idx>(p) = v;
   }
+
 };
 
 template <>
@@ -64,38 +65,43 @@ class point_construct<TuplePoint2>
   {
     return point_type(x, y);
   }
+
 };
 
 }
 
 }
 
-namespace boost { namespace geometry {
+namespace boost
+{
+
+namespace geometry
+{
 
 namespace traits
 {
 
 template <class FloatT>
-struct tag<std::tuple<FloatT, FloatT>>
+struct tag<std::tuple<FloatT, FloatT> >
 {
   typedef point_tag type;
 };
 
 template <class FloatT>
-struct coordinate_type<std::tuple<FloatT, FloatT>>
+struct coordinate_type<std::tuple<FloatT, FloatT> >
 {
   typedef FloatT type;
 };
 
 template <class FloatT>
-struct coordinate_system<std::tuple<FloatT, FloatT>>
+struct coordinate_system<std::tuple<FloatT, FloatT> >
 {
   typedef cs::cartesian type;
 };
 
 template <class FloatT>
-struct dimension<std::tuple<FloatT, FloatT>>
-    : boost::mpl::int_<2>
+struct dimension<std::tuple<FloatT, FloatT> >
+  : boost::mpl::int_<2>
 { };
 
 template <class FloatT>
@@ -104,12 +110,14 @@ struct access<std::tuple<FloatT, FloatT>, 0>
   static FloatT get(std::tuple<FloatT, FloatT> const & p)
   {
     return std::get<0>(p);
+
   };
 
   static void set(std::tuple<FloatT, FloatT> & p, FloatT const & value)
   {
     std::get<0>(p) = value;
   }
+
 };
 
 template <class FloatT>
@@ -118,17 +126,20 @@ struct access<std::tuple<FloatT, FloatT>, 1>
   static FloatT get(std::tuple<FloatT, FloatT> const & p)
   {
     return std::get<1>(p);
+
   };
 
   static void set(std::tuple<FloatT, FloatT> & p, FloatT const & value)
   {
     std::get<1>(p) = value;
   }
+
 };
 
 }
 
-}}
+}
+}
 
 #endif // DYMAXION_TUPLE_TRAITS_H
 

@@ -19,23 +19,25 @@ namespace dymaxion {
 /// for rendering is not required, but fast cheap queries about the surface
 /// at a specific point are required.
 class TileShader : public Shader {
-  public:
-    /// \brief STL map to store sparse array of Shader pointers.
-    typedef std::map<int, Shader *> Shaderstore;
-  private:
-    /// \brief Store of shaders which are agregated by this shader.
-    Shaderstore m_subShaders;
-  public:
-    explicit TileShader();
-    virtual ~TileShader();
+ public:
+  /// \brief STL map to store sparse array of Shader pointers.
+  typedef std::map<int, Shader *> Shaderstore;
+ private:
+  /// \brief Store of shaders which are agregated by this shader.
+  Shaderstore m_subShaders;
+ public:
+  explicit TileShader();
+  virtual ~TileShader();
 
-    /// \brief Add a shader to those agregated by the tile shader.
-    void addShader(Shader * t, int id) {
-        m_subShaders[id] = t;
-    }
+  /// \brief Add a shader to those agregated by the tile shader.
+  void addShader(Shader * t, int id)
+  {
+    m_subShaders[id] = t;
+  }
 
-    virtual bool checkIntersect(const Segment &) const;
-    virtual void shade(Surface &) const;
+  virtual bool checkIntersect(const Segment &) const;
+  virtual void shade(Surface &) const;
+
 };
 
 } // namespace dymaxion

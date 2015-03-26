@@ -25,16 +25,19 @@ static inline bool isZero(FloatT d)
 {
   return (std::fabs(d) < std::numeric_limits<FloatT>::epsilon());
 }
+
 #endif
 
-template<int axis, template <typename> class comparison>
+template <int axis, template <typename> class comparison>
 class Clip
 {
  public:
   /// Constructor
   ///
   /// @param t top of y range
-  Clip(float t) : threshold(t) { }
+  Clip(float t) : threshold(t)
+  {
+  }
 
   /// \brief Check a point is outside this clip.
   ///
@@ -44,7 +47,7 @@ class Clip
   bool inside(const P & p) const
   {
     typedef traits::point_access<P, axis> access;
-    return comparison<float>()(access::get(p), threshold);
+    return comparison<float>() (access::get(p), threshold);
   }
 
   /// \brief Determine the point where a line crosses this clip.
@@ -60,9 +63,9 @@ class Clip
     typedef traits::point_access<P, axis> access;
     typedef traits::point_access<P, oaxis> oaccess;
 
-    std::tuple<float, float> delta{
-        traits::point_access<P, 0>::get(v) - traits::point_access<P, 0>::get(u),
-        traits::point_access<P, 1>::get(v) - traits::point_access<P, 1>::get(u)
+    std::tuple<float, float> delta {
+      traits::point_access<P, 0>::get(v) - traits::point_access<P, 0>::get(u),
+      traits::point_access<P, 1>::get(v) - traits::point_access<P, 1>::get(u)
     };
 
     // shouldn't every happen - if dy iz zero, the line is horizontal,
@@ -76,14 +79,15 @@ class Clip
     oaccess::set(p, oaccess::get(u) + t * std::get<oaxis>(delta));
     return p;
   }
+
  private:
   /// \brief Top of y range.
   float threshold;
 
-  friend class ::TopCliptest;
-  friend class ::BottomCliptest;
-  friend class ::LeftCliptest;
-  friend class ::RightCliptest;
+  friend class::TopCliptest;
+  friend class::BottomCliptest;
+  friend class::LeftCliptest;
+  friend class::RightCliptest;
 };
 
 typedef Clip<1, std::less> TopClip;

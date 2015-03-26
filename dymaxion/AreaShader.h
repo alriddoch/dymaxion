@@ -15,22 +15,23 @@ class Area;
 /// \brief Shader for handling areas.
 class AreaShader : public Shader
 {
-    friend class AreaShadertest;
-public:
-    /// \brief Constructor
-    ///
-    /// @param layer layer number.
-    AreaShader(int layer);
-    
-    virtual void shade(Surface &s) const;
-    
-    virtual bool checkIntersect(const Segment &) const;
-private:
-    /// helper to shader a single area into the surface
-    void shadeArea(Surface& s, const Area* const ar) const;
-    
-    /// The layer number.
-    int m_layer;
+  friend class AreaShadertest;
+ public:
+  /// \brief Constructor
+  ///
+  /// @param layer layer number.
+  AreaShader(int layer);
+
+  virtual void shade(Surface &s) const;
+
+  virtual bool checkIntersect(const Segment &) const;
+
+ private:
+  /// helper to shader a single area into the surface
+  void shadeArea(Surface& s, const Area* const ar) const;
+
+  /// The layer number.
+  int m_layer;
 };
 
 }

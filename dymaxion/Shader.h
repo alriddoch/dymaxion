@@ -27,40 +27,42 @@ class Segment;
 /// create the Surface object of the right type, and to populate the
 /// Surface with data once the Segment heightfield has been generated.
 class Shader {
-  private:
-    /// \brief Flag to control whether this Shader produces color data.
-    const bool m_color;
-    /// \brief Flag to control whether this Shader produces alpha data.
-    const bool m_alpha;
-  protected:
-    explicit Shader(bool color = false, bool alpha = true);
-  public:
-    virtual ~Shader();
+ private:
+  /// \brief Flag to control whether this Shader produces color data.
+  const bool m_color;
+  /// \brief Flag to control whether this Shader produces alpha data.
+  const bool m_alpha;
+ protected:
+  explicit Shader(bool color = false, bool alpha = true);
+ public:
+  virtual ~Shader();
 
-    /// \brief Accessor for color flag.
-    bool getColor() const {
-        return m_color;
-    }
+  /// \brief Accessor for color flag.
+  bool getColor() const
+  {
+    return m_color;
+  }
 
-    /// \brief Accessor for alpha flag.
-    bool getAlpha() const {
-        return m_alpha;
-    }
+  /// \brief Accessor for alpha flag.
+  bool getAlpha() const
+  {
+    return m_alpha;
+  }
 
-    Surface * newSurface(const Segment &) const;
+  Surface * newSurface(const Segment &) const;
 
-    /// \brief Check whether this Shader has any effect on the given Segment.
-    ///
-    /// @return true if the given Segment height range is within the range
-    /// that this Shader uses. e.g. A high altitude snow shader will have
-    /// no effect on low level terrain.
-    virtual bool checkIntersect(const Segment &) const = 0;
+  /// \brief Check whether this Shader has any effect on the given Segment.
+  ///
+  /// @return true if the given Segment height range is within the range
+  /// that this Shader uses. e.g. A high altitude snow shader will have
+  /// no effect on low level terrain.
+  virtual bool checkIntersect(const Segment &) const = 0;
 
-    /// \brief Populate a Surface with data.
-    virtual void shade(Surface &) const = 0;
+  /// \brief Populate a Surface with data.
+  virtual void shade(Surface &) const = 0;
 
-    /// STL map of parameter values for a shader constructor.
-    typedef std::map<std::string, float> Parameters;
+  /// STL map of parameter values for a shader constructor.
+  typedef std::map<std::string, float> Parameters;
 };
 
 } // namespace dymaxion

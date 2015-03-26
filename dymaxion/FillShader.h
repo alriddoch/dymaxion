@@ -14,17 +14,18 @@ namespace dymaxion {
 /// This shader is typically only used for the lowest possible layer,
 /// which is usually bed rock.
 class FillShader : public Shader {
-  public:
-    /// \brief Constructor
-    explicit FillShader();
-    /// \brief Constructor
-    ///
-    /// @param params a map of parameters for the shader.
-    explicit FillShader(const Parameters & params);
-    virtual ~FillShader();
+ public:
+  /// \brief Constructor
+  explicit FillShader();
+  /// \brief Constructor
+  ///
+  /// @param params a map of parameters for the shader.
+  explicit FillShader(const Parameters & params);
+  virtual ~FillShader();
 
-    virtual bool checkIntersect(const Segment &) const;
-    virtual void shade(Surface &) const;
+  virtual bool checkIntersect(const Segment &) const;
+  virtual void shade(Surface &) const;
+
 };
 
 } // namespace dymaxion
