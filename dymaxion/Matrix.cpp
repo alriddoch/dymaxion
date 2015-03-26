@@ -6,7 +6,7 @@
 
 namespace dymaxion {
 
-  template class Matrix<2, 2>;
-  template class Matrix<4, 4>;
+template class Matrix<2, 2>;
+template class Matrix<4, 4>;
 
 } // namespace dymaxion

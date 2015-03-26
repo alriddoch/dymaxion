@@ -4,7 +4,7 @@
 
 #include <dymaxion/BasePoint.h>
 
-namespace dymaxion { 
+namespace dymaxion {
 
 constexpr float BasePoint::HEIGHT;
 constexpr float BasePoint::ROUGHNESS;

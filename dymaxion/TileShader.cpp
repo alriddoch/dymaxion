@@ -17,42 +17,47 @@ TileShader::TileShader()
 
 TileShader::~TileShader()
 {
-    Shaderstore::const_iterator I = m_subShaders.begin();
-    Shaderstore::const_iterator Iend = m_subShaders.end();
-    for (; I != Iend; ++I) {
-        assert(I->second != 0);
-        delete I->second;
-    }
+  Shaderstore::const_iterator I = m_subShaders.begin();
+  Shaderstore::const_iterator Iend = m_subShaders.end();
+  for (; I != Iend; ++I)
+  {
+    assert(I->second != 0);
+    delete I->second;
+  }
 }
 
 bool TileShader::checkIntersect(const Segment & s) const
 {
-    return true;
+  return true;
 }
 
 void TileShader::shade(Surface & surface) const
 {
-    auto * sdata = surface.getData();
-    auto sdata_len = surface.getSize() * surface.getSize();
+  auto * sdata = surface.getData();
+  auto sdata_len = surface.getSize() * surface.getSize();
 
-    TileShader::Shaderstore::const_iterator I = m_subShaders.begin();
-    TileShader::Shaderstore::const_iterator Iend = m_subShaders.end();
-    for (; I != Iend; ++I) {
-        if (!I->second->checkIntersect(surface.getSegment())) {
-            continue;
-        }
-        Surface * subs = I->second->newSurface(surface.getSegment());
-        subs->populate();
-        ColorT * subsdata = subs->getData();
-        auto channels = subs->getChannels();
-        
-        for (decltype(sdata_len) i = 0; i < sdata_len; ++i) {
-            if (subsdata[i * channels + channels - 1] > 127) {
-                sdata[i] = I->first;
-            }
-        }
-        delete subs;
+  TileShader::Shaderstore::const_iterator I = m_subShaders.begin();
+  TileShader::Shaderstore::const_iterator Iend = m_subShaders.end();
+  for (; I != Iend; ++I)
+  {
+    if (!I->second->checkIntersect(surface.getSegment()))
+    {
+      continue;
     }
+    Surface * subs = I->second->newSurface(surface.getSegment());
+    subs->populate();
+    ColorT * subsdata = subs->getData();
+    auto channels = subs->getChannels();
+
+    for (decltype(sdata_len) i = 0; i < sdata_len; ++i)
+    {
+      if (subsdata[i * channels + channels - 1] > 127)
+      {
+        sdata[i] = I->first;
+      }
+    }
+    delete subs;
+  }
 }
 
 } // namespace dymaxion

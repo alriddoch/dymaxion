@@ -28,7 +28,7 @@ Shader::~Shader()
 /// Surface objects to that Segment.
 Surface * Shader::newSurface(const Segment & segment) const
 {
-    return new Surface(segment, *this, m_color, m_alpha);
+  return new Surface(segment, *this, m_color, m_alpha);
 }
 
 } // namespace dymaxion

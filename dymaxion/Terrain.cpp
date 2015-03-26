@@ -42,12 +42,17 @@ Terrain::~Terrain()
 {
   Segmentstore::const_iterator I = m_segments.begin();
   Segmentstore::const_iterator Iend = m_segments.end();
-  for (; I != Iend; ++I) {
+  for (; I != Iend; ++I)
+  {
     Segmentcolumn::const_iterator J = I->second.begin();
     Segmentcolumn::const_iterator Jend = I->second.end();
-    for (; J != Jend; ++J) {
+    for (; J != Jend; ++J)
+    {
       Segment * s = J->second;
-      if (s) { delete s; }
+      if (s)
+      {
+        delete s;
+      }
     }
   }
 }
@@ -58,7 +63,8 @@ Terrain::~Terrain()
 /// to store the result of the shader.
 void Terrain::addShader(const Shader * t, int id)
 {
-  if (m_shaders.count(id)) {
+  if (m_shaders.count(id))
+  {
     std::cerr << "WARNING: duplicate use of shader ID " << id << std::endl;
   }
 
@@ -66,12 +72,15 @@ void Terrain::addShader(const Shader * t, int id)
 
   Segmentstore::const_iterator I = m_segments.begin();
   Segmentstore::const_iterator Iend = m_segments.end();
-  for (; I != Iend; ++I) {
+  for (; I != Iend; ++I)
+  {
     Segmentcolumn::const_iterator J = I->second.begin();
     Segmentcolumn::const_iterator Jend = I->second.end();
-    for (; J != Jend; ++J) {
+    for (; J != Jend; ++J)
+    {
       Segment *seg = J->second;
-      if (!t->checkIntersect(*seg)) {
+      if (!t->checkIntersect(*seg))
+      {
         continue;
       }
 
@@ -92,15 +101,18 @@ void Terrain::removeShader(const Shader * t, int id)
   // Delete all surfaces for this shader
   Segmentstore::const_iterator I = m_segments.begin();
   Segmentstore::const_iterator Iend = m_segments.end();
-  for (; I != Iend; ++I) {
+  for (; I != Iend; ++I)
+  {
     Segmentcolumn::const_iterator J = I->second.begin();
     Segmentcolumn::const_iterator Jend = I->second.end();
-    for (; J != Jend; ++J) {
+    for (; J != Jend; ++J)
+    {
       Segment *seg = J->second;
 
       Segment::Surfacestore & sss = seg->getSurfaces();
       Segment::Surfacestore::iterator K = sss.find(id);
-      if (K != sss.end()) {
+      if (K != sss.end())
+      {
         delete K->second;
         sss.erase(K);
       }
@@ -120,7 +132,8 @@ void Terrain::removeShader(const Shader * t, int id)
 void Terrain::addSurfaces(Segment & seg)
 {
   Segment::Surfacestore & sss = seg.getSurfaces();
-  if (!sss.empty()) {
+  if (!sss.empty())
+  {
     std::cerr << "WARNING: Adding surfaces to a terrain segment which has surfaces"
               << std::endl << std::flush;
     sss.clear();
@@ -128,9 +141,11 @@ void Terrain::addSurfaces(Segment & seg)
 
   Shaderstore::const_iterator I = m_shaders.begin();
   Shaderstore::const_iterator Iend = m_shaders.end();
-  for (; I != Iend; ++I) {
+  for (; I != Iend; ++I)
+  {
     // shader doesn't touch this segment, skip
-    if (!I->second->checkIntersect(seg)) {
+    if (!I->second->checkIntersect(seg))
+    {
       continue;
     }
 
@@ -164,7 +179,8 @@ float Terrain::get(float x, float y) const
   int iy = std::lrint(std::floor(y / m_spacing));
 
   Segment * s = getSegment(ix, iy);
-  if ((s == 0) || (!s->isValid())) {
+  if ((s == 0) || (!s->isValid()))
+  {
     return Terrain::defaultLevel;
   }
   return s->get(std::lrint(x) - (ix * m_res), std::lrint(y) - (iy * m_res));
@@ -195,7 +211,8 @@ bool Terrain::getHeightAndNormal(float x, float y, float & h,
   int iy = std::lrint(std::floor(y / m_spacing));
 
   Segment * s = getSegment(ix, iy);
-  if ((s == 0) || (!s->isValid())) {
+  if ((s == 0) || (!s->isValid()))
+  {
     return false;
   }
   s->getHeightAndNormal(x - (ix * m_res), y - (iy * m_res), h, n);
@@ -215,11 +232,13 @@ bool Terrain::getHeightAndNormal(float x, float y, float & h,
 bool Terrain::getBasePoint(int x, int y, BasePoint& z) const
 {
   Pointstore::const_iterator I = m_basePoints.find(x);
-  if (I == m_basePoints.end()) {
+  if (I == m_basePoints.end())
+  {
     return false;
   }
   Pointcolumn::const_iterator J = I->second.find(y);
-  if (J == I->second.end()) {
+  if (J == I->second.end())
+  {
     return false;
   }
   z = J->second;
@@ -243,28 +262,36 @@ void Terrain::setBasePoint(int x, int y, const BasePoint& z)
   m_basePoints[x][y] = z;
   bool pointIsSet[3][3];
   BasePoint existingPoint[3][3];
-  for (int i = x - 1, ri = 0; i < x + 2; ++i, ++ri) {
-    for (int j = y - 1, rj = 0; j < y + 2; ++j, ++rj) {
+  for (int i = x - 1, ri = 0; i < x + 2; ++i, ++ri)
+  {
+    for (int j = y - 1, rj = 0; j < y + 2; ++j, ++rj)
+    {
       pointIsSet[ri][rj] = getBasePoint(i, j, existingPoint[ri][rj]);
     }
   }
-  for (int i = x - 1, ri = 0; i < x + 1; ++i, ++ri) {
-    for (int j = y - 1, rj = 0; j < y + 1; ++j, ++rj) {
+  for (int i = x - 1, ri = 0; i < x + 1; ++i, ++ri)
+  {
+    for (int j = y - 1, rj = 0; j < y + 1; ++j, ++rj)
+    {
       Segment * s = getSegment(i, j);
-      if (s == 0) {
+      if (s == 0)
+      {
         bool complete = pointIsSet[ri][rj] &&
                         pointIsSet[ri + 1][rj + 1] &&
                         pointIsSet[ri + 1][rj] &&
                         pointIsSet[ri][rj + 1];
-        if (!complete) {
+        if (!complete)
+        {
           continue;
         }
         s = new Segment(i * m_res, j * m_res, m_res);
         Matrix<2, 2, BasePoint> & cp = s->getControlPoints();
         float min = existingPoint[ri][rj].height();
         float max = existingPoint[ri][rj].height();
-        for (unsigned int k = 0; k < 2; ++k) {
-          for (unsigned int l = 0; l < 2; ++l) {
+        for (unsigned int k = 0; k < 2; ++k)
+        {
+          for (unsigned int l = 0; l < 2; ++l)
+          {
             cp(k, l) = existingPoint[ri + k][rj + l];
             min = std::min(cp(k, l).height(), min);
             max = std::max(cp(k, l).height(), max);
@@ -274,12 +301,14 @@ void Terrain::setBasePoint(int x, int y, const BasePoint& z)
 
         Effectorstore::iterator I = m_effectors.begin();
         Effectorstore::iterator Iend = m_effectors.end();
-        for (; I != Iend; ++I) {
+        for (; I != Iend; ++I)
+        {
           I->first->addToSegment(*s);
         }
 
         // apply shaders last, after all other data is in place
-        if (isShaded()) {
+        if (isShaded())
+        {
           addSurfaces(*s);
         }
 
@@ -303,11 +332,13 @@ void Terrain::setBasePoint(int x, int y, const BasePoint& z)
 Segment * Terrain::getSegment(int x, int y) const
 {
   Segmentstore::const_iterator I = m_segments.find(x);
-  if (I == m_segments.end()) {
+  if (I == m_segments.end())
+  {
     return 0;
   }
   Segmentcolumn::const_iterator J = I->second.find(y);
-  if (J == I->second.end()) {
+  if (J == I->second.end())
+  {
     return 0;
   }
   return J->second;
@@ -328,10 +359,13 @@ void Terrain::addEffector(const Effector * eff)
   int hx = std::lrint(std::ceil((eff->bbox().max_corner().get<0>() + 1.f) / m_spacing));
   int hy = std::lrint(std::ceil((eff->bbox().max_corner().get<1>() + 1.f) / m_spacing));
 
-  for (int i = lx; i < hx; ++i) {
-    for (int j = ly; j < hy; ++j) {
+  for (int i = lx; i < hx; ++i)
+  {
+    for (int j = ly; j < hy; ++j)
+    {
       Segment *s = getSegment(i, j);
-      if (s) {
+      if (s)
+      {
         eff->addToSegment(*s);
       }
     }     // of y loop
@@ -342,7 +376,8 @@ Terrain::box Terrain::updateEffector(const Effector * eff)
 {
   Effectorstore::iterator I = m_effectors.find(eff);
 
-  if (I == m_effectors.end()) {
+  if (I == m_effectors.end())
+  {
     return box();
   }
 
@@ -356,10 +391,13 @@ Terrain::box Terrain::updateEffector(const Effector * eff)
   int hx = std::lrint(std::ceil((old_box.max_corner().get<0>() + 1.f) / m_spacing));
   int hy = std::lrint(std::ceil((old_box.max_corner().get<1>() + 1.f) / m_spacing));
 
-  for (int i = lx; i < hx; ++i) {
-    for (int j = ly; j < hy; ++j) {
+  for (int i = lx; i < hx; ++i)
+  {
+    for (int j = ly; j < hy; ++j)
+    {
       Segment *s = getSegment(i, j);
-      if (!s) {
+      if (!s)
+      {
         continue;
       }
 
@@ -373,17 +411,23 @@ Terrain::box Terrain::updateEffector(const Effector * eff)
   hx = std::lrint(std::ceil((eff->bbox().max_corner().get<0>() + 1.f) / m_spacing));
   hy = std::lrint(std::ceil((eff->bbox().max_corner().get<1>() + 1.f) / m_spacing));
 
-  for (int i = lx; i < hx; ++i) {
-    for (int j = ly; j < hy; ++j) {
+  for (int i = lx; i < hx; ++i)
+  {
+    for (int j = ly; j < hy; ++j)
+    {
       Segment *s = getSegment(i, j);
-      if (!s) {
+      if (!s)
+      {
         continue;
       }
 
       std::set<Segment*>::iterator J = removed.find(s);
-      if (J == removed.end()) {
+      if (J == removed.end())
+      {
         added.insert(s);
-      } else {
+      }
+      else
+      {
         updated.insert(s);
         removed.erase(J);
       }
@@ -392,19 +436,22 @@ Terrain::box Terrain::updateEffector(const Effector * eff)
 
   std::set<Segment*>::iterator J = removed.begin();
   std::set<Segment*>::iterator Jend = removed.end();
-  for (; J != Jend; ++J) {
+  for (; J != Jend; ++J)
+  {
     eff->removeFromSegment(**J);
   }
 
   J = added.begin();
   Jend = added.end();
-  for (; J != Jend; ++J) {
+  for (; J != Jend; ++J)
+  {
     eff->addToSegment(**J);
   }
 
   J = updated.begin();
   Jend = updated.end();
-  for (; J != Jend; ++J) {
+  for (; J != Jend; ++J)
+  {
     eff->updateToSegment(**J);
   }
 
@@ -424,10 +471,13 @@ void Terrain::removeEffector(const Effector * eff)
   int hx = std::lrint(std::ceil((eff_box.max_corner().get<0>() + 1.f) / m_spacing));
   int hy = std::lrint(std::ceil((eff_box.max_corner().get<1>() + 1.f) / m_spacing));
 
-  for (int i = lx; i < hx; ++i) {
-    for (int j = ly; j < hy; ++j) {
+  for (int i = lx; i < hx; ++i)
+  {
+    for (int j = ly; j < hy; ++j)
+    {
       Segment *s = getSegment(i, j);
-      if (s) {
+      if (s)
+      {
         eff->removeFromSegment(*s);
       }
     }     // of y loop
@@ -465,7 +515,8 @@ void Terrain::addArea(const Area * area)
   int layer = area->getLayer();
 
   Shaderstore::const_iterator I = m_shaders.find(layer);
-  if (I != m_shaders.end()) {
+  if (I != m_shaders.end())
+  {
     area->setShader(I->second);
   }
 

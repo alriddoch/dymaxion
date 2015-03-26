@@ -25,29 +25,32 @@ namespace dymaxion
 {
 
 Area::Area(int layer, bool hole) :
-    m_layer(layer),
-    m_hole(hole)
+  m_layer(layer),
+  m_hole(hole)
 {
 }
 
 void Area::setShape(const ring & p)
 {
-    assert(!p.empty());
-    m_shape = p;
-    boost::geometry::envelope(m_shape, m_box);
+  assert(!p.empty());
+  m_shape = p;
+  boost::geometry::envelope(m_shape, m_box);
 }
 
 void Area::setShader(const Shader * shader) const
 {
-    m_shader = shader;
+  m_shader = shader;
 }
 
 template <typename FloatType>
 bool Area::contains(FloatType x, FloatType y) const
 {
-    if (!boost::geometry::within(point(x,y), m_box)) return false;
-    
-    return boost::geometry::within(point(x,y), m_shape);
+  if (!boost::geometry::within(point(x, y), m_box))
+  {
+    return false;
+  }
+
+  return boost::geometry::within(point(x, y), m_shape);
 }
 
 template
@@ -55,21 +58,24 @@ bool Area::contains<float>(float x, float y) const;
 
 int Area::addToSegment(Segment & s) const
 {
-    if (!checkIntersects(s)) {
-        return -1;
-    }
-    return s.addArea(this);
+  if (!checkIntersects(s))
+  {
+    return -1;
+  }
+  return s.addArea(this);
 }
 
 void Area::updateToSegment(Segment & s) const
 {
-    if (!checkIntersects(s)) {
-        s.removeArea(this);
-        return;
-    }
-    if (s.updateArea(this) != 0) {
-        s.addArea(this);
-    }
+  if (!checkIntersects(s))
+  {
+    s.removeArea(this);
+    return;
+  }
+  if (s.updateArea(this) != 0)
+  {
+    s.addArea(this);
+  }
 }
 
 void Area::removeFromSegment(Segment & s) const
@@ -85,8 +91,11 @@ void Area::removeFromSegment(Segment & s) const
 Area::ring Area::clipToSegment(const Segment& s) const
 {
   // box reject
-  if (!checkIntersects(s)) return Area::ring();
-  
+  if (!checkIntersects(s))
+  {
+    return Area::ring();
+  }
+
   boost::geometry::model::box<point> seg_box = s.getRect();
 
   std::vector<ring> clipped;
@@ -102,7 +111,7 @@ bool Area::checkIntersects(Segment const & s) const
 
   Area::point const & c = m_shape[0];
   return boost::geometry::intersects(m_shape, seg_box) ||
-      boost::geometry::within(c, seg_box);
+         boost::geometry::within(c, seg_box);
 }
 
 } // of namespace

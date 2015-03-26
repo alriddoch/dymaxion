@@ -25,12 +25,12 @@ ShaderFactories * ShaderFactories::m_instance = 0;
 
 ShaderFactories::ShaderFactories()
 {
-    m_factories["grass"] = new ShaderFactory<GrassShader>;
-    m_factories["depth"] = new ShaderFactory<DepthShader>;
-    m_factories["fill"] = new ShaderFactory<FillShader>;
-    m_factories["high"] = new ShaderFactory<HighShader>;
-    m_factories["low"] = new ShaderFactory<LowShader>;
-    m_factories["band"] = new ShaderFactory<BandShader>;
+  m_factories["grass"] = new ShaderFactory<GrassShader>;
+  m_factories["depth"] = new ShaderFactory<DepthShader>;
+  m_factories["fill"] = new ShaderFactory<FillShader>;
+  m_factories["high"] = new ShaderFactory<HighShader>;
+  m_factories["low"] = new ShaderFactory<LowShader>;
+  m_factories["band"] = new ShaderFactory<BandShader>;
 }
 
 ShaderFactories::~ShaderFactories()
@@ -42,16 +42,17 @@ ShaderFactories::~ShaderFactories()
 /// @returns a reference to the instance.
 ShaderFactories & ShaderFactories::instance()
 {
-    if (m_instance == 0) {
-        m_instance = new ShaderFactories();
-    }
-    return *m_instance;
+  if (m_instance == 0)
+  {
+    m_instance = new ShaderFactories();
+  }
+  return *m_instance;
 }
 
 /// \brief Delete the instance
 void ShaderFactories::del()
 {
-    delete m_instance;
+  delete m_instance;
 }
 
 /// \brief Create a shader of the specified type.
@@ -62,12 +63,13 @@ void ShaderFactories::del()
 Shader * ShaderFactories::newShader(const std::string & type,
                                     const Shader::Parameters & params) const
 {
-    FactoryMap::const_iterator I = m_factories.find(type);
-    if (I == m_factories.end()) {
-        return 0;
-    }
-    assert(I->second != 0);
-    return I->second->newShader(params);
+  FactoryMap::const_iterator I = m_factories.find(type);
+  if (I == m_factories.end())
+  {
+    return 0;
+  }
+  assert(I->second != 0);
+  return I->second->newShader(params);
 }
 
 } // namespace dymaxion

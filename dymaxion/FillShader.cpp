@@ -23,19 +23,20 @@ FillShader::~FillShader()
 
 bool FillShader::checkIntersect(const Segment &) const
 {
-    return true;
+  return true;
 }
 
 void FillShader::shade(Surface & s) const
 {
-    auto channels = s.getChannels();
-    ColorT * data = s.getData();
-    auto size = s.getSegment().getSize();
+  auto channels = s.getChannels();
+  ColorT * data = s.getData();
+  auto size = s.getSegment().getSize();
 
-    auto buflen = size * size * channels;
-    for (unsigned int i = 0; i < buflen; ++i) {
-        data[i] = std::numeric_limits<ColorT>::max();
-    }
+  auto buflen = size * size * channels;
+  for (unsigned int i = 0; i < buflen; ++i)
+  {
+    data[i] = std::numeric_limits<ColorT>::max();
+  }
 }
 
 } // namespace dymaxion

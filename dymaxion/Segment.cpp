@@ -23,7 +23,7 @@ namespace dymaxion {
 
 unsigned int BasePoint::seed() const
 {
-    return std::lrint(m_height * 1000.0);
+  return std::lrint(m_height * 1000.0);
 }
 
 /// \brief Construct an empty segment with the given resolution.
@@ -36,8 +36,8 @@ unsigned int BasePoint::seed() const
 /// possible after construction. Similarly the control points should be
 /// set soon after construction.
 Segment::Segment(int x, int y, unsigned int resolution) :
-                            m_res(resolution), m_size(m_res+1),
-                            m_xRef(x), m_yRef(y)
+  m_res(resolution), m_size(m_res + 1),
+  m_xRef(x), m_yRef(y)
 {
 }
 
@@ -49,19 +49,22 @@ Segment::Segment(int x, int y, unsigned int resolution) :
 /// deleted as well as all surfaces.
 Segment::~Segment()
 {
-    clearMods();
-    if (m_points != 0) {
-        delete [] m_points;
-    }
-    if (m_normals != 0) {
-        delete [] m_normals;
-    }
+  clearMods();
+  if (m_points != 0)
+  {
+    delete[] m_points;
+  }
+  if (m_normals != 0)
+  {
+    delete[] m_normals;
+  }
 
-    Segment::Surfacestore::const_iterator I = m_surfaces.begin();
-    Segment::Surfacestore::const_iterator Iend = m_surfaces.end();
-    for(; I != Iend; ++I) {
-        delete I->second;
-    }
+  Segment::Surfacestore::const_iterator I = m_surfaces.begin();
+  Segment::Surfacestore::const_iterator Iend = m_surfaces.end();
+  for (; I != Iend; ++I)
+  {
+    delete I->second;
+  }
 }
 
 /// \brief Populate the Segment with heightfield data.
@@ -71,17 +74,19 @@ Segment::~Segment()
 /// required modifications are applied.
 void Segment::populate() // const Matrix<2, 2, BasePoint> & base)
 {
-    if (m_points == 0) {
-        m_points = new float[m_size * m_size];
-    }
-    fill2d(m_controlPoints(0, 0), m_controlPoints(1, 0),
-           m_controlPoints(1, 1), m_controlPoints(0, 1));
+  if (m_points == 0)
+  {
+    m_points = new float[m_size * m_size];
+  }
+  fill2d(m_controlPoints(0, 0), m_controlPoints(1, 0),
+         m_controlPoints(1, 1), m_controlPoints(0, 1));
 
-    ModList::iterator I = m_modList.begin();
-    ModList::iterator Iend = m_modList.end();
-    for (; I != Iend; ++I) {
-        applyMod(*I);
-    }
+  ModList::iterator I = m_modList.begin();
+  ModList::iterator Iend = m_modList.end();
+  for (; I != Iend; ++I)
+  {
+    applyMod(*I);
+  }
 }
 
 /// \brief Mark the contents of this Segment as stale.
@@ -92,16 +97,18 @@ void Segment::populate() // const Matrix<2, 2, BasePoint> & base)
 /// is true the heightfield storage is also deallocated.
 void Segment::invalidate(bool points)
 {
-    if (points && m_points != 0) {
-        delete [] m_points;
-        m_points = 0;
-    }
-    if (m_normals != 0) {
-        delete [] m_normals;
-        m_normals = 0;
-    }
+  if (points && m_points != 0)
+  {
+    delete[] m_points;
+    m_points = 0;
+  }
+  if (m_normals != 0)
+  {
+    delete[] m_normals;
+    m_normals = 0;
+  }
 
-    invalidateSurfaces();
+  invalidateSurfaces();
 }
 
 /// \brief Mark surfaces as stale.
@@ -111,11 +118,12 @@ void Segment::invalidate(bool points)
 /// method is called for each surface.
 void Segment::invalidateSurfaces()
 {
-    Segment::Surfacestore::const_iterator I = m_surfaces.begin();
-    Segment::Surfacestore::const_iterator Iend = m_surfaces.end();
-    for(; I != Iend; ++I) {
-        I->second->invalidate();
-    }
+  Segment::Surfacestore::const_iterator I = m_surfaces.begin();
+  Segment::Surfacestore::const_iterator Iend = m_surfaces.end();
+  for (; I != Iend; ++I)
+  {
+    I->second->invalidate();
+  }
 }
 
 /// \brief Populate the Segment with surface normal data.
@@ -126,83 +134,88 @@ void Segment::invalidateSurfaces()
 /// 2 dimensions to ensure that there is no visible seam between segments.
 void Segment::populateNormals()
 {
-    assert(m_points != nullptr);
+  assert(m_points != nullptr);
 
-    if (m_normals == nullptr) {
-        m_normals = new float[m_size * m_size * 3];
+  if (m_normals == nullptr)
+  {
+    m_normals = new float[m_size * m_size * 3];
+  }
+
+  float * np = m_normals;
+
+  // Fill in the damn normals
+  float h1, h2, h3, h4;
+  for (decltype(getResolution()) j = 1; j < m_res; ++j)
+  {
+    for (decltype(getResolution()) i = 1; i < m_res; ++i)
+    {
+      h1 = get(i - 1, j);
+      h2 = get(i, j + 1);
+      h3 = get(i + 1, j);
+      h4 = get(i, j - 1);
+
+      // Caclulate the normal vector.
+      np[j * m_size * 3 + i * 3]     = (h1 - h3) / 2.f;
+      np[j * m_size * 3 + i * 3 + 1] = (h4 - h2) / 2.f;
+      np[j * m_size * 3 + i * 3 + 2] = 1.0;
     }
+  }
 
-    float * np = m_normals;
+  //edges have one axis pegged to 0
 
-    // Fill in the damn normals
-    float h1,h2,h3,h4;
-    for (decltype(getResolution()) j = 1; j < m_res; ++j) {
-        for (decltype(getResolution()) i = 1; i < m_res; ++i) {
-           h1 = get(i - 1, j);
-           h2 = get(i, j + 1);
-           h3 = get(i + 1, j);
-           h4 = get(i, j - 1);
+  //top and bottom boundary
+  for (decltype(getResolution()) i = 1; i < m_res; ++i)
+  {
+    h1 = get(i - 1, 0);
+    h2 = get(i + 1, 0);
 
-           // Caclulate the normal vector.
-           np[j * m_size * 3 + i * 3]     = (h1 - h3) / 2.f;
-           np[j * m_size * 3 + i * 3 + 1] = (h4 - h2) / 2.f;
-           np[j * m_size * 3 + i * 3 + 2] = 1.0;
-        }
-    }
+    np[i * 3]     = (h1 - h2) / 2.f;
+    np[i * 3 + 1] = 0.0;
+    np[i * 3 + 2] = 1.0;
 
-    //edges have one axis pegged to 0
+    h1 = get(i - 1, m_res);
+    h2 = get(i + 1, m_res);
 
-    //top and bottom boundary
-    for (decltype(getResolution()) i=1; i < m_res; ++i) {
-        h1 = get(i - 1, 0);
-        h2 = get(i + 1, 0);
+    np[m_res * m_size * 3 + i * 3]     = (h1 - h2) / 2.f;
+    np[m_res * m_size * 3 + i * 3 + 1] = 0.0f;
+    np[m_res * m_size * 3 + i * 3 + 2] = 1.0f;
+  }
 
-        np[i * 3]     = (h1 - h2) / 2.f;
-        np[i * 3 + 1] = 0.0;
-        np[i * 3 + 2] = 1.0;
+  //left and right boundary
+  for (decltype(getResolution()) j = 1; j < m_res; ++j)
+  {
+    h1 = get(0, j - 1);
+    h2 = get(0, j + 1);
 
-        h1 = get(i - 1, m_res);
-        h2 = get(i + 1, m_res);
+    np[j * m_size * 3]     = 0;
+    np[j * m_size * 3 + 1] = (h1 - h2) / 2.f;
+    np[j * m_size * 3 + 2] = 1.f;
 
-        np[m_res * m_size * 3 + i * 3]     = (h1 - h2) / 2.f;
-        np[m_res * m_size * 3 + i * 3 + 1] = 0.0f;
-        np[m_res * m_size * 3 + i * 3 + 2] = 1.0f;
-    }
+    h1 = get(m_res, j - 1);
+    h2 = get(m_res, j + 1);
 
-    //left and right boundary
-    for (decltype(getResolution()) j=1; j < m_res; ++j) {
-        h1 = get(0, j - 1);
-        h2 = get(0, j + 1);
+    np[j * m_size * 3 + m_res * 3]     = 0.f;
+    np[j * m_size * 3 + m_res * 3 + 1] = (h1 - h2) / 2.f;
+    np[j * m_size * 3 + m_res * 3 + 2] = 1.f;
+  }
 
-        np[j * m_size * 3]     = 0;
-        np[j * m_size * 3 + 1] = (h1 - h2) / 2.f;
-        np[j * m_size * 3 + 2] = 1.f;
+  //corners - these are all treated as flat
+  //so the normal points straight up
+  np[0] = 0.f;
+  np[1] = 0.f;
+  np[2] = 1.f;
 
-        h1 = get(m_res, j - 1);
-        h2 = get(m_res, j + 1);
+  np[m_res * m_size * 3]     = 0.f;
+  np[m_res * m_size * 3 + 1] = 0.f;
+  np[m_res * m_size * 3 + 2] = 1.f;
 
-        np[j * m_size * 3 + m_res * 3]     = 0.f;
-        np[j * m_size * 3 + m_res * 3 + 1] = (h1 - h2) / 2.f;
-        np[j * m_size * 3 + m_res * 3 + 2] = 1.f;
-    }
+  np[m_res * 3]     = 0.f;
+  np[m_res * 3 + 1] = 0.f;
+  np[m_res * 3 + 2] = 1.f;
 
-    //corners - these are all treated as flat
-    //so the normal points straight up
-    np[0] = 0.f;
-    np[1] = 0.f;
-    np[2] = 1.f;
-
-    np[m_res * m_size * 3]     = 0.f;
-    np[m_res * m_size * 3 + 1] = 0.f;
-    np[m_res * m_size * 3 + 2] = 1.f;
-
-    np[m_res * 3]     = 0.f;
-    np[m_res * 3 + 1] = 0.f;
-    np[m_res * 3 + 2] = 1.f;
-
-    np[m_res * m_size * 3 + m_res * 3]     = 0.f;
-    np[m_res * m_size * 3 + m_res * 3 + 1] = 0.f;
-    np[m_res * m_size * 3 + m_res * 3 + 2] = 1.f;
+  np[m_res * m_size * 3 + m_res * 3]     = 0.f;
+  np[m_res * m_size * 3 + m_res * 3 + 1] = 0.f;
+  np[m_res * m_size * 3 + m_res * 3 + 2] = 1.f;
 }
 
 /// \brief Populate the surfaces associated with this Segment.
@@ -210,32 +223,31 @@ void Segment::populateNormals()
 /// Call Surface::populate() for each Surface in turn.
 void Segment::populateSurfaces()
 {
-    Surfacestore::const_iterator I = m_surfaces.begin();
-    Surfacestore::const_iterator Iend = m_surfaces.end();
+  Surfacestore::const_iterator I = m_surfaces.begin();
+  Surfacestore::const_iterator Iend = m_surfaces.end();
 
-    for (; I != Iend; ++I) {
-        I->second->populate();
-    }
+  for (; I != Iend; ++I)
+  {
+    I->second->populate();
+  }
 }
-
 
 // generate a rand num between -0.5...0.5
 inline float randHalf(WFMath::MTRand& rng)
 {
-    //return (float) rand() / RAND_MAX - 0.5f;
-    return rng.rand<float>() - 0.5f;
+  //return (float) rand() / RAND_MAX - 0.5f;
+  return rng.rand<float>() - 0.5f;
 }
-
 
 /// \brief quasi-Random Midpoint Displacement (qRMD) algorithm.
 float Segment::qRMD(WFMath::MTRand& rng, float nn, float fn, float ff, float nf,
                     float roughness, float falloff, float depth) const
 {
-    float max = std::max(std::max(nn, fn), std::max(nf, ff)),
-          min = std::min(std::min(nn, fn), std::min(nf, ff)),
-          heightDifference = max - min;
+  float max = std::max(std::max(nn, fn), std::max(nf, ff)),
+        min = std::min(std::min(nn, fn), std::min(nf, ff)),
+        heightDifference = max - min;
 
-    return ((nn+fn+ff+nf)/4.f) + randHalf(rng) * roughness * heightDifference / (1.f+std::pow(depth,falloff));
+  return ((nn + fn + ff + nf) / 4.f) + randHalf(rng) * roughness * heightDifference / (1.f + std::pow(depth, falloff));
 }
 
 /// \brief Check a value against m_min and m_max and set one of them
@@ -244,12 +256,14 @@ float Segment::qRMD(WFMath::MTRand& rng, float nn, float fn, float ff, float nf,
 /// Called by internal functions whenever a new data point is generated.
 inline void Segment::checkMaxMin(float h)
 {
-    if (h<m_min) {
-        m_min=h;
-    }
-    if (h>m_max) {
-        m_max=h;
-    }
+  if (h < m_min)
+  {
+    m_min = h;
+  }
+  if (h > m_max)
+  {
+    m_max = h;
+  }
 }
 
 /// \brief One dimensional midpoint displacement fractal.
@@ -261,45 +275,48 @@ inline void Segment::checkMaxMin(float h)
 void Segment::fill1d(const BasePoint& l, const BasePoint &h,
                      float *array) const
 {
-    array[0] = l.height();
-    array[m_res] = h.height();
-    LinInterp li(m_res, l.roughness(), h.roughness());
+  array[0] = l.height();
+  array[m_res] = h.height();
+  LinInterp li(m_res, l.roughness(), h.roughness());
 
-    // seed the RNG.
-    // The RNG is seeded only once for the line and the seed is based on the
-    // two endpoints -because they are the common parameters for two adjoining
-    // tiles
-    //srand((l.seed() * 1000 + h.seed()));
-    WFMath::MTRand::uint32 seed[2]={ l.seed(), h.seed() };
-    WFMath::MTRand rng(seed, 2);
+  // seed the RNG.
+  // The RNG is seeded only once for the line and the seed is based on the
+  // two endpoints -because they are the common parameters for two adjoining
+  // tiles
+  //srand((l.seed() * 1000 + h.seed()));
+  WFMath::MTRand::uint32 seed[2] = { l.seed(), h.seed() };
+  WFMath::MTRand rng(seed, 2);
 
-    // stride is used to step across the array in a deterministic fashion
-    // effectively we do the 1/2  point, then the 1/4 points, then the 1/8th
-    // points etc. this has to be the same order every time because we call
-    // on the RNG at every point
-    decltype(getResolution()) stride = m_res/2;
+  // stride is used to step across the array in a deterministic fashion
+  // effectively we do the 1/2  point, then the 1/4 points, then the 1/8th
+  // points etc. this has to be the same order every time because we call
+  // on the RNG at every point
+  decltype(getResolution()) stride = m_res / 2;
 
-    // depth is used to indicate what level we are on. the displacement is
-    // reduced each time we traverse the array.
-    float depth=1;
+  // depth is used to indicate what level we are on. the displacement is
+  // reduced each time we traverse the array.
+  float depth = 1;
 
-    while (stride) {
-        for (decltype(getResolution()) i=stride;i<m_res;i+=stride*2) {
-            auto hh = array[i-stride];
-            auto lh = array[i+stride];
-            auto hd = std::fabs(hh-lh);
-            auto roughness = li.calc(i);
+  while (stride)
+  {
+    for (decltype(getResolution()) i = stride; i < m_res; i += stride * 2)
+    {
+      auto hh = array[i - stride];
+      auto lh = array[i + stride];
+      auto hd = std::fabs(hh - lh);
+      auto roughness = li.calc(i);
 
-            //eliminate the problem where hd is nearly zero, leaving a flat section.
-            if ((hd*100.f) < roughness) {
-                hd+=0.05f * roughness;
-            }
+      //eliminate the problem where hd is nearly zero, leaving a flat section.
+      if ((hd * 100.f) < roughness)
+      {
+        hd += 0.05f * roughness;
+      }
 
-            array[i] = ((hh+lh)/2.f) + randHalf(rng) * roughness  * hd / (1.f+std::pow(depth,BasePoint::FALLOFF));
-        }
-        stride >>= 1;
-        depth++;
+      array[i] = ((hh + lh) / 2.f) + randHalf(rng) * roughness  * hd / (1.f + std::pow(depth, BasePoint::FALLOFF));
     }
+    stride >>= 1;
+    depth++;
+  }
 }
 
 /// \brief Two dimensional midpoint displacement fractal.
@@ -310,131 +327,142 @@ void Segment::fill1d(const BasePoint& l, const BasePoint &h,
 void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
                      const BasePoint& p3, const BasePoint& p4)
 {
-    assert(m_points!=0);
+  assert(m_points != 0);
 
-    // int line = m_res+1;
+  // int line = m_res+1;
 
-    // calculate the edges first. This is necessary so that segments tile
-    // seamlessly note the order in which the edges are calculated and the
-    // direction. opposite edges are calculated the same way (eg left->right)
-    // so that the top of one tile matches the bottom of another, likewise
-    // with sides.
+  // calculate the edges first. This is necessary so that segments tile
+  // seamlessly note the order in which the edges are calculated and the
+  // direction. opposite edges are calculated the same way (eg left->right)
+  // so that the top of one tile matches the bottom of another, likewise
+  // with sides.
 
-    // temporary array used to hold each edge
-    float * edge = new float[m_size];
+  // temporary array used to hold each edge
+  float * edge = new float[m_size];
 
-    // calc top edge and copy into m_points
-    fill1d(p1,p2,edge);
-    for (decltype(getResolution()) i=0;i<=m_res;i++) {
-        m_points[0*m_size + i] = edge[i];
-        checkMaxMin(edge[i]);
+  // calc top edge and copy into m_points
+  fill1d(p1, p2, edge);
+  for (decltype(getResolution()) i = 0; i <= m_res; i++)
+  {
+    m_points[0 * m_size + i] = edge[i];
+    checkMaxMin(edge[i]);
+  }
+
+  // calc left edge and copy into m_points
+  fill1d(p1, p4, edge);
+  for (decltype(getResolution()) i = 0; i <= m_res; i++)
+  {
+    m_points[i * m_size + 0] = edge[i];
+    checkMaxMin(edge[i]);
+  }
+
+  // calc right edge and copy into m_points
+  fill1d(p2, p3, edge);
+  for (decltype(getResolution()) i = 0; i <= m_res; i++)
+  {
+    m_points[i * m_size + m_res] = edge[i];
+    checkMaxMin(edge[i]);
+  }
+
+  // calc bottom edge and copy into m_points
+  fill1d(p4, p3, edge);
+  for (decltype(getResolution()) i = 0; i <= m_res; i++)
+  {
+    m_points[m_res * m_size + i] = edge[i];
+    checkMaxMin(edge[i]);
+  }
+
+  // seed the RNG - this is the 5th and last seeding for the tile.
+  // it was seeded once for each edge, now once for the tile.
+  //srand(p1.seed()*20 + p2.seed()*15 + p3.seed()*10 + p4.seed()*5);
+  WFMath::MTRand::uint32 seed[4] = { p1.seed(), p2.seed(), p3.seed(), p4.seed() };
+  WFMath::MTRand rng(seed, 4);
+
+  QuadInterp qi(m_res, p1.roughness(), p2.roughness(), p3.roughness(), p4.roughness());
+
+  float f = BasePoint::FALLOFF;
+  float depth = 0;
+
+  // center of m_points is done separately
+  decltype(getResolution()) stride = m_res / 2;
+
+  //float roughness = (p1.roughness+p2.roughness+p3.roughness+p4.roughness)/(4.0f);
+  auto roughness = qi.calc(stride, stride);
+  m_points[stride * m_size + stride] = qRMD(rng, m_points[0 * m_size + stride],
+                                            m_points[stride * m_size + 0],
+                                            m_points[stride * m_size + m_res],
+                                            m_points[m_res * m_size + stride],
+                                            roughness,
+                                            f, depth);
+
+
+  checkMaxMin(m_points[stride * m_size + stride]);
+
+  stride >>= 1;
+
+  // skip across the m_points and fill in the points
+  // alternate cross and plus shapes.
+  // this is a diamond-square algorithm.
+  while (stride)
+  {
+    //Cross shape - + contributes to value at X
+    //+ . +
+    //. X .
+    //+ . +
+    for (decltype(getResolution()) i = stride; i < m_res; i += stride * 2)
+    {
+      for (decltype(getResolution()) j = stride; j < m_res; j += stride * 2)
+      {
+        roughness = qi.calc(i, j);
+        m_points[j * m_size + i] = qRMD(rng, m_points[(i - stride) + (j + stride) * (m_size)],
+                                        m_points[(i + stride) + (j - stride) * (m_size)],
+                                        m_points[(i + stride) + (j + stride) * (m_size)],
+                                        m_points[(i - stride) + (j - stride) * (m_size)],
+                                        roughness, f, depth);
+        checkMaxMin(m_points[j * m_size + i]);
+      }
     }
 
-    // calc left edge and copy into m_points
-    fill1d(p1,p4,edge);
-    for (decltype(getResolution()) i=0;i<=m_res;i++) {
-        m_points[i*m_size + 0] = edge[i];
-        checkMaxMin(edge[i]);
+    depth++;
+    //Plus shape - + contributes to value at X
+    //. + .
+    //+ X +
+    //. + .
+    for (decltype(getResolution()) i = stride * 2; i < m_res; i += stride * 2)
+    {
+      for (decltype(getResolution()) j = stride; j < m_res; j += stride * 2)
+      {
+        roughness = qi.calc(i, j);
+        m_points[j * m_size + i] = qRMD(rng, m_points[(i - stride) + (j) * (m_size)],
+                                        m_points[(i + stride) + (j) * (m_size)],
+                                        m_points[(i) + (j + stride) * (m_size)],
+                                        m_points[(i) + (j - stride) * (m_size)],
+                                        roughness, f, depth);
+        checkMaxMin(m_points[j * m_size + i]);
+      }
     }
 
-    // calc right edge and copy into m_points
-    fill1d(p2,p3,edge);
-    for (decltype(getResolution()) i=0;i<=m_res;i++) {
-        m_points[i*m_size + m_res] = edge[i];
-        checkMaxMin(edge[i]);
+    for (decltype(getResolution()) i = stride; i < m_res; i += stride * 2)
+    {
+      for (decltype(getResolution()) j = stride * 2; j < m_res; j += stride * 2)
+      {
+        roughness = qi.calc(i, j);
+        m_points[j * m_size + i] = qRMD(rng, m_points[(i - stride) + (j) * (m_size)],
+                                        m_points[(i + stride) + (j) * (m_size)],
+                                        m_points[(i) + (j + stride) * (m_size)],
+                                        m_points[(i) + (j - stride) * (m_size)],
+                                        roughness, f, depth);
+        checkMaxMin(m_points[j * m_size + i]);
+      }
     }
-
-    // calc bottom edge and copy into m_points
-    fill1d(p4,p3,edge);
-    for (decltype(getResolution()) i=0;i<=m_res;i++) {
-        m_points[m_res*m_size + i] = edge[i];
-        checkMaxMin(edge[i]);
-    }
-
-    // seed the RNG - this is the 5th and last seeding for the tile.
-    // it was seeded once for each edge, now once for the tile.
-    //srand(p1.seed()*20 + p2.seed()*15 + p3.seed()*10 + p4.seed()*5);
-    WFMath::MTRand::uint32 seed[4]={ p1.seed(), p2.seed(), p3.seed(), p4.seed() };
-    WFMath::MTRand rng(seed, 4);
-
-    QuadInterp qi(m_res, p1.roughness(), p2.roughness(), p3.roughness(), p4.roughness());
-
-    float f = BasePoint::FALLOFF;
-    float depth=0;
-
-    // center of m_points is done separately
-    decltype(getResolution()) stride = m_res/2;
-
-    //float roughness = (p1.roughness+p2.roughness+p3.roughness+p4.roughness)/(4.0f);
-    auto roughness = qi.calc(stride, stride);
-    m_points[stride*m_size + stride] = qRMD(rng, m_points[0 * m_size + stride],
-                                        m_points[stride*m_size + 0],
-                                        m_points[stride*m_size + m_res],
-                                        m_points[m_res*m_size + stride],
-                                        roughness,
-                                        f, depth);
-
-
-    checkMaxMin(m_points[stride*m_size + stride]);
 
     stride >>= 1;
-
-    // skip across the m_points and fill in the points
-    // alternate cross and plus shapes.
-    // this is a diamond-square algorithm.
-    while (stride) {
-      //Cross shape - + contributes to value at X
-      //+ . +
-      //. X .
-      //+ . +
-      for (decltype(getResolution()) i=stride;i<m_res;i+=stride*2) {
-          for (decltype(getResolution()) j=stride;j<m_res;j+=stride*2) {
-              roughness=qi.calc(i,j);
-              m_points[j*m_size + i] = qRMD(rng, m_points[(i-stride) + (j+stride) * (m_size)],
-                                       m_points[(i+stride) + (j-stride) * (m_size)],
-                                       m_points[(i+stride) + (j+stride) * (m_size)],
-                                       m_points[(i-stride) + (j-stride) * (m_size)],
-                                       roughness, f, depth);
-              checkMaxMin(m_points[j*m_size + i]);
-          }
-      }
-
-      depth++;
-      //Plus shape - + contributes to value at X
-      //. + .
-      //+ X +
-      //. + .
-      for (decltype(getResolution()) i=stride*2;i<m_res;i+=stride*2) {
-          for (decltype(getResolution()) j=stride;j<m_res;j+=stride*2) {
-              roughness=qi.calc(i,j);
-              m_points[j*m_size + i] = qRMD(rng, m_points[(i-stride) + (j) * (m_size)],
-                                       m_points[(i+stride) + (j) * (m_size)],
-                                       m_points[(i) + (j+stride) * (m_size)],
-                                       m_points[(i) + (j-stride) * (m_size)],
-                                       roughness, f , depth);
-              checkMaxMin(m_points[j*m_size + i]);
-          }
-      }
-
-      for (decltype(getResolution()) i=stride;i<m_res;i+=stride*2) {
-          for (decltype(getResolution()) j=stride*2;j<m_res;j+=stride*2) {
-              roughness=qi.calc(i,j);
-              m_points[j*m_size + i] = qRMD(rng, m_points[(i-stride) + (j) * (m_size)],
-                                       m_points[(i+stride) + (j) * (m_size)],
-                                       m_points[(i) + (j+stride) * (m_size)],
-                                       m_points[(i) + (j-stride) * (m_size)],
-                                       roughness, f, depth);
-              checkMaxMin(m_points[j*m_size + i]);
-          }
-      }
-
-      stride>>=1;
-      depth++;
-    }
-    delete [] edge;
+    depth++;
+  }
+  delete[] edge;
 }
 
-static inline void shift(std::tuple<float,float,float> & vec,
+static inline void shift(std::tuple<float, float, float> & vec,
                          float x, float y, float z)
 {
   std::get<0>(vec) += x;
@@ -447,7 +475,7 @@ static inline float sqr(float val)
   return val * val;
 }
 
-static inline void normalise(std::tuple<float,float,float> & vec)
+static inline void normalise(std::tuple<float, float, float> & vec)
 {
   float mag = std::sqrt(sqr(std::get<0>(vec)) +
                         sqr(std::get<1>(vec)) +
@@ -470,45 +498,48 @@ static inline void normalise(std::tuple<float,float,float> & vec)
 /// triangle has relative vertex coordinates (0,0) (1,0) (1,1) and
 /// the second triangle has vertex coordinates (0,0) (0,1) (1,1).
 void Segment::getHeightAndNormal(float x, float y, float& h,
-                                 std::tuple<float,float,float> & normal) const
+                                 std::tuple<float, float, float> & normal) const
 {
-    // FIXME this ignores edges and corners
-    assert(x <= m_res);
-    assert(x >= 0.0f);
-    assert(y <= m_res);
-    assert(y >= 0.0f);
+  // FIXME this ignores edges and corners
+  assert(x <= m_res);
+  assert(x >= 0.0f);
+  assert(y <= m_res);
+  assert(y >= 0.0f);
 
-    // get index of the actual tile in the segment
-    int tile_x = std::lrint(std::floor(x));
-    int tile_y = std::lrint(std::floor(y));
+  // get index of the actual tile in the segment
+  int tile_x = std::lrint(std::floor(x));
+  int tile_y = std::lrint(std::floor(y));
 
-    // work out the offset into that tile
-    float off_x = x - tile_x;
-    float off_y = y - tile_y;
+  // work out the offset into that tile
+  float off_x = x - tile_x;
+  float off_y = y - tile_y;
 
-    float h1=get(tile_x, tile_y);
-    float h2=get(tile_x, tile_y+1);
-    float h3=get(tile_x+1, tile_y+1);
-    float h4=get(tile_x+1, tile_y);
+  float h1 = get(tile_x, tile_y);
+  float h2 = get(tile_x, tile_y + 1);
+  float h3 = get(tile_x + 1, tile_y + 1);
+  float h4 = get(tile_x + 1, tile_y);
 
-    // square is broken into two triangles
-    // top triangle |/
-    if ((off_x - off_y) <= 0.f) {
-        normal = std::tuple<float,float,float>{h2-h3, h1-h2, 1.0f};
+  // square is broken into two triangles
+  // top triangle |/
+  if ((off_x - off_y) <= 0.f)
+  {
+    normal = std::tuple<float, float, float>{ h2 - h3, h1 - h2, 1.0f };
 
-        //normal for intersection of both triangles
-        if (off_x == off_y) {
-            shift(normal, h1-h4, h4-h3, 1.0f);
-        }
-        normalise(normal);
-        h = h1 + (h3-h2) * off_x + (h2-h1) * off_y;
+    //normal for intersection of both triangles
+    if (off_x == off_y)
+    {
+      shift(normal, h1 - h4, h4 - h3, 1.0f);
     }
-    // bottom triangle /|
-    else {
-        normal = std::tuple<float,float,float>{h1-h4, h4-h3, 1.0f};
-        normalise(normal);
-        h = h1 + (h4-h1) * off_x + (h3-h4) * off_y;
-    }
+    normalise(normal);
+    h = h1 + (h3 - h2) * off_x + (h2 - h1) * off_y;
+  }
+  // bottom triangle /|
+  else
+  {
+    normal = std::tuple<float, float, float>{ h1 - h4, h4 - h3, 1.0f };
+    normalise(normal);
+    h = h1 + (h4 - h1) * off_x + (h3 - h4) * off_y;
+  }
 }
 
 /// \brief Determine the intersection between an axis aligned box and
@@ -524,23 +555,47 @@ bool Segment::clipToSegment(rect_type const & bbox,
                             unsigned int &lx, unsigned int &hx,
                             unsigned int &ly, unsigned int &hy) const
 {
-    lx = std::lrint(bbox.min_corner().get<0>());
-    if (lx > m_res) return false;
-    if (lx < 0) lx = 0;
+  lx = std::lrint(bbox.min_corner().get<0>());
+  if (lx > m_res)
+  {
+    return false;
+  }
+  if (lx < 0)
+  {
+    lx = 0;
+  }
 
-    hx = std::lrint(bbox.max_corner().get<0>());
-    if (hx < 0) return false;
-    if (hx > m_res) hx = m_res;
+  hx = std::lrint(bbox.max_corner().get<0>());
+  if (hx < 0)
+  {
+    return false;
+  }
+  if (hx > m_res)
+  {
+    hx = m_res;
+  }
 
-    ly = std::lrint(bbox.min_corner().get<1>());
-    if (ly > m_res) return false;
-    if (ly < 0) ly = 0;
+  ly = std::lrint(bbox.min_corner().get<1>());
+  if (ly > m_res)
+  {
+    return false;
+  }
+  if (ly < 0)
+  {
+    ly = 0;
+  }
 
-    hy = std::lrint(bbox.max_corner().get<1>());
-    if (hy < 0) return false;
-    if (hy > m_res) hy = m_res;
+  hy = std::lrint(bbox.max_corner().get<1>());
+  if (hy < 0)
+  {
+    return false;
+  }
+  if (hy > m_res)
+  {
+    hy = m_res;
+  }
 
-    return true;
+  return true;
 }
 
 /// \brief Add a TerrainMod to this Segment.
@@ -549,9 +604,9 @@ bool Segment::clipToSegment(rect_type const & bbox,
 /// the modification will be applied directly.
 int Segment::addMod(const TerrainMod *t)
 {
-    m_modList.insert(t);
-    invalidate();
-    return 0;
+  m_modList.insert(t);
+  invalidate();
+  return 0;
 }
 
 /// \brief Update a TerrainMod in this Segment.
@@ -559,29 +614,30 @@ int Segment::addMod(const TerrainMod *t)
 /// Called from Terrain::removeMod().
 int Segment::updateMod(const TerrainMod * tm)
 {
-    // FIXME Are we really removing it?
-    ModList::const_iterator I = m_modList.find(tm);
-    if (I != m_modList.end()) {
-        invalidate();
-        return 0;
-    }
-    return -1;
+  // FIXME Are we really removing it?
+  ModList::const_iterator I = m_modList.find(tm);
+  if (I != m_modList.end())
+  {
+    invalidate();
+    return 0;
+  }
+  return -1;
 }
-
 
 /// \brief Remove a TerrainMod from this Segment.
 ///
 /// Called from Terrain::removeMod().
 int Segment::removeMod(const TerrainMod * tm)
 {
-    // FIXME Are we really removing it?
-    ModList::iterator I = m_modList.find(tm);
-    if (I != m_modList.end()) {
-        m_modList.erase(I);
-        invalidate();
-        return 0;
-    }
-    return -1;
+  // FIXME Are we really removing it?
+  ModList::iterator I = m_modList.find(tm);
+  if (I != m_modList.end())
+  {
+    m_modList.erase(I);
+    invalidate();
+    return 0;
+  }
+  return -1;
 }
 
 /// \brief Delete all the modifications applied to this Segment.
@@ -590,10 +646,11 @@ int Segment::removeMod(const TerrainMod * tm)
 /// this function from the application.
 void Segment::clearMods()
 {
-    if (m_modList.size() != 0) {
-        m_modList.clear();
-        invalidate();
-    }
+  if (m_modList.size() != 0)
+  {
+    m_modList.clear();
+    invalidate();
+  }
 }
 
 /// \brief Modify the heightfield data using the TerrainMod objects which
@@ -603,24 +660,27 @@ void Segment::clearMods()
 /// call this function from the application.
 void Segment::applyMod(const TerrainMod *t)
 {
-    unsigned int lx,hx,ly,hy;
-    Effector::box const & bbox=t->bbox();
+  unsigned int lx, hx, ly, hy;
+  Effector::box const & bbox = t->bbox();
 
-    rect_type local_box;
-    boost::geometry::strategy::transform::translate_transformer<float, 2, 2>
-        translate((float)-m_xRef, (float)-m_yRef);
-    boost::geometry::transform(bbox, local_box, translate);
+  rect_type local_box;
+  boost::geometry::strategy::transform::translate_transformer<float, 2, 2>
+  translate((float)-m_xRef, (float)-m_yRef);
+  boost::geometry::transform(bbox, local_box, translate);
 
-    if (clipToSegment(local_box, lx, hx, ly, hy)) {
-        for (unsigned int i=ly; i<=hy; i++) {
-            for (unsigned int j=lx; j<=hx; j++) {
-                t->apply(m_points[i * m_size + j], j + m_xRef, i + m_yRef);
-            }
-        }
+  if (clipToSegment(local_box, lx, hx, ly, hy))
+  {
+    for (unsigned int i = ly; i <= hy; i++)
+    {
+      for (unsigned int j = lx; j <= hx; j++)
+      {
+        t->apply(m_points[i * m_size + j], j + m_xRef, i + m_yRef);
+      }
     }
+  }
 
-    //currently mods dont fix the normals
-    invalidate(false);
+  //currently mods dont fix the normals
+  invalidate(false);
 }
 
 /// \brief Add an area to those that affect this segment.
@@ -631,85 +691,93 @@ void Segment::applyMod(const TerrainMod *t)
 /// @return zero if the area was added, non-zero otherwise
 int Segment::addArea(const Area* ar)
 {
-    m_areas.insert(Areastore::value_type(ar->getLayer(), ar));
+  m_areas.insert(Areastore::value_type(ar->getLayer(), ar));
 
-    // If this segment has not been shaded at all yet, we have nothing
-    // to do. A surface will be created for this area later when the
-    // whole segment is done.
-    if (m_surfaces.empty()) {
-        return 0;
-    }
-
-    Segment::Surfacestore::const_iterator J = m_surfaces.find(ar->getLayer());
-    if (J != m_surfaces.end()) {
-        // segment already has a surface for this shader, mark it
-        // for re-generation
-        J->second->invalidate();
-        return 0;
-    }
-
-    if (ar->getShader() == 0) {
-        return 0;
-    }
-
-    m_surfaces[ar->getLayer()] = ar->getShader()->newSurface(*this);
-
+  // If this segment has not been shaded at all yet, we have nothing
+  // to do. A surface will be created for this area later when the
+  // whole segment is done.
+  if (m_surfaces.empty())
+  {
     return 0;
+  }
+
+  Segment::Surfacestore::const_iterator J = m_surfaces.find(ar->getLayer());
+  if (J != m_surfaces.end())
+  {
+    // segment already has a surface for this shader, mark it
+    // for re-generation
+    J->second->invalidate();
+    return 0;
+  }
+
+  if (ar->getShader() == 0)
+  {
+    return 0;
+  }
+
+  m_surfaces[ar->getLayer()] = ar->getShader()->newSurface(*this);
+
+  return 0;
 }
 
 int Segment::updateArea(const Area* area)
 {
-    Areastore::iterator I = m_areas.lower_bound(area->getLayer());
-    Areastore::iterator Iend = m_areas.upper_bound(area->getLayer());
-    for (; I != Iend; ++I) {
-        if (I->second == area) {
-            invalidateSurfaces();
-            return 0;
-        }
+  Areastore::iterator I = m_areas.lower_bound(area->getLayer());
+  Areastore::iterator Iend = m_areas.upper_bound(area->getLayer());
+  for (; I != Iend; ++I)
+  {
+    if (I->second == area)
+    {
+      invalidateSurfaces();
+      return 0;
     }
-    return -1;
+  }
+  return -1;
 }
 
 /// \brief Remove an area from those that affect this segment.
 int Segment::removeArea(const Area* area)
 {
-    Areastore::iterator I = m_areas.lower_bound(area->getLayer());
-    Areastore::iterator Iend = m_areas.upper_bound(area->getLayer());
-    for (; I != Iend; ++I) {
-        if (I->second == area) {
-            m_areas.erase(I);
+  Areastore::iterator I = m_areas.lower_bound(area->getLayer());
+  Areastore::iterator Iend = m_areas.upper_bound(area->getLayer());
+  for (; I != Iend; ++I)
+  {
+    if (I->second == area)
+    {
+      m_areas.erase(I);
 
-            // TODO(alriddoch,2010-10-22):
-            // Copy the code from AreaShader::checkIntersects
-            // into Area::removeFromSegment or something, and then
-            // work out what to do to determine what type of surface
-            // we are dealing with.
+      // TODO(alriddoch,2010-10-22):
+      // Copy the code from AreaShader::checkIntersects
+      // into Area::removeFromSegment or something, and then
+      // work out what to do to determine what type of surface
+      // we are dealing with.
 
-            Segment::Surfacestore::const_iterator J = m_surfaces.find(area->getLayer());
-            if (J != m_surfaces.end()) {
-                // segment already has a surface for this shader, mark it
-                // for re-generation
-                J->second->invalidate();
-            }
+      Segment::Surfacestore::const_iterator J = m_surfaces.find(area->getLayer());
+      if (J != m_surfaces.end())
+      {
+        // segment already has a surface for this shader, mark it
+        // for re-generation
+        J->second->invalidate();
+      }
 
-            return 0;
-        }
+      return 0;
     }
-    return -1;
+  }
+  return -1;
 }
 
 Segment::rect_type Segment::getRect() const
 {
-    point_type lp(m_xRef, m_yRef),
-        hp(lp.x() + m_res, lp.y() + m_res);
-    return rect_type(lp, hp);
+  point_type lp(m_xRef, m_yRef),
+  hp(lp.x() + m_res, lp.y() + m_res);
+  return rect_type(lp, hp);
 }
 
 Segment::box_type Segment::getBox() const
 {
-    point3_type lp(m_xRef, m_yRef, m_min),
-        hp(m_xRef + m_res, m_yRef + m_res, m_max);
-    return box_type(lp, hp);
+  point3_type lp(m_xRef, m_yRef, m_min),
+  hp(m_xRef + m_res, m_yRef + m_res, m_max);
+  return box_type(lp, hp);
 }
 
 } // namespace dymaxion

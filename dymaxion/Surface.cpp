@@ -29,7 +29,8 @@ Surface::~Surface()
 /// Call the shader to full this surface buffer with surface data.
 void Surface::populate()
 {
-  if (!isValid()) {
+  if (!isValid())
+  {
     allocate();
   }
 
