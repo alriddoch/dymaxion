@@ -28,7 +28,7 @@ template <class Shape> ShapeTerrainMod<Shape>::~ShapeTerrainMod()
 }
 
 template <class Shape>
-bool ShapeTerrainMod<Shape>::checkIntersects(const Segment & s) const
+bool ShapeTerrainMod<Shape>::checkIntersects(Segment const & s) const
 {
   boost::geometry::model::box<point_type> seg_box = s.getRect();
 

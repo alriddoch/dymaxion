@@ -99,7 +99,7 @@ class Edge
   ///
   /// This operator ensures that edges can be sorted, compares the y
   /// y coordinate of the start of the edges.
-  bool operator<(const Edge & other) const
+  bool operator<(Edge const & other) const
   {
     return boost::geometry::traits::access<Point, 1>::get(m_start) <
            boost::geometry::traits::access<Point, 1>::get(other.m_start);

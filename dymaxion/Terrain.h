@@ -115,7 +115,7 @@ class Terrain {
                           std::tuple<float, float, float> & normal) const;
 
   bool getBasePoint(int x, int y, BasePoint & z) const;
-  void setBasePoint(int x, int y, const BasePoint & z);
+  void setBasePoint(int x, int y, BasePoint const & z);
 
   /// \brief Set the height of the basepoint at x,y to z.
   void setBasePoint(int x, int y, float z)

@@ -61,7 +61,7 @@ class ShapeTerrainMod : public TerrainMod
   ShapeTerrainMod(Shape const &s);
   virtual ~ShapeTerrainMod();   // {}
 
-  virtual bool checkIntersects(const Segment & s) const;
+  virtual bool checkIntersects(Segment const & s) const;
 
   void setShape(Shape const & s);
 
