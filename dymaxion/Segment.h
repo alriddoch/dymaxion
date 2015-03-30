@@ -227,12 +227,12 @@ class Segment {
   void clearMods();
 
   /// \brief Accessor for multimap of Area objects.
-  const Areastore& getAreas() const
+  const Areastore & getAreas() const
   {
     return m_areas;
   }
 
-  const ModList& getMods() const
+  const ModList & getMods() const
   {
     return m_modList;
   }
@@ -244,12 +244,12 @@ class Segment {
  private:
   void checkMaxMin(float h);
 
-  void fill1d(const BasePoint& l, BasePoint const &h, float *array) const;
+  void fill1d(const BasePoint & l, BasePoint const &h, float *array) const;
 
-  void fill2d(const BasePoint& p1, const BasePoint& p2,
-              const BasePoint& p3, const BasePoint& p4);
+  void fill2d(const BasePoint & p1, const BasePoint & p2,
+              const BasePoint & p3, const BasePoint & p4);
 
-  float qRMD(WFMath::MTRand& rng, float nn, float fn, float ff, float nf,
+  float qRMD(WFMath::MTRand & rng, float nn, float fn, float ff, float nf,
              float roughness, float falloff, float depth) const;
 
   void applyMod(const TerrainMod *t);

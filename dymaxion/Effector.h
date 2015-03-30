@@ -62,7 +62,7 @@ class Effector
 
   virtual ~Effector() = 0;
 
-  virtual bool checkIntersects(const Segment& s) const = 0;
+  virtual bool checkIntersects(const Segment & s) const = 0;
 
   virtual int addToSegment(Segment &) const = 0;
   virtual void updateToSegment(Segment &) const = 0;

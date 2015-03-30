@@ -260,7 +260,7 @@ static bool cellIntersect(float h1, float h2, float h3, float h4,
 
 bool Intersect(Terrain const &t,
                const WFMath::Point<3> &sPt,
-               const std::tuple<float, float, float>& dir,
+               const std::tuple<float, float, float> & dir,
                WFMath::Point<3> &intersection,
                std::tuple<float, float, float> &normal, float &par)
 {

@@ -229,7 +229,7 @@ bool Terrain::getHeightAndNormal(float x, float y, float & h,
 /// BasePoint data.
 /// @return true if a BasePoint is defined at the given coordinate, false
 /// otherwise.
-bool Terrain::getBasePoint(int x, int y, BasePoint& z) const
+bool Terrain::getBasePoint(int x, int y, BasePoint & z) const
 {
   Pointstore::const_iterator I = m_basePoints.find(x);
   if (I == m_basePoints.end())
@@ -257,7 +257,7 @@ bool Terrain::getBasePoint(int x, int y, BasePoint& z) const
 /// @param x coordinate on the base point grid.
 /// @param y coordinate on the base point grid.
 /// @param z BasePoint value to be used at the given coordinate.
-void Terrain::setBasePoint(int x, int y, const BasePoint& z)
+void Terrain::setBasePoint(int x, int y, const BasePoint & z)
 {
   m_basePoints[x][y] = z;
   bool pointIsSet[3][3];

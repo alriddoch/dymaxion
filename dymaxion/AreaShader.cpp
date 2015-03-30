@@ -35,7 +35,7 @@ using traits::point_access;
 
 const WFMath::CoordType ROW_HEIGHT = 1 / 4.0f; // 4x over-sample
 
-static void contribute(Surface& s,
+static void contribute(Surface & s,
                        unsigned int x, unsigned int y,
                        WFMath::CoordType amount)
 {
@@ -53,7 +53,7 @@ static void contribute(Surface& s,
   s(x, y, 0) = std::min(std::lrint(amount * 255) + s(x, y, 0), 255l);
 }
 
-static void span(Surface& s,
+static void span(Surface & s,
                  WFMath::CoordType y,
                  WFMath::CoordType xStart,
                  WFMath::CoordType xEnd)
@@ -85,7 +85,7 @@ static void span(Surface& s,
 }
 
 template <class Polygon>
-static void scanConvert(Polygon const & inPoly, Surface& sf)
+static void scanConvert(Polygon const & inPoly, Surface & sf)
 {
   typedef typename boost::range_value<Polygon>::type point_type;
   typedef typename boost::geometry::traits::coordinate_type<point_type>::type coord_type;
@@ -172,7 +172,7 @@ AreaShader::AreaShader(int layer) :
 
 }
 
-bool AreaShader::checkIntersect(const Segment& s) const
+bool AreaShader::checkIntersect(const Segment & s) const
 {
   auto const & areas(s.getAreas());
   return (areas.count(m_layer) > 0);
@@ -207,7 +207,7 @@ void AreaShader::shade(Surface &s) const
   }   // of areas in layer
 }
 
-void AreaShader::shadeArea(Surface& s, const Area* const ar) const
+void AreaShader::shadeArea(Surface & s, const Area* const ar) const
 {
   Area::ring const clipped = ar->clipToSegment(s.getSegment());
 

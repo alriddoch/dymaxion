@@ -14,7 +14,7 @@ namespace dymaxion {
 bool Intersect(Terrain const &t, const WFMath::AxisBox<3> &bbox);
 bool Intersect(Terrain const &t, const WFMath::Point<3> &pt);
 
-bool Intersect(Terrain const &t, const WFMath::Point<3> &sPt, const std::tuple<float, float, float>& dir,
+bool Intersect(Terrain const &t, const WFMath::Point<3> &sPt, const std::tuple<float, float, float> & dir,
                WFMath::Point<3> &intersection, std::tuple<float, float, float> &normal, float &par);
 
 } // namespace dymaxion

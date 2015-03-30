@@ -15,7 +15,7 @@ Effector::Context::~Context()
 {
 }
 
-void Effector::Context::setId(const std::string& id)
+void Effector::Context::setId(const std::string & id)
 {
   m_id = id;
 }

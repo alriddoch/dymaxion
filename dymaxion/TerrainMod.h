@@ -61,7 +61,7 @@ class ShapeTerrainMod : public TerrainMod
   ShapeTerrainMod(Shape const &s);
   virtual ~ShapeTerrainMod();   // {}
 
-  virtual bool checkIntersects(const Segment& s) const;
+  virtual bool checkIntersects(const Segment & s) const;
 
   void setShape(Shape const & s);
 
@@ -97,7 +97,7 @@ class LevelTerrainMod : public ShapeTerrainMod<Shape>
 
  private:
   /// \brief Copy constructor.
-  LevelTerrainMod(LevelTerrainMod&);   // {}
+  LevelTerrainMod(LevelTerrainMod &);   // {}
 
  protected:
   /// \brief The height level of all points affected.
@@ -132,7 +132,7 @@ class AdjustTerrainMod : public ShapeTerrainMod<Shape>
 
  private:
   /// \brief Copy constructor.
-  AdjustTerrainMod(AdjustTerrainMod&);   // {}
+  AdjustTerrainMod(AdjustTerrainMod &);   // {}
 
  protected:
   /// \brief Adjustment to the height of all points affected.
@@ -169,7 +169,7 @@ class SlopeTerrainMod : public ShapeTerrainMod<Shape>
 
  private:
   /// \brief Copy constructor.
-  SlopeTerrainMod(SlopeTerrainMod&);   // {}
+  SlopeTerrainMod(SlopeTerrainMod &);   // {}
 
  protected:
   /// \brief The height of the centre point.
@@ -206,7 +206,7 @@ class CraterTerrainMod : public ShapeTerrainMod<Shape>
 
  private:
   /// \brief Copy constructor.
-  CraterTerrainMod(CraterTerrainMod&);   // {}
+  CraterTerrainMod(CraterTerrainMod &);   // {}
 
  protected:
   /// \brief The height level of the crater center

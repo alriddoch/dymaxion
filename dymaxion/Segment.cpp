@@ -233,14 +233,14 @@ void Segment::populateSurfaces()
 }
 
 // generate a rand num between -0.5...0.5
-inline float randHalf(WFMath::MTRand& rng)
+inline float randHalf(WFMath::MTRand & rng)
 {
   //return (float) rand() / RAND_MAX - 0.5f;
   return rng.rand<float>() - 0.5f;
 }
 
 /// \brief quasi-Random Midpoint Displacement (qRMD) algorithm.
-float Segment::qRMD(WFMath::MTRand& rng, float nn, float fn, float ff, float nf,
+float Segment::qRMD(WFMath::MTRand & rng, float nn, float fn, float ff, float nf,
                     float roughness, float falloff, float depth) const
 {
   float max = std::max(std::max(nn, fn), std::max(nf, ff)),
@@ -272,7 +272,7 @@ inline void Segment::checkMaxMin(float h)
 /// Falloff is the decay of displacement as the fractal is refined.
 /// Array is size + 1 long. array[0] and array[size] are filled
 /// with the control points for the fractal.
-void Segment::fill1d(const BasePoint& l, BasePoint const &h,
+void Segment::fill1d(const BasePoint & l, BasePoint const &h,
                      float *array) const
 {
   array[0] = l.height();
@@ -324,8 +324,8 @@ void Segment::fill1d(const BasePoint& l, BasePoint const &h,
 /// For a tile where edges are to be filled by 1d fractals.
 /// Size must be a power of 2, array is (size + 1) * (size + 1) with the
 /// corners the control points.
-void Segment::fill2d(const BasePoint& p1, const BasePoint& p2,
-                     const BasePoint& p3, const BasePoint& p4)
+void Segment::fill2d(const BasePoint & p1, const BasePoint & p2,
+                     const BasePoint & p3, const BasePoint & p4)
 {
   assert(m_points != 0);
 
@@ -497,7 +497,7 @@ static inline void normalise(std::tuple<float, float, float> & vec)
 /// divide the area is defined by the gradient y = x, so the first
 /// triangle has relative vertex coordinates (0,0) (1,0) (1,1) and
 /// the second triangle has vertex coordinates (0,0) (0,1) (1,1).
-void Segment::getHeightAndNormal(float x, float y, float& h,
+void Segment::getHeightAndNormal(float x, float y, float & h,
                                  std::tuple<float, float, float> & normal) const
 {
   // FIXME this ignores edges and corners

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <fstream>
 
-void writePGMForSurface(const std::string& fileName, int sz, dymaxion::Surface* s)
+void writePGMForSurface(const std::string & fileName, int sz, dymaxion::Surface* s)
 {
   assert(s);
 

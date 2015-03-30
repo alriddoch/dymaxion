@@ -24,7 +24,7 @@ int main()
 /*    s->populateNormals();
 
     float *n=s->getNormals();
-   i*/                                                          //for (int i=0; i<=size; ++i) {
+   i*/                                                            //for (int i=0; i<=size; ++i) {
   int i = 0;
   for (int j = 0; j <= size; ++j)
   {
