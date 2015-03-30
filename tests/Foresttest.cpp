@@ -18,7 +18,7 @@
 
 #include <cassert>
 
-void dumpPlants(const dymaxion::Forest::PlantStore & plants)
+void dumpPlants(dymaxion::Forest::PlantStore const & plants)
 {
   dymaxion::Forest::PlantStore::const_iterator I = plants.begin();
   for (; I != plants.end(); ++I)
@@ -26,7 +26,7 @@ void dumpPlants(const dymaxion::Forest::PlantStore & plants)
     dymaxion::Forest::PlantColumn::const_iterator J = I->second.begin();
     for (; J != I->second.end(); ++J)
     {
-      const dymaxion::Plant & p = J->second;
+      dymaxion::Plant const & p = J->second;
       std::cout << "Query found plant at [" << I->first
                 << ", " << J->first << "] with height "
                 << p.getHeight();
@@ -39,7 +39,7 @@ void dumpPlants(const dymaxion::Forest::PlantStore & plants)
   }
 }
 
-int countPlants(const dymaxion::Forest::PlantStore & plants)
+int countPlants(dymaxion::Forest::PlantStore const & plants)
 {
   int plant_count = 0;
   dymaxion::Forest::PlantStore::const_iterator I = plants.begin();
@@ -85,7 +85,7 @@ int main()
 
     dymaxion::Forest::PlantSpecies & species = forest.species();
 
-    const dymaxion::Forest::PlantStore & plants = forest.getPlants();
+    dymaxion::Forest::PlantStore const & plants = forest.getPlants();
 
     // Forest is not yet populated
     assert(plants.empty());

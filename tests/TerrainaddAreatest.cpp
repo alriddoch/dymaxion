@@ -21,7 +21,7 @@
 
 class TestShader : public dymaxion::Shader {
  public:
-  virtual bool checkIntersect(const dymaxion::Segment &) const
+  virtual bool checkIntersect(dymaxion::Segment const &) const
   {
     return true;
   }
@@ -130,12 +130,12 @@ Shader::~Shader()
 {
 }
 
-Surface * Shader::newSurface(const Segment &) const
+Surface * Shader::newSurface(Segment const &) const
 {
   return 0;
 }
 
-Surface::Surface(const Segment & seg, const Shader & sh, bool color, bool alpha)
+Surface::Surface(Segment const & seg, Shader const & sh, bool color, bool alpha)
   : Buffer<ColorT>(seg, (color ? 3 : 0) + (alpha ? 1 : 0)), m_shader(sh)
 {
 }

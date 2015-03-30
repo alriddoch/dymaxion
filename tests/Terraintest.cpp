@@ -72,9 +72,9 @@ int main()
     return 1;
   }
 
-  const dymaxion::Terrain::Segmentstore & tSegments = terrain.getTerrain();
-  const dymaxion::Terrain::Pointstore & tPoints = terrain.getPoints();
-  const dymaxion::Terrain::Shaderstore & tShaders = terrain.getShaders();
+  dymaxion::Terrain::Segmentstore const & tSegments = terrain.getTerrain();
+  dymaxion::Terrain::Pointstore const & tPoints = terrain.getPoints();
+  dymaxion::Terrain::Shaderstore const & tShaders = terrain.getShaders();
 
   if (!tSegments.empty())
   {

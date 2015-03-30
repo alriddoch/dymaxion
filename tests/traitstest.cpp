@@ -93,10 +93,10 @@ class WFMath_Point_traitstest : public Test::Suite
   P getPoint3();
 
   template <class P>
-  void setPoint2(const P &);
+  void setPoint2(P const &);
 
   template <class P>
-  void setPoint3(const P &);
+  void setPoint3(P const &);
 
   static constexpr float getPoint_x = .23f;
   static constexpr float getPoint_y = 1.7f;
@@ -167,7 +167,7 @@ P WFMath_Point_traitstest::getPoint2()
 }
 
 template <class P>
-void WFMath_Point_traitstest::setPoint2(const P & p)
+void WFMath_Point_traitstest::setPoint2(P const & p)
 {
   m_x = point_access<P, 0>::get(p);
   m_y = point_access<P, 1>::get(p);
@@ -184,7 +184,7 @@ P WFMath_Point_traitstest::getPoint3()
 }
 
 template <class P>
-void WFMath_Point_traitstest::setPoint3(const P & p)
+void WFMath_Point_traitstest::setPoint3(P const & p)
 {
   m_x = point_access<P, 0>::get(p);
   m_y = point_access<P, 1>::get(p);

@@ -75,12 +75,12 @@ void Planttest::test_setDisplacement()
 
 void Planttest::test_getOrientation()
 {
-  const WFMath::Quaternion & q1 = a->getOrientation();
+  WFMath::Quaternion const & q1 = a->getOrientation();
   assert(!q1.isValid());
   WFMath::Quaternion q2 = a->getOrientation();
   assert(!q2.isValid());
   a->setOrientation(WFMath::Quaternion(2, 2.124f));
-  const WFMath::Quaternion & q3 = a->getOrientation();
+  WFMath::Quaternion const & q3 = a->getOrientation();
   assert(q3.isValid());
 
 }

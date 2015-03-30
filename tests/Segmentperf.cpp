@@ -52,7 +52,7 @@ void Surface::populate()
 {
 }
 
-Surface * Shader::newSurface(const Segment & segment) const
+Surface * Shader::newSurface(Segment const & segment) const
 {
   return 0;
 }
