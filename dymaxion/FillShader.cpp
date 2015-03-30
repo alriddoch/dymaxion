@@ -13,7 +13,7 @@ FillShader::FillShader()
 {
 }
 
-FillShader::FillShader(const Parameters & params)
+FillShader::FillShader(Parameters const & params)
 {
 }
 
@@ -21,7 +21,7 @@ FillShader::~FillShader()
 {
 }
 
-bool FillShader::checkIntersect(const Segment &) const
+bool FillShader::checkIntersect(Segment const &) const
 {
   return true;
 }

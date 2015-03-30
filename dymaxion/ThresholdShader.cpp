@@ -19,7 +19,7 @@ HighShader::HighShader(float threshold) : m_threshold(threshold)
 {
 }
 
-HighShader::HighShader(const Parameters & params) : m_threshold(default_threshold)
+HighShader::HighShader(Parameters const & params) : m_threshold(default_threshold)
 {
   Parameters::const_iterator I = params.find(key_threshold);
   Parameters::const_iterator Iend = params.end();
@@ -33,7 +33,7 @@ HighShader::~HighShader()
 {
 }
 
-bool HighShader::checkIntersect(const Segment & s) const
+bool HighShader::checkIntersect(Segment const & s) const
 {
   if (s.getMax() > m_threshold)
   {
@@ -82,7 +82,7 @@ LowShader::LowShader(float threshold) : m_threshold(threshold)
 {
 }
 
-LowShader::LowShader(const Parameters & params) : m_threshold(default_threshold)
+LowShader::LowShader(Parameters const & params) : m_threshold(default_threshold)
 {
   Parameters::const_iterator I = params.find(key_threshold);
   Parameters::const_iterator Iend = params.end();
@@ -96,7 +96,7 @@ LowShader::~LowShader()
 {
 }
 
-bool LowShader::checkIntersect(const Segment & s) const
+bool LowShader::checkIntersect(Segment const & s) const
 {
   if (s.getMin() < m_threshold)
   {
@@ -148,7 +148,7 @@ BandShader::BandShader(float low_threshold, float high_threshold) :
 {
 }
 
-BandShader::BandShader(const Parameters & params) :
+BandShader::BandShader(Parameters const & params) :
   m_lowThreshold(default_lowThreshold), m_highThreshold(default_highThreshold)
 {
   Parameters::const_iterator I = params.find(key_lowThreshold);
@@ -168,7 +168,7 @@ BandShader::~BandShader()
 {
 }
 
-bool BandShader::checkIntersect(const Segment & s) const
+bool BandShader::checkIntersect(Segment const & s) const
 {
   if ((s.getMin() < m_highThreshold) &&
       (s.getMax() > m_lowThreshold))

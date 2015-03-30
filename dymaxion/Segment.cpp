@@ -272,7 +272,7 @@ inline void Segment::checkMaxMin(float h)
 /// Falloff is the decay of displacement as the fractal is refined.
 /// Array is size + 1 long. array[0] and array[size] are filled
 /// with the control points for the fractal.
-void Segment::fill1d(const BasePoint& l, const BasePoint &h,
+void Segment::fill1d(const BasePoint& l, BasePoint const &h,
                      float *array) const
 {
   array[0] = l.height();

@@ -91,7 +91,7 @@ void Forest::populate()
       I = m_species.begin();
       for (; I != Iend; ++I)
       {
-        const Species & species = *I;
+        Species const & species = *I;
         if (prob > species.m_probability)
         {
           prob -= species.m_probability;

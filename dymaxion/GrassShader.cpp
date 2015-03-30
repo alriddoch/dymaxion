@@ -34,7 +34,7 @@ GrassShader::GrassShader(float lowThreshold, float highThreshold,
 {
 }
 
-GrassShader::GrassShader(const Parameters & params) :
+GrassShader::GrassShader(Parameters const & params) :
   m_lowThreshold(default_lowThreshold),
   m_highThreshold(default_highThreshold),
   m_cutoff(default_cutoff),
@@ -87,7 +87,7 @@ inline ColorT GrassShader::slopeToAlpha(float height, float slope) const
   }
 }
 
-bool GrassShader::checkIntersect(const Segment & s) const
+bool GrassShader::checkIntersect(Segment const & s) const
 {
   if ((s.getMin() < m_highThreshold) &&
       (s.getMax() > m_lowThreshold))

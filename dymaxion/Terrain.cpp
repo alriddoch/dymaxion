@@ -464,7 +464,7 @@ void Terrain::removeEffector(const Effector * eff)
 {
   m_effectors.erase(eff);
 
-  const box & eff_box = eff->bbox();
+  box const & eff_box = eff->bbox();
 
   int lx = std::lrint(std::floor((eff_box.min_corner().get<0>() - 1.f) / m_spacing));
   int ly = std::lrint(std::floor((eff_box.min_corner().get<1>() - 1.f) / m_spacing));

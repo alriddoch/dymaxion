@@ -30,7 +30,7 @@ Area::Area(int layer, bool hole) :
 {
 }
 
-void Area::setShape(const ring & p)
+void Area::setShape(ring const & p)
 {
   assert(!p.empty());
   m_shape = p;

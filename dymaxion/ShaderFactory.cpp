@@ -60,8 +60,8 @@ void ShaderFactories::del()
 /// @param type a string giving the type of shader.
 /// @param params a map of the parameters for the shader
 /// @returns a pointer to the new shader object
-Shader * ShaderFactories::newShader(const std::string & type,
-                                    const Shader::Parameters & params) const
+Shader * ShaderFactories::newShader(std::string const & type,
+                                    Shader::Parameters const & params) const
 {
   FactoryMap::const_iterator I = m_factories.find(type);
   if (I == m_factories.end())

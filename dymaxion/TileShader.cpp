@@ -26,7 +26,7 @@ TileShader::~TileShader()
   }
 }
 
-bool TileShader::checkIntersect(const Segment & s) const
+bool TileShader::checkIntersect(Segment const & s) const
 {
   return true;
 }

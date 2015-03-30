@@ -15,7 +15,7 @@ namespace dymaxion {
 /// @param sh the shader used to generate the surface data.
 /// @param color true if this shader contains color data.
 /// @param alpha true if this shader contains alpha data.
-Surface::Surface(const Segment & seg, const Shader & sh, bool color, bool alpha)
+Surface::Surface(Segment const & seg, Shader const & sh, bool color, bool alpha)
   : Buffer<ColorT>(seg, (color ? 3 : 0) + (alpha ? 1 : 0)), m_shader(sh)
 {
 }

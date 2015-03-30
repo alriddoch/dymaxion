@@ -30,12 +30,12 @@ Effector::Effector()
 }
 
 // Ensure that m_context is not copied only one object can own the context
-Effector::Effector(const Effector & o) : m_box(o.m_box)
+Effector::Effector(Effector const & o) : m_box(o.m_box)
 {
 }
 
 // Ensure that m_context is not copied only one object can own the context
-Effector & Effector::operator=(const Effector & rhs)
+Effector & Effector::operator=(Effector const & rhs)
 {
   m_box = rhs.m_box;
   delete m_context;

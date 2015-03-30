@@ -27,7 +27,7 @@ static inline float gridfloor(float d)
 }
 
 //check intersection of an axis-aligned box with the terrain
-bool Intersect(const Terrain &t, const WFMath::AxisBox<3> &bbox)
+bool Intersect(Terrain const &t, const WFMath::AxisBox<3> &bbox)
 {
   float max, min = bbox.lowCorner()[2];
   auto const res = t.getResolution();
@@ -115,7 +115,7 @@ bool Intersect(const Terrain &t, const WFMath::AxisBox<3> &bbox)
   return false;
 }
 
-static float HOT(const Terrain &t, const WFMath::Point<3> &pt, float & h)
+static float HOT(Terrain const &t, const WFMath::Point<3> &pt, float & h)
 {
   std::tuple<float, float, float> normal;
   float terrHeight;
@@ -128,7 +128,7 @@ static float HOT(const Terrain &t, const WFMath::Point<3> &pt, float & h)
   return true;
 }
 
-bool Intersect(const Terrain &t, const WFMath::Point<3> &pt)
+bool Intersect(Terrain const &t, const WFMath::Point<3> &pt)
 {
   float h;
   return HOT(t, pt, h) && h <= 0.0;
@@ -258,7 +258,7 @@ static bool cellIntersect(float h1, float h2, float h3, float h4,
 //par is the distance along the ray where intersection occurs
 //0.0 == start, 1.0 == end.
 
-bool Intersect(const Terrain &t,
+bool Intersect(Terrain const &t,
                const WFMath::Point<3> &sPt,
                const std::tuple<float, float, float>& dir,
                WFMath::Point<3> &intersection,

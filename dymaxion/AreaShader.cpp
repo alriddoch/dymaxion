@@ -85,7 +85,7 @@ static void span(Surface& s,
 }
 
 template <class Polygon>
-static void scanConvert(const Polygon & inPoly, Surface& sf)
+static void scanConvert(Polygon const & inPoly, Surface& sf)
 {
   typedef typename boost::range_value<Polygon>::type point_type;
   typedef typename boost::geometry::traits::coordinate_type<point_type>::type coord_type;
