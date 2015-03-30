@@ -7,10 +7,10 @@
 
 int main()
 {
-    dymaxion::Segment s(0,0,64);
-    dymaxion::Buffer<float> b(s);
+  dymaxion::Segment s(0, 0, 64);
+  dymaxion::Buffer<float> b(s);
 
-    return 0;
+  return 0;
 }
 
 // stubs
@@ -18,10 +18,10 @@ int main()
 namespace dymaxion {
 
 Segment::Segment(int x, int y, unsigned int resolution) :
-                 m_res(resolution),
-                 m_size(m_res+1),
-                 m_xRef(x),
-                 m_yRef(y)
+  m_res(resolution),
+  m_size(m_res + 1),
+  m_xRef(x),
+  m_yRef(y)
 {
 }
 

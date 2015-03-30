@@ -22,6 +22,7 @@ class TopCliptest : public Test::Suite
   void test_Clip();
   void test_inside();
   void test_clip();
+
 };
 
 TopCliptest::TopCliptest()
@@ -59,17 +60,17 @@ void TopCliptest::test_clip()
 {
   dymaxion::TopClip tc(0.5f);
 
-  auto p = tc.clip(Point2{0,0}, Point2{1,1});
+  auto p = tc.clip(Point2 { 0, 0 }, Point2 { 1, 1 });
 
-  ASSERT_EQUAL(p, decltype(p)(0.5, 0.5f))
+  ASSERT_EQUAL(p, decltype(p) (0.5, 0.5f))
 
-  auto p1 = tc.clip(Point2{0,1}, Point2{1,0});
+  auto p1 = tc.clip(Point2 { 0, 1 }, Point2 { 1, 0 });
 
-  ASSERT_EQUAL(p1, decltype(p)(0.5, 0.5f))
+  ASSERT_EQUAL(p1, decltype(p) (0.5, 0.5f))
 
-  auto p2 = tc.clip(Point2{1,0}, Point2{2,1});
+  auto p2 = tc.clip(Point2 { 1, 0 }, Point2 { 2, 1 });
 
-  ASSERT_EQUAL(p2, decltype(p)(1.5, 0.5f))
+  ASSERT_EQUAL(p2, decltype(p) (1.5, 0.5f))
 }
 
 class BottomCliptest : public Test::Suite
@@ -83,6 +84,7 @@ class BottomCliptest : public Test::Suite
   void test_Clip();
   void test_inside();
   void test_clip();
+
 };
 
 BottomCliptest::BottomCliptest()
@@ -120,17 +122,17 @@ void BottomCliptest::test_clip()
 {
   dymaxion::BottomClip tc(0.5f);
 
-  auto p = tc.clip(Point2{0,0}, Point2{1,1});
+  auto p = tc.clip(Point2 { 0, 0 }, Point2 { 1, 1 });
 
-  ASSERT_EQUAL(p, decltype(p)(0.5, 0.5f))
+  ASSERT_EQUAL(p, decltype(p) (0.5, 0.5f))
 
-  auto p1 = tc.clip(Point2{0,1}, Point2{1,0});
+  auto p1 = tc.clip(Point2 { 0, 1 }, Point2 { 1, 0 });
 
-  ASSERT_EQUAL(p1, decltype(p)(0.5, 0.5f))
+  ASSERT_EQUAL(p1, decltype(p) (0.5, 0.5f))
 
-  auto p2 = tc.clip(Point2{1,0}, Point2{2,1});
+  auto p2 = tc.clip(Point2 { 1, 0 }, Point2 { 2, 1 });
 
-  ASSERT_EQUAL(p2, decltype(p)(1.5, 0.5f))
+  ASSERT_EQUAL(p2, decltype(p) (1.5, 0.5f))
 }
 
 class LeftCliptest : public Test::Suite
@@ -144,6 +146,7 @@ class LeftCliptest : public Test::Suite
   void test_Clip();
   void test_inside();
   void test_clip();
+
 };
 
 LeftCliptest::LeftCliptest()
@@ -181,17 +184,17 @@ void LeftCliptest::test_clip()
 {
   dymaxion::LeftClip tc(0.5f);
 
-  auto p = tc.clip(Point2{0,0}, Point2{1,1});
+  auto p = tc.clip(Point2 { 0, 0 }, Point2 { 1, 1 });
 
-  ASSERT_EQUAL(p, decltype(p)(0.5, 0.5f))
+  ASSERT_EQUAL(p, decltype(p) (0.5, 0.5f))
 
-  auto p1 = tc.clip(Point2{0,1}, Point2{1,0});
+  auto p1 = tc.clip(Point2 { 0, 1 }, Point2 { 1, 0 });
 
-  ASSERT_EQUAL(p1, decltype(p)(0.5, 0.5f))
+  ASSERT_EQUAL(p1, decltype(p) (0.5, 0.5f))
 
-  auto p2 = tc.clip(Point2{1,0}, Point2{2,1});
+  auto p2 = tc.clip(Point2 { 1, 0 }, Point2 { 2, 1 });
 
-  ASSERT_EQUAL(p2, decltype(p)(0.5, -0.5f))
+  ASSERT_EQUAL(p2, decltype(p) (0.5, -0.5f))
 }
 
 class RightCliptest : public Test::Suite
@@ -205,6 +208,7 @@ class RightCliptest : public Test::Suite
   void test_Clip();
   void test_inside();
   void test_clip();
+
 };
 
 RightCliptest::RightCliptest()
@@ -242,25 +246,26 @@ void RightCliptest::test_clip()
 {
   dymaxion::RightClip tc(0.5f);
 
-  auto p = tc.clip(Point2{0,0}, Point2{1,1});
+  auto p = tc.clip(Point2 { 0, 0 }, Point2 { 1, 1 });
 
-  ASSERT_EQUAL(p, decltype(p)(0.5, 0.5f))
+  ASSERT_EQUAL(p, decltype(p) (0.5, 0.5f))
 
-  auto p1 = tc.clip(Point2{0,1}, Point2{1,0});
+  auto p1 = tc.clip(Point2 { 0, 1 }, Point2 { 1, 0 });
 
-  ASSERT_EQUAL(p1, decltype(p)(0.5, 0.5f))
+  ASSERT_EQUAL(p1, decltype(p) (0.5, 0.5f))
 
-  auto p2 = tc.clip(Point2{1,0}, Point2{2,1});
+  auto p2 = tc.clip(Point2 { 1, 0 }, Point2 { 2, 1 });
 
-  ASSERT_EQUAL(p2, decltype(p)(0.5, -0.5f))
+  ASSERT_EQUAL(p2, decltype(p) (0.5, -0.5f))
 }
 
 int main()
 {
-    TopCliptest t1;
-    BottomCliptest t2;
-    LeftCliptest t3;
-    RightCliptest t4;
+  TopCliptest t1;
+  BottomCliptest t2;
+  LeftCliptest t3;
+  RightCliptest t4;
 
-    return t1.run() + t2.run() + t3.run() + t4.run();
+  return t1.run() + t2.run() + t3.run() + t4.run();
 }
+

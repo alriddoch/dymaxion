@@ -12,10 +12,13 @@ namespace Util {
 class Timer {
  protected:
   struct timeval m_start;
+
   struct timeval m_stop;
+
   struct timeval m_temp;
+
  public:
-  Timer();  
+  Timer();
   void start();
   void stop();
   double interval();
@@ -23,6 +26,7 @@ class Timer {
   double now();
 
   static double real();
+
 };
 
 }

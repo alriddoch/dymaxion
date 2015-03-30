@@ -10,97 +10,98 @@
 
 void testHighShader()
 {
-    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
+  dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    dymaxion::Shader::Parameters params;
-    params[dymaxion::HighShader::key_threshold] = 5.f;
-    
-    dymaxion::HighShader* dshade = new dymaxion::HighShader();
-    delete dshade;
-    dshade = new dymaxion::HighShader(params);
-    terrain.addShader(dshade, 0);
-    
-    terrain.setBasePoint(0, 0, 20);
-    terrain.setBasePoint(0, 1, 1);
-    terrain.setBasePoint(1, 0, 2);
-    terrain.setBasePoint(1, 1, 0.5);
-    terrain.setBasePoint(2, 0, 2);
-    terrain.setBasePoint(2, 1, 0.5);
-    
-    dymaxion::Segment* seg = terrain.getSegment(0,0);
-    
-    seg->populateSurfaces();
-    seg->populate();
-    seg->populateSurfaces();
+  dymaxion::Shader::Parameters params;
+  params[dymaxion::HighShader::key_threshold] = 5.f;
 
-    seg = terrain.getSegment(1,0);
-    dshade->checkIntersect(*seg);
+  dymaxion::HighShader* dshade = new dymaxion::HighShader();
+  delete dshade;
+  dshade = new dymaxion::HighShader(params);
+  terrain.addShader(dshade, 0);
+
+  terrain.setBasePoint(0, 0, 20);
+  terrain.setBasePoint(0, 1, 1);
+  terrain.setBasePoint(1, 0, 2);
+  terrain.setBasePoint(1, 1, 0.5);
+  terrain.setBasePoint(2, 0, 2);
+  terrain.setBasePoint(2, 1, 0.5);
+
+  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+
+  seg->populateSurfaces();
+  seg->populate();
+  seg->populateSurfaces();
+
+  seg = terrain.getSegment(1, 0);
+  dshade->checkIntersect(*seg);
 }
 
 void testLowShader()
 {
-    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
+  dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    dymaxion::Shader::Parameters params;
-    params[dymaxion::LowShader::key_threshold] = 5.f;
-    
-    dymaxion::LowShader* dshade = new dymaxion::LowShader();
-    delete dshade;
-    dshade = new dymaxion::LowShader(params);
-    terrain.addShader(dshade, 0);
-    
-    terrain.setBasePoint(0, 0, 2);
-    terrain.setBasePoint(0, 1, 1);
-    terrain.setBasePoint(1, 0, 20);
-    terrain.setBasePoint(1, 1, 10);
-    terrain.setBasePoint(2, 0, 15);
-    terrain.setBasePoint(2, 1, 19);
-    
-    dymaxion::Segment* seg = terrain.getSegment(0,0);
-    
-    seg->populateSurfaces();
-    seg->populate();
-    seg->populateSurfaces();
+  dymaxion::Shader::Parameters params;
+  params[dymaxion::LowShader::key_threshold] = 5.f;
 
-    seg = terrain.getSegment(1,0);
-    dshade->checkIntersect(*seg);
+  dymaxion::LowShader* dshade = new dymaxion::LowShader();
+  delete dshade;
+  dshade = new dymaxion::LowShader(params);
+  terrain.addShader(dshade, 0);
+
+  terrain.setBasePoint(0, 0, 2);
+  terrain.setBasePoint(0, 1, 1);
+  terrain.setBasePoint(1, 0, 20);
+  terrain.setBasePoint(1, 1, 10);
+  terrain.setBasePoint(2, 0, 15);
+  terrain.setBasePoint(2, 1, 19);
+
+  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+
+  seg->populateSurfaces();
+  seg->populate();
+  seg->populateSurfaces();
+
+  seg = terrain.getSegment(1, 0);
+  dshade->checkIntersect(*seg);
 }
 
 void testBandShader()
 {
-    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
+  dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    dymaxion::Shader::Parameters params;
-    params[dymaxion::BandShader::key_lowThreshold] = 2.f;
-    params[dymaxion::BandShader::key_highThreshold] = 8.f;
-    
-    dymaxion::BandShader* dshade = new dymaxion::BandShader();
-    delete dshade;
-    dshade = new dymaxion::BandShader(params);
-    terrain.addShader(dshade, 0);
-    
-    terrain.setBasePoint(0, 0, 2);
-    terrain.setBasePoint(0, 1, 1);
-    terrain.setBasePoint(1, 0, 20);
-    terrain.setBasePoint(1, 1, 10);
-    terrain.setBasePoint(2, 0, 15);
-    terrain.setBasePoint(2, 1, 19);
-    
-    dymaxion::Segment* seg = terrain.getSegment(0,0);
-    
-    seg->populateSurfaces();
-    seg->populate();
-    seg->populateSurfaces();
+  dymaxion::Shader::Parameters params;
+  params[dymaxion::BandShader::key_lowThreshold] = 2.f;
+  params[dymaxion::BandShader::key_highThreshold] = 8.f;
 
-    seg = terrain.getSegment(1,0);
-    dshade->checkIntersect(*seg);
+  dymaxion::BandShader* dshade = new dymaxion::BandShader();
+  delete dshade;
+  dshade = new dymaxion::BandShader(params);
+  terrain.addShader(dshade, 0);
+
+  terrain.setBasePoint(0, 0, 2);
+  terrain.setBasePoint(0, 1, 1);
+  terrain.setBasePoint(1, 0, 20);
+  terrain.setBasePoint(1, 1, 10);
+  terrain.setBasePoint(2, 0, 15);
+  terrain.setBasePoint(2, 1, 19);
+
+  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+
+  seg->populateSurfaces();
+  seg->populate();
+  seg->populateSurfaces();
+
+  seg = terrain.getSegment(1, 0);
+  dshade->checkIntersect(*seg);
 }
 
 int main()
 {
-    testHighShader();
-    testLowShader();
-    testBandShader();
+  testHighShader();
+  testLowShader();
+  testBandShader();
 
-    return 0;
+  return 0;
 }
+

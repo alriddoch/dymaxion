@@ -9,27 +9,28 @@
 
 #include <iostream>
 
-int main() 
+int main()
 {
-    int size = 64;
-    dymaxion::Segment *s = new dymaxion::Segment(0, 0, size);
+  int size = 64;
+  dymaxion::Segment *s = new dymaxion::Segment(0, 0, size);
 
-    dymaxion::Matrix<2, 2, dymaxion::BasePoint> & base = s->getControlPoints();
-    base[0] = dymaxion::BasePoint(10.f, 3.f);
-    base[1].height() = 15.f;
-    base[2] = dymaxion::BasePoint(10.f, 10.f);
-    base[3] = dymaxion::BasePoint(9.32f, 1.9f);
-    
-    s->populate();
-/*    s->populateNormals(); 
+  dymaxion::Matrix<2, 2, dymaxion::BasePoint> & base = s->getControlPoints();
+  base[0] = dymaxion::BasePoint(10.f, 3.f);
+  base[1].height() = 15.f;
+  base[2] = dymaxion::BasePoint(10.f, 10.f);
+  base[3] = dymaxion::BasePoint(9.32f, 1.9f);
+
+  s->populate();
+/*    s->populateNormals();
 
     float *n=s->getNormals();
-i*/    //for (int i=0; i<=size; ++i) {
-        int i=0;
-        for (int j=0; j<=size; ++j) {
-                std::cout <<  j << ":" << s->get(i,j) << ", " ;
-        }
-       //}
+   i*/                                                          //for (int i=0; i<=size; ++i) {
+  int i = 0;
+  for (int j = 0; j <= size; ++j)
+  {
+    std::cout <<  j << ":" << s->get(i, j) << ", ";
+  }
+  //}
 /*          std::cout << s->get(i,j) << " ; ";
             std::cout << n[j * size * 3 + i * 3 ] << " : ";
             std::cout << n[j * size * 3 + i * 3 + 1] << " : ";
@@ -38,17 +39,18 @@ i*/    //for (int i=0; i<=size; ++i) {
         }
             std::cout << std::endl;
     }
-*/
+ */
 
-    dymaxion::Terrain t;
-    t.setBasePoint(0,0,10.0);
-    t.setBasePoint(0,1,12.0);
-    t.setBasePoint(1,0,14.0);
-    t.setBasePoint(1,1,16.0);
-    std::cout << t.getSegment(0,0);
-    t.setBasePoint(1,1,12.0);
-    std::cout << t.getSegment(0,0);
-    std::cout << std::endl;
-    
-    return 0;
+  dymaxion::Terrain t;
+  t.setBasePoint(0, 0, 10.0);
+  t.setBasePoint(0, 1, 12.0);
+  t.setBasePoint(1, 0, 14.0);
+  t.setBasePoint(1, 1, 16.0);
+  std::cout << t.getSegment(0, 0);
+  t.setBasePoint(1, 1, 12.0);
+  std::cout << t.getSegment(0, 0);
+  std::cout << std::endl;
+
+  return 0;
 }
+

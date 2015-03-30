@@ -18,6 +18,7 @@ class LinInterptest : public Test::Suite
   void test_flat();
   void test_calc();
   void test_calc_nocalc();
+
 };
 
 LinInterptest::LinInterptest()
@@ -79,6 +80,7 @@ class QuadInterptest : public Test::Suite
   void test_flat();
   void test_calc();
   void test_calc_nocalc();
+
 };
 
 QuadInterptest::QuadInterptest()
@@ -131,8 +133,9 @@ void QuadInterptest::test_calc_nocalc()
 
 int main()
 {
-    LinInterptest t1;
-    QuadInterptest t2;
+  LinInterptest t1;
+  QuadInterptest t2;
 
-    return t1.run() + t2.run();
+  return t1.run() + t2.run();
 }
+

@@ -15,6 +15,7 @@ class Effectortest : public Test::Suite
   void teardown() override;
 
   void test_Effector();
+
 };
 
 Effectortest::Effectortest()
@@ -40,3 +41,4 @@ int main()
 
   return t.run();
 }
+

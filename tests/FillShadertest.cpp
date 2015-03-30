@@ -11,29 +11,30 @@
 
 void testFillShader()
 {
-    dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
+  dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-    dymaxion::Shader::Parameters params;
-    
-    dymaxion::FillShader* dshade = new dymaxion::FillShader();
-    delete dshade;
-    dshade = new dymaxion::FillShader(params);
-    terrain.addShader(dshade, 0);
-    
-    terrain.setBasePoint(0, 0, -20);
-    terrain.setBasePoint(0, 1, 1);
-    terrain.setBasePoint(1, 0, 2);
-    terrain.setBasePoint(1, 1, 0.5);
-    
-    dymaxion::Segment* seg = terrain.getSegment(0,0);
-    
-    seg->populate();
-    seg->populateSurfaces();
+  dymaxion::Shader::Parameters params;
+
+  dymaxion::FillShader* dshade = new dymaxion::FillShader();
+  delete dshade;
+  dshade = new dymaxion::FillShader(params);
+  terrain.addShader(dshade, 0);
+
+  terrain.setBasePoint(0, 0, -20);
+  terrain.setBasePoint(0, 1, 1);
+  terrain.setBasePoint(1, 0, 2);
+  terrain.setBasePoint(1, 1, 0.5);
+
+  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+
+  seg->populate();
+  seg->populateSurfaces();
 }
 
 int main()
 {
-    testFillShader();
+  testFillShader();
 
-    return 0;
+  return 0;
 }
+

@@ -23,6 +23,7 @@ class Areatest : public Test::Suite
   void test_checkIntersects_true();
   void test_checkIntersects_false();
   void test_clipToSegment();
+
 };
 
 Areatest::Areatest()
@@ -55,13 +56,13 @@ void Areatest::test_setShape()
   dymaxion::Area a(0, false);
 
   dymaxion::Area::ring r;
-  r.push_back(dymaxion::Area::point(1,0));
-  r.push_back(dymaxion::Area::point(0,-1));
-  r.push_back(dymaxion::Area::point(-1,0));
-  r.push_back(dymaxion::Area::point(0,1));
-  r.push_back(dymaxion::Area::point(1,0));
+  r.push_back(dymaxion::Area::point(1, 0));
+  r.push_back(dymaxion::Area::point(0, -1));
+  r.push_back(dymaxion::Area::point(-1, 0));
+  r.push_back(dymaxion::Area::point(0, 1));
+  r.push_back(dymaxion::Area::point(1, 0));
   a.setShape(r);
-  
+
 }
 
 void Areatest::test_setShader()
@@ -76,14 +77,14 @@ void Areatest::test_contains_true()
   dymaxion::Area a(0, false);
 
   dymaxion::Area::ring r;
-  r.push_back(dymaxion::Area::point(1,0));
-  r.push_back(dymaxion::Area::point(0,-1));
-  r.push_back(dymaxion::Area::point(-1,0));
-  r.push_back(dymaxion::Area::point(0,1));
-  r.push_back(dymaxion::Area::point(1,0));
+  r.push_back(dymaxion::Area::point(1, 0));
+  r.push_back(dymaxion::Area::point(0, -1));
+  r.push_back(dymaxion::Area::point(-1, 0));
+  r.push_back(dymaxion::Area::point(0, 1));
+  r.push_back(dymaxion::Area::point(1, 0));
   a.setShape(r);
 
-  ASSERT_TRUE(a.contains(0.f,0.f));
+  ASSERT_TRUE(a.contains(0.f, 0.f));
 }
 
 void Areatest::test_contains_false()
@@ -91,14 +92,14 @@ void Areatest::test_contains_false()
   dymaxion::Area a(0, false);
 
   dymaxion::Area::ring r;
-  r.push_back(dymaxion::Area::point(1,0));
-  r.push_back(dymaxion::Area::point(0,-1));
-  r.push_back(dymaxion::Area::point(-1,0));
-  r.push_back(dymaxion::Area::point(0,1));
-  r.push_back(dymaxion::Area::point(1,0));
+  r.push_back(dymaxion::Area::point(1, 0));
+  r.push_back(dymaxion::Area::point(0, -1));
+  r.push_back(dymaxion::Area::point(-1, 0));
+  r.push_back(dymaxion::Area::point(0, 1));
+  r.push_back(dymaxion::Area::point(1, 0));
   a.setShape(r);
 
-  ASSERT_TRUE(!a.contains(2.f,2.f));
+  ASSERT_TRUE(!a.contains(2.f, 2.f));
 }
 
 void Areatest::test_checkIntersects_true()
@@ -106,11 +107,11 @@ void Areatest::test_checkIntersects_true()
   dymaxion::Area a(0, false);
 
   dymaxion::Area::ring r;
-  r.push_back(dymaxion::Area::point(1,0));
-  r.push_back(dymaxion::Area::point(0,-1));
-  r.push_back(dymaxion::Area::point(-1,0));
-  r.push_back(dymaxion::Area::point(0,1));
-  r.push_back(dymaxion::Area::point(1,0));
+  r.push_back(dymaxion::Area::point(1, 0));
+  r.push_back(dymaxion::Area::point(0, -1));
+  r.push_back(dymaxion::Area::point(-1, 0));
+  r.push_back(dymaxion::Area::point(0, 1));
+  r.push_back(dymaxion::Area::point(1, 0));
   a.setShape(r);
 
   dymaxion::Segment s(0, 0, dymaxion::defaultResolution);
@@ -125,11 +126,11 @@ void Areatest::test_checkIntersects_false()
   dymaxion::Area a(0, false);
 
   dymaxion::Area::ring r;
-  r.push_back(dymaxion::Area::point(-1,-2));
-  r.push_back(dymaxion::Area::point(-2,-3));
-  r.push_back(dymaxion::Area::point(-3,-2));
-  r.push_back(dymaxion::Area::point(-2,-1));
-  r.push_back(dymaxion::Area::point(-1,-2));
+  r.push_back(dymaxion::Area::point(-1, -2));
+  r.push_back(dymaxion::Area::point(-2, -3));
+  r.push_back(dymaxion::Area::point(-3, -2));
+  r.push_back(dymaxion::Area::point(-2, -1));
+  r.push_back(dymaxion::Area::point(-1, -2));
   a.setShape(r);
 
   dymaxion::Segment s(0, 0, dymaxion::defaultResolution);
@@ -144,11 +145,11 @@ void Areatest::test_clipToSegment()
   dymaxion::Area a(0, false);
 
   dymaxion::Area::ring r;
-  r.push_back(dymaxion::Area::point(1,0));
-  r.push_back(dymaxion::Area::point(0,-1));
-  r.push_back(dymaxion::Area::point(-1,0));
-  r.push_back(dymaxion::Area::point(0,1));
-  r.push_back(dymaxion::Area::point(1,0));
+  r.push_back(dymaxion::Area::point(1, 0));
+  r.push_back(dymaxion::Area::point(0, -1));
+  r.push_back(dymaxion::Area::point(-1, 0));
+  r.push_back(dymaxion::Area::point(0, 1));
+  r.push_back(dymaxion::Area::point(1, 0));
   a.setShape(r);
 
   dymaxion::Segment s(0, 0, dymaxion::defaultResolution);
@@ -158,7 +159,7 @@ void Areatest::test_clipToSegment()
   dymaxion::Area::ring result = a.clipToSegment(s);
 
   std::cout << "FOO: " << result.size() << std::endl;
-  
+
   dymaxion::Area::ring::const_iterator I = result.begin();
   dymaxion::Area::ring::const_iterator Iend = result.end();
   for (; I != Iend; ++I)
@@ -201,7 +202,7 @@ Segment::~Segment()
 
 Segment::rect_type Segment::getRect() const
 {
-  point_type lp(0,0), hp(64,64);
+  point_type lp(0, 0), hp(64, 64);
   return rect_type(lp, hp);
 }
 

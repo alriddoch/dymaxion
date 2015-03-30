@@ -12,27 +12,29 @@
 
 int main(int argc, char ** argv)
 {
-    int iterations = 1;
+  int iterations = 1;
 
-    if (argc > 1) {
-        iterations = strtol(argv[1], 0, 10);
-    }
+  if (argc > 1)
+  {
+    iterations = strtol(argv[1], 0, 10);
+  }
 
-    dymaxion::Segment s(0,0,64);
+  dymaxion::Segment s(0, 0, 64);
 
-    dymaxion::Matrix<2,2,dymaxion::BasePoint> & points = s.getControlPoints();
-    points(0, 0).roughness() = 1.85;
-    points(1, 0).roughness() = 1.75;
-    points(0, 1).roughness() = 1.65;
-    points(1, 1).roughness() = 1.95;
+  dymaxion::Matrix<2, 2, dymaxion::BasePoint> & points = s.getControlPoints();
+  points(0, 0).roughness() = 1.85;
+  points(1, 0).roughness() = 1.75;
+  points(0, 1).roughness() = 1.65;
+  points(1, 1).roughness() = 1.95;
 
-    for (int i = 0; i < iterations; ++i) {
+  for (int i = 0; i < iterations; ++i)
+  {
 
-        s.populate();
+    s.populate();
 
-    }
+  }
 
-    return 0;
+  return 0;
 }
 
 // stubs
@@ -52,7 +54,7 @@ void Surface::populate()
 
 Surface * Shader::newSurface(const Segment & segment) const
 {
-    return 0;
+  return 0;
 }
 
 }

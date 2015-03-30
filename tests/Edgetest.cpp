@@ -12,9 +12,9 @@
 #include <boost/geometry/geometries/point_xy.hpp>
 
 using boost_point = boost::geometry::model::d2::point_xy<
-    float,
-    boost::geometry::cs::cartesian
->;
+        float,
+        boost::geometry::cs::cartesian
+        >;
 
 typedef std::tuple<float, float> Point2;
 typedef std::tuple<float, float> Vector2;
@@ -24,9 +24,9 @@ std::ostream & operator<<(std::ostream & os,
                           dymaxion::Edge<PointT, VectorT> const & e)
 {
   os << "Edge(" << boost::geometry::traits::access<PointT, 0>::get(e.start())
-     << "," << boost::geometry::traits::access<PointT, 1>::get(e.start())
-     << "),(" << boost::geometry::traits::access<PointT, 0>::get(e.end())
-     << "," << boost::geometry::traits::access<PointT, 1>::get(e.end()) << ")";
+  << "," << boost::geometry::traits::access<PointT, 1>::get(e.start())
+  << "),(" << boost::geometry::traits::access<PointT, 0>::get(e.end())
+  << "," << boost::geometry::traits::access<PointT, 1>::get(e.end()) << ")";
   return os;
 }
 
@@ -34,8 +34,8 @@ std::ostream & operator<<(std::ostream & os,
                           Point2 const & e)
 {
   os << "Point2("
-     << boost::geometry::traits::access<Point2, 0>::get(e) << ","
-     << boost::geometry::traits::access<Point2, 1>::get(e) << ")";
+  << boost::geometry::traits::access<Point2, 0>::get(e) << ","
+  << boost::geometry::traits::access<Point2, 1>::get(e) << ")";
   return os;
 }
 
@@ -43,8 +43,8 @@ std::ostream & operator<<(std::ostream & os,
                           boost_point const & e)
 {
   os << "Point2("
-     << boost::geometry::traits::access<boost_point, 0>::get(e) << ","
-     << boost::geometry::traits::access<boost_point, 1>::get(e) << ")";
+  << boost::geometry::traits::access<boost_point, 0>::get(e) << ","
+  << boost::geometry::traits::access<boost_point, 1>::get(e) << ")";
   return os;
 }
 
@@ -68,6 +68,7 @@ class Edgetest : public Test::Suite
   void test_sort_order();
   void test_sort_order_inv();
   void test_sort_order_equal();
+
 };
 
 template <typename PointT>
@@ -165,6 +166,7 @@ class EdgeAtYtest : public Test::Suite
   void test_EdgeAtY();
   void test_intersect();
   void test_intersect_false();
+
 };
 
 template <class PointT>
@@ -200,7 +202,7 @@ void EdgeAtYtest<PointT>::test_intersect()
 
   dymaxion::Edge<PointT, Vector2> c(PointT(1, 2), PointT(7, 8));
   dymaxion::Edge<PointT, Vector2> d(PointT(2, 2), PointT(8, 8));
-  
+
   ASSERT_TRUE(a(c, d));
 }
 
@@ -211,19 +213,20 @@ void EdgeAtYtest<PointT>::test_intersect_false()
 
   dymaxion::Edge<PointT, Vector2> c(PointT(2, 2), PointT(8, 8));
   dymaxion::Edge<PointT, Vector2> d(PointT(1, 2), PointT(7, 8));
-  
+
   ASSERT_TRUE(!a(c, d));
 }
 
 int main()
 {
   Edgetest<Point2> t;
-  Edgetest<WFMath::Point<2>> tw;
+  Edgetest<WFMath::Point<2> > tw;
   Edgetest<boost_point> tb;
 
   EdgeAtYtest<Point2> t2;
-  EdgeAtYtest<WFMath::Point<2>> t2w;
+  EdgeAtYtest<WFMath::Point<2> > t2w;
   EdgeAtYtest<boost_point> t2b;
 
   return t.run() + tw.run() + tb.run() + t2.run() + t2w.run() + t2b.run();
 }
+

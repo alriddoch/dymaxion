@@ -6,7 +6,8 @@
 
 int main()
 {
-    dymaxion::BasePoint bp1;
+  dymaxion::BasePoint bp1;
 
-    return 0;
+  return 0;
 }
+

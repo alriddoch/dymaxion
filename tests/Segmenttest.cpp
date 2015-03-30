@@ -9,30 +9,30 @@
 
 int main()
 {
-    dymaxion::Segment s(0,0,64);
+  dymaxion::Segment s(0, 0, 64);
 
-    s.populate();
-    s.populateNormals();
-    s.populateSurfaces();
-    s.invalidate();
+  s.populate();
+  s.populateNormals();
+  s.populateSurfaces();
+  s.invalidate();
 
-    s.populate();
-    s.populateNormals();
-    s.populateSurfaces();
+  s.populate();
+  s.populateNormals();
+  s.populateSurfaces();
 
-    float h;
-    std::tuple<float,float,float> normal;
-    s.getHeightAndNormal(17.0, 23.0, h, normal);
-    s.getHeightAndNormal(17.9, 23.1, h, normal);
-    s.getHeightAndNormal(17.1, 23.9, h, normal);
+  float h;
+  std::tuple<float, float, float> normal;
+  s.getHeightAndNormal(17.0, 23.0, h, normal);
+  s.getHeightAndNormal(17.9, 23.1, h, normal);
+  s.getHeightAndNormal(17.1, 23.9, h, normal);
 
-    unsigned int lx, ly, hx, hy;
-    s.clipToSegment(dymaxion::Segment::rect_type(
-                        dymaxion::Segment::point_type(50,50),
-                        dymaxion::Segment::point_type(100,100)
+  unsigned int lx, ly, hx, hy;
+  s.clipToSegment(dymaxion::Segment::rect_type(
+                    dymaxion::Segment::point_type(50, 50),
+                    dymaxion::Segment::point_type(100, 100)
                     ), lx, hx, ly, hy);
 
-    return 0;
+  return 0;
 }
 
 // stubs
@@ -52,7 +52,7 @@ void Surface::populate()
 
 Surface * Shader::newSurface(const Segment & segment) const
 {
-    return 0;
+  return 0;
 }
 
 }

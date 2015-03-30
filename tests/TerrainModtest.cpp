@@ -15,9 +15,9 @@
 #include <cassert>
 
 using boost_point = boost::geometry::model::d2::point_xy<
-  float,
-  boost::geometry::cs::cartesian
->;
+        float,
+        boost::geometry::cs::cartesian
+        >;
 using boost_ring = boost::geometry::model::ring<boost_point>;
 
 bool operator==(dymaxion::Effector::box const & lhs,
@@ -80,12 +80,13 @@ int main()
   crater_shape.push_back(boost_point(80.f, 80.f));
 
   dymaxion::CraterTerrainMod<boost_ring> * mp3 =
-      new dymaxion::CraterTerrainMod<boost_ring>(-5.f, crater_shape);
+    new dymaxion::CraterTerrainMod<boost_ring>(-5.f, crater_shape);
   terrain.addMod(mp3);
 
   dymaxion::Segment * segment = terrain.getSegment(0, 0);
 
-  if (segment == 0) {
+  if (segment == 0)
+  {
     std::cerr << "Segment not created by addition of required basepoints"
               << std::endl << std::flush;
     return 1;
@@ -95,7 +96,8 @@ int main()
 
   segment = terrain.getSegment(1, 1);
 
-  if (segment == 0) {
+  if (segment == 0)
+  {
     std::cerr << "Segment not created by addition of required basepoints"
               << std::endl << std::flush;
     return 1;
@@ -143,3 +145,4 @@ int main()
 
   return terrain_mod_context_test(terrain);
 }
+

@@ -14,73 +14,78 @@ typedef WFMath::Point<2> Point2;
 
 int main()
 {
-    dymaxion::Terrain terrain;
-    
-    terrain.setBasePoint(0, 0, 2.8);
-    terrain.setBasePoint(1, 0, 7.1);
-    terrain.setBasePoint(0, 1, 0.2);
-    terrain.setBasePoint(1, 1, 14.7);
+  dymaxion::Terrain terrain;
 
-    dymaxion::Segment * segment = terrain.getSegment(0, 0);
+  terrain.setBasePoint(0, 0, 2.8);
+  terrain.setBasePoint(1, 0, 7.1);
+  terrain.setBasePoint(0, 1, 0.2);
+  terrain.setBasePoint(1, 1, 14.7);
 
-    if (segment == 0) {
-        std::cerr << "Segment not created by addition of required basepoints"
-                  << std::endl << std::flush;
-        return 1;
-    }
+  dymaxion::Segment * segment = terrain.getSegment(0, 0);
 
-    Util::Timer time;
-    time.start();
-    
-    for (int q=0;q<1000;q++) {   
-        segment->populate();
-    }
+  if (segment == 0)
+  {
+    std::cerr << "Segment not created by addition of required basepoints"
+              << std::endl << std::flush;
+    return 1;
+  }
 
-    time.stop();
-    std::cout << "time per segment = "<< (time.interval()/1.0) << " ms" << std::endl;
- 
+  Util::Timer time;
+  time.start();
 
-    dymaxion::Forest forest(4249162ul);
-    dymaxion::Area::ring p;
-    p.push_back(dymaxion::Area::point(-50, -50));
-    p.push_back(dymaxion::Area::point(50, -50));
-    p.push_back(dymaxion::Area::point(50, 50));
-    p.push_back(dymaxion::Area::point(-50, 50));    
-    p.push_back(dymaxion::Area::point(-50, 50));    
-    p.push_back(dymaxion::Area::point(-50, -50));
-    
-    dymaxion::Area* ar = new dymaxion::Area(1, false);
-    ar->setShape(p);
-    forest.setArea(ar);
-    
-    time.start();
-    for (int q=0;q<10;q++) {   
-        forest.populate();
-    }
-    time.stop();
+  for (int q = 0; q < 1000; q++)
+  {
+    segment->populate();
+  }
 
-    std::cout << "time per 100x100 forest = "<< (time.interval()*100.0) << " ms" << std::endl;
-
-    p.clear();
-    p.push_back(dymaxion::Area::point(-100, -100));
-    p.push_back(dymaxion::Area::point(100, -100));
-    p.push_back(dymaxion::Area::point(100, 100));
-    p.push_back(dymaxion::Area::point(-100, 100));    
-    
-    ar = new dymaxion::Area(1, false);
-    ar->setShape(p);
-    forest.setArea(ar);
-    
-    time.start();
-    for (int q=0;q<10;q++) {   
-        forest.populate();
-    }
-    time.stop();
+  time.stop();
+  std::cout << "time per segment = " << (time.interval() / 1.0) << " ms" << std::endl;
 
 
-    std::cout << "time per 200x200 forest = "<< (time.interval()*100.0) << " ms" << std::endl;
-    
-    
-    
-    return 0;
+  dymaxion::Forest forest(4249162ul);
+  dymaxion::Area::ring p;
+  p.push_back(dymaxion::Area::point(-50, -50));
+  p.push_back(dymaxion::Area::point(50, -50));
+  p.push_back(dymaxion::Area::point(50, 50));
+  p.push_back(dymaxion::Area::point(-50, 50));
+  p.push_back(dymaxion::Area::point(-50, 50));
+  p.push_back(dymaxion::Area::point(-50, -50));
+
+  dymaxion::Area* ar = new dymaxion::Area(1, false);
+  ar->setShape(p);
+  forest.setArea(ar);
+
+  time.start();
+  for (int q = 0; q < 10; q++)
+  {
+    forest.populate();
+  }
+  time.stop();
+
+  std::cout << "time per 100x100 forest = " << (time.interval() * 100.0) << " ms" << std::endl;
+
+  p.clear();
+  p.push_back(dymaxion::Area::point(-100, -100));
+  p.push_back(dymaxion::Area::point(100, -100));
+  p.push_back(dymaxion::Area::point(100, 100));
+  p.push_back(dymaxion::Area::point(-100, 100));
+
+  ar = new dymaxion::Area(1, false);
+  ar->setShape(p);
+  forest.setArea(ar);
+
+  time.start();
+  for (int q = 0; q < 10; q++)
+  {
+    forest.populate();
+  }
+  time.stop();
+
+
+  std::cout << "time per 200x200 forest = " << (time.interval() * 100.0) << " ms" << std::endl;
+
+
+
+  return 0;
 }
+
