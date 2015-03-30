@@ -14,7 +14,7 @@ template <typename DataType>
 class Buffer {
  private:
   /// The terrain height segment this buffer is associated with.
-  const Segment & m_segment;
+  Segment const & m_segment;
   /// The number of data values per height point.
   const unsigned int m_channels;
   /// The size of segment, m_res + 1.
@@ -22,15 +22,15 @@ class Buffer {
   /// Pointer to buffer containing data values.
   DataType * m_data = 0;
 
-  Buffer(const Buffer &) = delete;
-  Buffer & operator=(const Buffer &) = delete;
+  Buffer(Buffer const &) = delete;
+  Buffer & operator=(Buffer const &) = delete;
 
  public:
   /// \brief Constructor.
   ///
   /// @param segment terrain height segment this buffer is associated with.
   /// @param channels number of data values per height point.
-  explicit Buffer(const Segment & segment, unsigned int channels = 4);
+  explicit Buffer(Segment const & segment, unsigned int channels = 4);
   virtual ~Buffer();
 
   /// \brief Retrieve the data value at a given point.
@@ -48,7 +48,7 @@ class Buffer {
   /// Return the data value associated with given point in the segment
   /// in a given channel in this buffer.
   /// @return the value at the point requested.
-  const DataType & operator()(unsigned int x,
+  DataType const & operator()(unsigned int x,
                               unsigned int y,
                               unsigned int channel) const
   {
@@ -56,7 +56,7 @@ class Buffer {
   }
 
   /// Accessor for the terrain height segment this buffer is associated with.
-  const Segment & getSegment() const
+  Segment const & getSegment() const
   {
     return m_segment;
   }

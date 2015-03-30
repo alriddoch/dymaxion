@@ -19,7 +19,7 @@ class ShaderKit {
   /// \brief Create a new Shader instance
   ///
   /// @return a pointer to the new Shader.
-  virtual Shader * newShader(const Shader::Parameters &) const = 0;
+  virtual Shader * newShader(Shader::Parameters const &) const = 0;
 
 };
 
@@ -30,7 +30,7 @@ class ShaderFactory : public ShaderKit {
   ShaderFactory();
   ~ShaderFactory();
 
-  virtual Shader * newShader(const Shader::Parameters &) const;
+  virtual Shader * newShader(Shader::Parameters const &) const;
 
 };
 
@@ -55,8 +55,8 @@ class ShaderFactories {
   static ShaderFactories & instance();
   static void del();
 
-  Shader * newShader(const std::string & type,
-                     const Shader::Parameters &) const;
+  Shader * newShader(std::string const & type,
+                     Shader::Parameters const &) const;
 
 };
 

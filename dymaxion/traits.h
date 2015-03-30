@@ -33,7 +33,7 @@ template <class Vector, class PointL, class PointR>
 class point_subtract<Vector, PointL, PointR, 2>
 {
  public:
-  static Vector op(const PointL & pl, const PointR & pr)
+  static Vector op(PointL const & pl, const PointR & pr)
   {
     return point_construct<Vector>::make(
              point_access<PointL, 0>::get(pl) - point_access<PointR, 0>::get(pr),
@@ -47,7 +47,7 @@ template <class Vector, class PointL, class PointR>
 class point_subtract<Vector, PointL, PointR, 3>
 {
  public:
-  static Vector op(const PointL & pl, const PointR & pr)
+  static Vector op(PointL const & pl, const PointR & pr)
   {
     return point_construct<Vector>::make(
              point_access<PointL, 0>::get(pl) - point_access<PointR, 0>::get(pr),
@@ -65,7 +65,7 @@ template <class Point, class PointL, class VectorR>
 class point_add<Point, PointL, VectorR, 2>
 {
  public:
-  static Point op(const PointL & pl, const VectorR & pr)
+  static Point op(PointL const & pl, const VectorR & pr)
   {
     return point_construct<Point>::make(
              point_access<PointL, 0>::get(pl) + point_access<VectorR, 0>::get(pr),
@@ -79,7 +79,7 @@ template <class Point, class PointL, class VectorR>
 class point_add<Point, PointL, VectorR, 3>
 {
  public:
-  static Point op(const PointL & pl, const VectorR & pr)
+  static Point op(PointL const & pl, const VectorR & pr)
   {
     return point_construct<Point>::make(
              point_access<PointL, 0>::get(pl) + point_access<VectorR, 0>::get(pr),

@@ -28,7 +28,7 @@ class Matrix {
   }
 
   /// \brief Accessor for the array.
-  const FloatType & operator()(unsigned int col, unsigned int row) const
+  FloatType const & operator()(unsigned int col, unsigned int row) const
   {
     return m_data[row * COLS + col];
   }

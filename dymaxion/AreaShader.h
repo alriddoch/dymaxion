@@ -24,7 +24,7 @@ class AreaShader : public Shader
 
   virtual void shade(Surface &s) const;
 
-  virtual bool checkIntersect(const Segment &) const;
+  virtual bool checkIntersect(Segment const &) const;
 
  private:
   /// helper to shader a single area into the surface

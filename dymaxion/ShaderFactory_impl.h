@@ -20,7 +20,7 @@ ShaderFactory<T>::~ShaderFactory()
 }
 
 template <class T>
-Shader * ShaderFactory<T>::newShader(const Shader::Parameters & params) const
+Shader * ShaderFactory<T>::newShader(Shader::Parameters const & params) const
 {
   return new T(params);
 }

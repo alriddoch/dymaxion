@@ -42,7 +42,7 @@ class DepthShader : public Shader {
   /// \brief Constructor
   ///
   /// @param params a map of parameters for the shader.
-  explicit DepthShader(const Parameters & params);
+  explicit DepthShader(Parameters const & params);
   virtual ~DepthShader();
 
   /// Accessor for the level of the surface of the water.
@@ -57,7 +57,7 @@ class DepthShader : public Shader {
     return m_murkyDepth;
   }
 
-  virtual bool checkIntersect(const Segment &) const;
+  virtual bool checkIntersect(Segment const &) const;
   virtual void shade(Surface &) const;
 
 };

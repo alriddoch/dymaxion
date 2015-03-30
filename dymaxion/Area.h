@@ -68,7 +68,7 @@ class Area : public Effector
   }
 
   /// Accessor for the geometric shape.
-  const ring & shape() const
+  ring const & shape() const
   {
     return m_shape;
   }

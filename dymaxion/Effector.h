@@ -36,12 +36,12 @@ class Effector
 
     virtual ~Context();
 
-    const std::string & id()
+    std::string const & id()
     {
       return m_id;
     }
 
-    void setId(const std::string &);
+    void setId(std::string const &);
 
    protected:
     std::string m_id;
@@ -73,10 +73,10 @@ class Effector
   Effector();
 
   /// \brief Copy constructor
-  Effector(const Effector &);
+  Effector(Effector const &);
 
   /// \brief Assignment
-  Effector & operator=(const Effector &);
+  Effector & operator=(Effector const &);
 
   /// The bounding box of the geometric shape.
   box m_box;

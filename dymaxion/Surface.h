@@ -17,9 +17,9 @@ typedef unsigned char ColorT;
 class Surface : public Buffer<ColorT>{
  public:
   /// \brief The shader that populates this surface.
-  const Shader & m_shader;
+  Shader const & m_shader;
 
-  explicit Surface(const Segment & segment, const Shader & shader,
+  explicit Surface(Segment const & segment, const Shader & shader,
                    bool colors = true, bool alpha = true);
   virtual ~Surface();
 

@@ -58,12 +58,12 @@ class ShapeTerrainMod : public TerrainMod
   /// \brief Constructor
   ///
   /// @param s shape of the modifier.
-  ShapeTerrainMod(const Shape &s);
+  ShapeTerrainMod(Shape const &s);
   virtual ~ShapeTerrainMod();   // {}
 
   virtual bool checkIntersects(const Segment& s) const;
 
-  void setShape(const Shape & s);
+  void setShape(Shape const & s);
 
  protected:
   /// \brief Shape of the modifier.
@@ -84,7 +84,7 @@ class LevelTerrainMod : public ShapeTerrainMod<Shape>
   ///
   /// @param level The height level of all points affected.
   /// @param s shape of the modifier.
-  LevelTerrainMod(float level, const Shape &s)
+  LevelTerrainMod(float level, Shape const &s)
     : ShapeTerrainMod<Shape>(s), m_level(level)
   {
   }
@@ -93,7 +93,7 @@ class LevelTerrainMod : public ShapeTerrainMod<Shape>
 
   virtual void apply(float &point, int x, int y) const;
 
-  void setShape(float level, const Shape & s);
+  void setShape(float level, Shape const & s);
 
  private:
   /// \brief Copy constructor.
@@ -119,7 +119,7 @@ class AdjustTerrainMod : public ShapeTerrainMod<Shape>
   ///
   /// @param dist adjustment to the height of all points affected.
   /// @param s shape of the modifier.
-  AdjustTerrainMod(float dist, const Shape &s)
+  AdjustTerrainMod(float dist, Shape const &s)
     : ShapeTerrainMod<Shape>(s), m_dist(dist)
   {
   }
@@ -128,7 +128,7 @@ class AdjustTerrainMod : public ShapeTerrainMod<Shape>
 
   virtual void apply(float &point, int x, int y) const;
 
-  void setShape(float dist, const Shape & s);
+  void setShape(float dist, Shape const & s);
 
  private:
   /// \brief Copy constructor.
@@ -156,7 +156,7 @@ class SlopeTerrainMod : public ShapeTerrainMod<Shape>
   /// @param dx the rate of change of the height along X.
   /// @param dy the rate of change of the height along Y.
   /// @param s shape of the modifier.
-  SlopeTerrainMod(float level, float dx, float dy, const Shape &s)
+  SlopeTerrainMod(float level, float dx, float dy, Shape const &s)
     : ShapeTerrainMod<Shape>(s), m_level(level), m_dx(dx), m_dy(dy)
   {
   }
@@ -165,7 +165,7 @@ class SlopeTerrainMod : public ShapeTerrainMod<Shape>
 
   virtual void apply(float &point, int x, int y) const;
 
-  void setShape(float level, float dx, float dy, const Shape & s);
+  void setShape(float level, float dx, float dy, Shape const & s);
 
  private:
   /// \brief Copy constructor.
@@ -193,7 +193,7 @@ class CraterTerrainMod : public ShapeTerrainMod<Shape>
   /// \brief Constructor
   ///
   /// @param s Sphere that defines the shape of the crater.
-  CraterTerrainMod(float level, const Shape &s)
+  CraterTerrainMod(float level, Shape const &s)
     : ShapeTerrainMod<Shape>(s), m_level(level)
   {
   }
@@ -202,7 +202,7 @@ class CraterTerrainMod : public ShapeTerrainMod<Shape>
 
   virtual void apply(float &point, int x, int y) const;
 
-  void setShape(float level, const Shape & s);
+  void setShape(float level, Shape const & s);
 
  private:
   /// \brief Copy constructor.

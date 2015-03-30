@@ -28,7 +28,7 @@ class HighShader : public Shader {
   /// \brief Constructor
   ///
   /// @param params a map of parameters for the shader.
-  explicit HighShader(const Parameters & params);
+  explicit HighShader(Parameters const & params);
   virtual ~HighShader();
 
   /// Accessor for level above which the shader renders.
@@ -37,7 +37,7 @@ class HighShader : public Shader {
     return m_threshold;
   }
 
-  virtual bool checkIntersect(const Segment &) const;
+  virtual bool checkIntersect(Segment const &) const;
   virtual void shade(Surface &) const;
 
 };
@@ -61,7 +61,7 @@ class LowShader : public Shader {
   /// \brief Constructor
   ///
   /// @param params a map of parameters for the shader.
-  explicit LowShader(const Parameters & params);
+  explicit LowShader(Parameters const & params);
   virtual ~LowShader();
 
   /// Accessor for level below which the shader renders.
@@ -70,7 +70,7 @@ class LowShader : public Shader {
     return m_threshold;
   }
 
-  virtual bool checkIntersect(const Segment &) const;
+  virtual bool checkIntersect(Segment const &) const;
   virtual void shade(Surface &) const;
 
 };
@@ -102,7 +102,7 @@ class BandShader : public Shader {
   /// \brief Constructor
   ///
   /// @param params a map of parameters for the shader.
-  explicit BandShader(const Parameters & params);
+  explicit BandShader(Parameters const & params);
   virtual ~BandShader();
 
   /// Accessor for the level above which the shader renders.
@@ -117,7 +117,7 @@ class BandShader : public Shader {
     return m_highThreshold;
   }
 
-  virtual bool checkIntersect(const Segment &) const;
+  virtual bool checkIntersect(Segment const &) const;
   virtual void shade(Surface &) const;
 
 };

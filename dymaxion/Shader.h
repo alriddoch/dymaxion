@@ -49,14 +49,14 @@ class Shader {
     return m_alpha;
   }
 
-  Surface * newSurface(const Segment &) const;
+  Surface * newSurface(Segment const &) const;
 
   /// \brief Check whether this Shader has any effect on the given Segment.
   ///
   /// @return true if the given Segment height range is within the range
   /// that this Shader uses. e.g. A high altitude snow shader will have
   /// no effect on low level terrain.
-  virtual bool checkIntersect(const Segment &) const = 0;
+  virtual bool checkIntersect(Segment const &) const = 0;
 
   /// \brief Populate a Surface with data.
   virtual void shade(Surface &) const = 0;

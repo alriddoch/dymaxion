@@ -150,19 +150,19 @@ class Terrain {
   }
 
   /// \brief Accessor for 2D sparse array of Segment pointers.
-  const Segmentstore & getTerrain() const
+  Segmentstore const & getTerrain() const
   {
     return m_segments;
   }
 
   /// \brief Accessor for 2D sparse array of BasePoint objects.
-  const Pointstore & getPoints() const
+  Pointstore const & getPoints() const
   {
     return m_basePoints;
   }
 
   /// \brief Accessor for list of Shader pointers.
-  const Shaderstore & getShaders() const
+  Shaderstore const & getShaders() const
   {
     return m_shaders;
   }

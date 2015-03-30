@@ -18,7 +18,7 @@
 namespace dymaxion {
 
 template <class Shape>
-ShapeTerrainMod<Shape>::ShapeTerrainMod(const Shape &s) : m_shape(s)
+ShapeTerrainMod<Shape>::ShapeTerrainMod(Shape const &s) : m_shape(s)
 {
   boost::geometry::envelope(m_shape, m_box);
 }
@@ -38,7 +38,7 @@ bool ShapeTerrainMod<Shape>::checkIntersects(const Segment& s) const
 }
 
 template <class Shape>
-void ShapeTerrainMod<Shape>::setShape(const Shape & s)
+void ShapeTerrainMod<Shape>::setShape(Shape const & s)
 {
   m_shape = s;
   boost::geometry::envelope(m_shape, m_box);
@@ -58,7 +58,7 @@ void LevelTerrainMod<Shape>::apply(float &point, int x, int y) const
 }
 
 template <class Shape>
-void LevelTerrainMod<Shape>::setShape(float level, const Shape & s)
+void LevelTerrainMod<Shape>::setShape(float level, Shape const & s)
 {
   ShapeTerrainMod<Shape>::setShape(s);
   m_level = level;
@@ -78,7 +78,7 @@ void AdjustTerrainMod<Shape>::apply(float &point, int x, int y) const
 }
 
 template <class Shape>
-void AdjustTerrainMod<Shape>::setShape(float dist, const Shape & s)
+void AdjustTerrainMod<Shape>::setShape(float dist, Shape const & s)
 {
   ShapeTerrainMod<Shape>::setShape(s);
   m_dist = dist;
@@ -107,7 +107,7 @@ void SlopeTerrainMod<Shape>::apply(float &point, int x, int y) const
 template <class Shape>
 void SlopeTerrainMod<Shape>::setShape(float level,
                                       float dx, float dy,
-                                      const Shape & s)
+                                      Shape const & s)
 {
   ShapeTerrainMod<Shape>::setShape(s);
   m_level = level;
@@ -129,7 +129,7 @@ void CraterTerrainMod<Shape>::apply(float &point, int x, int y) const
 }
 
 template <class Shape>
-void CraterTerrainMod<Shape>::setShape(float level, const Shape & s)
+void CraterTerrainMod<Shape>::setShape(float level, Shape const & s)
 {
   ShapeTerrainMod<Shape>::setShape(s);
   m_level = level;

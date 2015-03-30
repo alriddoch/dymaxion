@@ -20,10 +20,10 @@ class FillShader : public Shader {
   /// \brief Constructor
   ///
   /// @param params a map of parameters for the shader.
-  explicit FillShader(const Parameters & params);
+  explicit FillShader(Parameters const & params);
   virtual ~FillShader();
 
-  virtual bool checkIntersect(const Segment &) const;
+  virtual bool checkIntersect(Segment const &) const;
   virtual void shade(Surface &) const;
 
 };

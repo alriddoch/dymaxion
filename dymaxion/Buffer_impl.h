@@ -9,7 +9,7 @@
 namespace dymaxion {
 
 template <typename DataType>
-Buffer<DataType>::Buffer(const Segment & segment, unsigned int channels) :
+Buffer<DataType>::Buffer(Segment const & segment, unsigned int channels) :
   m_segment(segment), m_channels(channels), m_size(segment.getSize())
 {
 }

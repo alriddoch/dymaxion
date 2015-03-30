@@ -130,7 +130,7 @@ class Segment {
   /// @param x relative x coord of base point. Must be 0 or 1.
   /// @param y relative y coord of base point. Must be 0 or 1.
   /// @param bp BasePoint data to be used.
-  void setCornerPoint(unsigned int x, unsigned int y, const BasePoint & bp)
+  void setCornerPoint(unsigned int x, unsigned int y, BasePoint const & bp)
   {
     m_controlPoints(x, y) = bp;
     invalidate();
@@ -149,7 +149,7 @@ class Segment {
   }
 
   /// \brief Accessor for list of attached Surface objects.
-  const Surfacestore & getSurfaces() const
+  Surfacestore const & getSurfaces() const
   {
     return m_surfaces;
   }
@@ -244,7 +244,7 @@ class Segment {
  private:
   void checkMaxMin(float h);
 
-  void fill1d(const BasePoint& l, const BasePoint &h, float *array) const;
+  void fill1d(const BasePoint& l, BasePoint const &h, float *array) const;
 
   void fill2d(const BasePoint& p1, const BasePoint& p2,
               const BasePoint& p3, const BasePoint& p4);

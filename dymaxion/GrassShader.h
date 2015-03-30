@@ -98,7 +98,7 @@ class GrassShader : public Shader {
   /// \brief Constructor
   ///
   /// @param params a map of parameters for the shader.
-  explicit GrassShader(const Parameters & params);
+  explicit GrassShader(Parameters const & params);
   virtual ~GrassShader();
 
   /// Accessor for level above which the shader renders.
@@ -125,7 +125,7 @@ class GrassShader : public Shader {
     return m_intercept;
   }
 
-  virtual bool checkIntersect(const Segment &) const;
+  virtual bool checkIntersect(Segment const &) const;
   virtual void shade(Surface &) const;
 
 };

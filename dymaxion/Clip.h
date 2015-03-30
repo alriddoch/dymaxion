@@ -44,7 +44,7 @@ class Clip
   /// @param p point to be checked.
   /// @return true if p is outside the clip.
   template <class P>
-  bool inside(const P & p) const
+  bool inside(P const & p) const
   {
     typedef traits::point_access<P, axis> access;
     return comparison<float>() (access::get(p), threshold);
@@ -56,7 +56,7 @@ class Clip
   /// @param v one of of a line that crosses this clip
   /// @return a point where the line cross this clip.
   template <class P>
-  P clip(const P & u, const P & v) const
+  P clip(P const & u, const P & v) const
   {
     constexpr unsigned oaxis = axis ^ 1;
 

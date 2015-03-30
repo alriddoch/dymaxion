@@ -41,7 +41,7 @@ class Plant {
 
   /// Set the displacement to a new value.
   template <class P>
-  void setDisplacement(const P & d)
+  void setDisplacement(P const & d)
   {
     m_displacement[0] = traits::point_access<P, 0>::get(d);
     m_displacement[1] = traits::point_access<P, 1>::get(d);
@@ -55,13 +55,13 @@ class Plant {
   }
 
   /// Accessor for orientation.
-  const WFMath::Quaternion & getOrientation() const
+  WFMath::Quaternion const & getOrientation() const
   {
     return m_orientation;
   }
 
   /// Set the orientation to a new value.
-  void setOrientation(const WFMath::Quaternion & o)
+  void setOrientation(WFMath::Quaternion const & o)
   {
     m_orientation = o;
   }
@@ -79,7 +79,7 @@ class Plant {
   }
 
   /// Set a named parameter value for this plant.
-  void setParameter(const std::string &, float)
+  void setParameter(std::string const &, float)
   {
   }
 

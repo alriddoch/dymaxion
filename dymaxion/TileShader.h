@@ -35,7 +35,7 @@ class TileShader : public Shader {
     m_subShaders[id] = t;
   }
 
-  virtual bool checkIntersect(const Segment &) const;
+  virtual bool checkIntersect(Segment const &) const;
   virtual void shade(Surface &) const;
 
 };

@@ -96,7 +96,7 @@ class Forest {
 
   /// \brief Accessor for container of vegetation.
   /// @return A const reference to the container.
-  const PlantStore & getPlants() const
+  PlantStore const & getPlants() const
   {
     return m_plants;
   }
