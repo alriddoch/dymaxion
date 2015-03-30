@@ -172,13 +172,13 @@ AreaShader::AreaShader(int layer) :
 
 }
 
-bool AreaShader::checkIntersect(const Segment & s) const
+bool AreaShader::checkIntersect(Segment const & s) const
 {
   auto const & areas(s.getAreas());
   return (areas.count(m_layer) > 0);
 }
 
-void AreaShader::shade(Surface &s) const
+void AreaShader::shade(Surface & s) const
 {
   auto * data = s.getData();
   auto size = s.getSegment().getSize();

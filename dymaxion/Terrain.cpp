@@ -257,7 +257,7 @@ bool Terrain::getBasePoint(int x, int y, BasePoint & z) const
 /// @param x coordinate on the base point grid.
 /// @param y coordinate on the base point grid.
 /// @param z BasePoint value to be used at the given coordinate.
-void Terrain::setBasePoint(int x, int y, const BasePoint & z)
+void Terrain::setBasePoint(int x, int y, BasePoint const & z)
 {
   m_basePoints[x][y] = z;
   bool pointIsSet[3][3];

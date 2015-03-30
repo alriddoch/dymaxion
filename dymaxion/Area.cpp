@@ -88,7 +88,7 @@ void Area::removeFromSegment(Segment & s) const
   s.removeArea(this);
 }
 
-Area::ring Area::clipToSegment(const Segment & s) const
+Area::ring Area::clipToSegment(Segment const & s) const
 {
   // box reject
   if (!checkIntersects(s))

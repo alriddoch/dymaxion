@@ -272,7 +272,7 @@ inline void Segment::checkMaxMin(float h)
 /// Falloff is the decay of displacement as the fractal is refined.
 /// Array is size + 1 long. array[0] and array[size] are filled
 /// with the control points for the fractal.
-void Segment::fill1d(const BasePoint & l, BasePoint const &h,
+void Segment::fill1d(BasePoint const & l, BasePoint const &h,
                      float *array) const
 {
   array[0] = l.height();
@@ -324,8 +324,8 @@ void Segment::fill1d(const BasePoint & l, BasePoint const &h,
 /// For a tile where edges are to be filled by 1d fractals.
 /// Size must be a power of 2, array is (size + 1) * (size + 1) with the
 /// corners the control points.
-void Segment::fill2d(const BasePoint & p1, const BasePoint & p2,
-                     const BasePoint & p3, const BasePoint & p4)
+void Segment::fill2d(BasePoint const & p1, BasePoint const & p2,
+                     BasePoint const & p3, BasePoint const & p4)
 {
   assert(m_points != 0);
 
