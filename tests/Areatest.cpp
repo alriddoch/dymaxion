@@ -10,7 +10,7 @@
 #include <iostream>
 #include <fstream>
 
-void writePGMForSurface(const std::string & fileName, int sz, dymaxion::Surface* s)
+void writePGMForSurface(const std::string & fileName, int sz, dymaxion::Surface * s)
 {
   assert(s);
 
@@ -19,13 +19,13 @@ void writePGMForSurface(const std::string & fileName, int sz, dymaxion::Surface*
   file << sz << ' ' << sz << " 255" << std::endl;
 
   // now just blast out the binary
-  file.write((const char*) s->getData(), sz * sz);
+  file.write((const char *) s->getData(), sz * sz);
   file.close();
 }
 
 void testAreaShader()
 {
-  dymaxion::Area* a1 = new dymaxion::Area(1, false);
+  dymaxion::Area * a1 = new dymaxion::Area(1, false);
 
   dymaxion::Area::ring p;
   p.push_back(dymaxion::Area::point(3, 4));
@@ -38,7 +38,7 @@ void testAreaShader()
 
   a1->setShape(p);
 
-  dymaxion::Area* a2 = new dymaxion::Area(1, false);
+  dymaxion::Area * a2 = new dymaxion::Area(1, false);
 
   dymaxion::Area::ring p2;
   p2.push_back(dymaxion::Area::point(-2, 2));
@@ -58,7 +58,7 @@ void testAreaShader()
     new dymaxion::FillShader(dymaxion::Shader::Parameters());
   terrain.addShader(base_shader, 0);
 
-  dymaxion::AreaShader* ashade = new dymaxion::AreaShader(1);
+  dymaxion::AreaShader * ashade = new dymaxion::AreaShader(1);
   terrain.addShader(ashade, 1);
 
   terrain.setBasePoint(0, 0, -1);
@@ -71,7 +71,7 @@ void testAreaShader()
   terrain.addArea(a1);
   // terrain.addArea(a2);
 
-  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+  dymaxion::Segment * seg = terrain.getSegment(0, 0);
   assert(a1->checkIntersects(*seg));
 
   seg->populateSurfaces();
@@ -87,7 +87,7 @@ static const unsigned int seg_size = 8;
 
 void testAddToSegment()
 {
-  dymaxion::Area* a1 = new dymaxion::Area(1, false);
+  dymaxion::Area * a1 = new dymaxion::Area(1, false);
 
   dymaxion::Area::ring p;
   p.push_back(dymaxion::Area::point(1, 1));
@@ -109,9 +109,9 @@ void testAddToSegment()
   assert(success != 0);
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char * argv[])
 {
-  dymaxion::Area* a1 = new dymaxion::Area(1, false);
+  dymaxion::Area * a1 = new dymaxion::Area(1, false);
 
   dymaxion::Area::ring p;
   p.push_back(dymaxion::Area::point(-3, 4));
@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
 
   dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, seg_size);
 
-  dymaxion::AreaShader* ashade = new dymaxion::AreaShader(1);
+  dymaxion::AreaShader * ashade = new dymaxion::AreaShader(1);
   terrain.addShader(ashade, 0);
 
   terrain.setBasePoint(-2, -1, 5);
@@ -160,7 +160,7 @@ int main(int argc, char* argv[])
 
   terrain.addArea(a1);
 
-  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+  dymaxion::Segment * seg = terrain.getSegment(0, 0);
   assert(seg->getAreas().size() == 1);
   assert(seg->getAreas().count(1) == 1);
   assert(a1->checkIntersects(*seg));

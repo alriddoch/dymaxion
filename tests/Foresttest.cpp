@@ -95,7 +95,7 @@ int main()
     assert(plants.empty());
     assert(species.empty());
 
-    dymaxion::Area* ar = new dymaxion::Area(1, false);
+    dymaxion::Area * ar = new dymaxion::Area(1, false);
     dymaxion::Area::ring p;
     p.push_back(dymaxion::Area::point(5, 8));
     p.push_back(dymaxion::Area::point(1, 5));

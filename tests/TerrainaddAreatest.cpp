@@ -43,7 +43,7 @@ int main()
 
   // Create a test area with a shape which intersects
   // the Segment at 0,0
-  dymaxion::Area* a1 = new dymaxion::Area(0, false);
+  dymaxion::Area * a1 = new dymaxion::Area(0, false);
 
   dymaxion::Area::ring p;
   p.push_back(dymaxion::Area::point(3, 4));

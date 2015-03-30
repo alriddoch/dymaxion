@@ -384,7 +384,7 @@ Terrain::box Terrain::updateEffector(const Effector * eff)
   box const old_box = I->second;
 
 
-  std::set<Segment*> removed, added, updated;
+  std::set<Segment *> removed, added, updated;
 
   int lx = std::lrint(std::floor((old_box.min_corner().get<0>() - 1.f) / m_spacing));
   int ly = std::lrint(std::floor((old_box.min_corner().get<1>() - 1.f) / m_spacing));
@@ -421,7 +421,7 @@ Terrain::box Terrain::updateEffector(const Effector * eff)
         continue;
       }
 
-      std::set<Segment*>::iterator J = removed.find(s);
+      std::set<Segment *>::iterator J = removed.find(s);
       if (J == removed.end())
       {
         added.insert(s);
@@ -434,8 +434,8 @@ Terrain::box Terrain::updateEffector(const Effector * eff)
     }     // of y loop
   }   // of x loop
 
-  std::set<Segment*>::iterator J = removed.begin();
-  std::set<Segment*>::iterator Jend = removed.end();
+  std::set<Segment *>::iterator J = removed.begin();
+  std::set<Segment *>::iterator Jend = removed.end();
   for (; J != Jend; ++J)
   {
     eff->removeFromSegment(**J);

@@ -15,7 +15,7 @@ void testFillShader()
 
   dymaxion::Shader::Parameters params;
 
-  dymaxion::FillShader* dshade = new dymaxion::FillShader();
+  dymaxion::FillShader * dshade = new dymaxion::FillShader();
   delete dshade;
   dshade = new dymaxion::FillShader(params);
   terrain.addShader(dshade, 0);
@@ -25,7 +25,7 @@ void testFillShader()
   terrain.setBasePoint(1, 0, 2);
   terrain.setBasePoint(1, 1, 0.5);
 
-  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+  dymaxion::Segment * seg = terrain.getSegment(0, 0);
 
   seg->populate();
   seg->populateSurfaces();

@@ -689,7 +689,7 @@ void Segment::applyMod(const TerrainMod *t)
 /// segment.
 /// @param ar the area to be added.
 /// @return zero if the area was added, non-zero otherwise
-int Segment::addArea(const Area* ar)
+int Segment::addArea(const Area * ar)
 {
   m_areas.insert(Areastore::value_type(ar->getLayer(), ar));
 
@@ -720,7 +720,7 @@ int Segment::addArea(const Area* ar)
   return 0;
 }
 
-int Segment::updateArea(const Area* area)
+int Segment::updateArea(const Area * area)
 {
   Areastore::iterator I = m_areas.lower_bound(area->getLayer());
   Areastore::iterator Iend = m_areas.upper_bound(area->getLayer());
@@ -736,7 +736,7 @@ int Segment::updateArea(const Area* area)
 }
 
 /// \brief Remove an area from those that affect this segment.
-int Segment::removeArea(const Area* area)
+int Segment::removeArea(const Area * area)
 {
   Areastore::iterator I = m_areas.lower_bound(area->getLayer());
   Areastore::iterator Iend = m_areas.upper_bound(area->getLayer());

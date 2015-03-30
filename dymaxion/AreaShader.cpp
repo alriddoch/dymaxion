@@ -172,7 +172,7 @@ AreaShader::AreaShader(int layer) :
 
 }
 
-bool AreaShader::checkIntersect(Segment const & s) const
+bool AreaShader::checkIntersect(const Segment & s) const
 {
   auto const & areas(s.getAreas());
   return (areas.count(m_layer) > 0);
@@ -207,7 +207,7 @@ void AreaShader::shade(Surface & s) const
   }   // of areas in layer
 }
 
-void AreaShader::shadeArea(Surface & s, const Area* const ar) const
+void AreaShader::shadeArea(Surface & s, const Area * const ar) const
 {
   Area::ring const clipped = ar->clipToSegment(s.getSegment());
 

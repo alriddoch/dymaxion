@@ -67,7 +67,7 @@ class Forest {
   typedef std::vector<Species> PlantSpecies;
  private:
   /// Area of terrain affected by the presence of this forest.
-  Area* m_area = nullptr;
+  Area * m_area = nullptr;
 
   /// List of species in this forest.
   PlantSpecies m_species;
@@ -83,7 +83,7 @@ class Forest {
   ~Forest();
 
   /// \brief Accessor for polygonal area.
-  Area* getArea() const
+  Area * getArea() const
   {
     return m_area;
   }
@@ -101,7 +101,7 @@ class Forest {
     return m_plants;
   }
 
-  void setArea(Area* a);
+  void setArea(Area * a);
 
   void populate();
 

@@ -17,7 +17,7 @@ void testDepthShader()
   params[dymaxion::DepthShader::key_waterLevel] = 0.f;
   params[dymaxion::DepthShader::key_murkyDepth] = -12.f;
 
-  dymaxion::DepthShader* dshade = new dymaxion::DepthShader();
+  dymaxion::DepthShader * dshade = new dymaxion::DepthShader();
   delete dshade;
   dshade = new dymaxion::DepthShader(params);
   terrain.addShader(dshade, 0);
@@ -29,7 +29,7 @@ void testDepthShader()
   terrain.setBasePoint(2, 0, 2);
   terrain.setBasePoint(2, 1, 0.5);
 
-  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+  dymaxion::Segment * seg = terrain.getSegment(0, 0);
 
   seg->populateSurfaces();
   seg->populate();

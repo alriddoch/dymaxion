@@ -37,7 +37,7 @@ class RandCache
   ///
   /// @param seed the random seed value for generated numbers.
   /// @param o the ordering object that defines the sequence generated.
-  RandCache(uint32 seed, Ordering* o) :
+  RandCache(uint32 seed, Ordering * o) :
     m_rand(seed), m_ordering(o)
   {
   }
@@ -47,7 +47,7 @@ class RandCache
   /// @param seed the random seed block for generated numbers.
   /// @param seed_len the length of the seed block.
   /// @param o the ordering object that defines the sequence generated.
-  RandCache(uint32* seed, uint32 seed_len, Ordering* o) :
+  RandCache(uint32 * seed, uint32 seed_len, Ordering * o) :
     m_rand(seed, seed_len), m_ordering(o)
   {
   }
@@ -83,7 +83,7 @@ class RandCache
   /// \brief Store for the cache of values.
   std::vector<uint32> m_cache;
   /// \brief Ordering object that defines the ordering of the cache.
-  Ordering* m_ordering;
+  Ordering * m_ordering;
 };
 
 /// \brief A spiral around 0,0

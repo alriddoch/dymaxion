@@ -51,7 +51,7 @@ int main()
   p.push_back(dymaxion::Area::point(-50, 50));
   p.push_back(dymaxion::Area::point(-50, -50));
 
-  dymaxion::Area* ar = new dymaxion::Area(1, false);
+  dymaxion::Area * ar = new dymaxion::Area(1, false);
   ar->setShape(p);
   forest.setArea(ar);
 

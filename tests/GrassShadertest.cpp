@@ -19,7 +19,7 @@ void testGrassShader()
   params[dymaxion::GrassShader::key_cutoff] = 0.4f;
   params[dymaxion::GrassShader::key_intercept] = 4.f;
 
-  dymaxion::GrassShader* dshade = new dymaxion::GrassShader();
+  dymaxion::GrassShader * dshade = new dymaxion::GrassShader();
   delete dshade;
   dshade = new dymaxion::GrassShader(params);
   terrain.addShader(dshade, 0);
@@ -31,7 +31,7 @@ void testGrassShader()
   terrain.setBasePoint(2, 0, 2);
   terrain.setBasePoint(2, 1, 0.5);
 
-  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+  dymaxion::Segment * seg = terrain.getSegment(0, 0);
 
   seg->populateSurfaces();
   seg->populate();

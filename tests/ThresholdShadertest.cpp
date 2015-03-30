@@ -15,7 +15,7 @@ void testHighShader()
   dymaxion::Shader::Parameters params;
   params[dymaxion::HighShader::key_threshold] = 5.f;
 
-  dymaxion::HighShader* dshade = new dymaxion::HighShader();
+  dymaxion::HighShader * dshade = new dymaxion::HighShader();
   delete dshade;
   dshade = new dymaxion::HighShader(params);
   terrain.addShader(dshade, 0);
@@ -27,7 +27,7 @@ void testHighShader()
   terrain.setBasePoint(2, 0, 2);
   terrain.setBasePoint(2, 1, 0.5);
 
-  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+  dymaxion::Segment * seg = terrain.getSegment(0, 0);
 
   seg->populateSurfaces();
   seg->populate();
@@ -44,7 +44,7 @@ void testLowShader()
   dymaxion::Shader::Parameters params;
   params[dymaxion::LowShader::key_threshold] = 5.f;
 
-  dymaxion::LowShader* dshade = new dymaxion::LowShader();
+  dymaxion::LowShader * dshade = new dymaxion::LowShader();
   delete dshade;
   dshade = new dymaxion::LowShader(params);
   terrain.addShader(dshade, 0);
@@ -56,7 +56,7 @@ void testLowShader()
   terrain.setBasePoint(2, 0, 15);
   terrain.setBasePoint(2, 1, 19);
 
-  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+  dymaxion::Segment * seg = terrain.getSegment(0, 0);
 
   seg->populateSurfaces();
   seg->populate();
@@ -74,7 +74,7 @@ void testBandShader()
   params[dymaxion::BandShader::key_lowThreshold] = 2.f;
   params[dymaxion::BandShader::key_highThreshold] = 8.f;
 
-  dymaxion::BandShader* dshade = new dymaxion::BandShader();
+  dymaxion::BandShader * dshade = new dymaxion::BandShader();
   delete dshade;
   dshade = new dymaxion::BandShader(params);
   terrain.addShader(dshade, 0);
@@ -86,7 +86,7 @@ void testBandShader()
   terrain.setBasePoint(2, 0, 15);
   terrain.setBasePoint(2, 1, 19);
 
-  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+  dymaxion::Segment * seg = terrain.getSegment(0, 0);
 
   seg->populateSurfaces();
   seg->populate();

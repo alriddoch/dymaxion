@@ -28,7 +28,7 @@ class AreaShader : public Shader
 
  private:
   /// helper to shader a single area into the surface
-  void shadeArea(Surface & s, const Area* const ar) const;
+  void shadeArea(Surface & s, const Area * const ar) const;
 
   /// The layer number.
   int m_layer;

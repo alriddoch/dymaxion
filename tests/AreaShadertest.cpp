@@ -38,7 +38,7 @@ void AreaShadertest::teardown()
 
 void AreaShadertest::test_AreaShader()
 {
-  dymaxion::Area* a1 = new dymaxion::Area(1, false);
+  dymaxion::Area * a1 = new dymaxion::Area(1, false);
 
   dymaxion::Area::ring p;
   p.push_back(dymaxion::Area::point(3, 4));
@@ -52,7 +52,7 @@ void AreaShadertest::test_AreaShader()
 
   dymaxion::Terrain terrain(dymaxion::Terrain::SHADED, 16);
 
-  dymaxion::AreaShader* ashade = new dymaxion::AreaShader(1);
+  dymaxion::AreaShader * ashade = new dymaxion::AreaShader(1);
   terrain.addShader(ashade, 0);
 
   terrain.setBasePoint(0, 0, -1);
@@ -62,7 +62,7 @@ void AreaShadertest::test_AreaShader()
 
   terrain.addArea(a1);
 
-  dymaxion::Segment* seg = terrain.getSegment(0, 0);
+  dymaxion::Segment * seg = terrain.getSegment(0, 0);
   assert(a1->checkIntersects(*seg));
 
   seg->populateSurfaces();
