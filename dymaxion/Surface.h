@@ -19,7 +19,7 @@ class Surface : public Buffer<ColorT>{
   /// \brief The shader that populates this surface.
   Shader const & m_shader;
 
-  explicit Surface(Segment const & segment, const Shader & shader,
+  explicit Surface(Segment const & segment, Shader const & shader,
                    bool colors = true, bool alpha = true);
   virtual ~Surface();
 

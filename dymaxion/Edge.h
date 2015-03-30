@@ -28,7 +28,7 @@ class Edge
   ///
   /// @param a one end of the line defining the edge.
   /// @param b one end of the line defining the edge.
-  Edge(Point const & a, const Point & b)
+  Edge(Point const & a, Point const & b)
   {
     // horizontal segments should be discarded earlier
     assert((boost::geometry::traits::access<Point, 1>::get(a)) !=

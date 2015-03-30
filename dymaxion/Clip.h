@@ -56,7 +56,7 @@ class Clip
   /// @param v one of of a line that crosses this clip
   /// @return a point where the line cross this clip.
   template <class P>
-  P clip(P const & u, const P & v) const
+  P clip(P const & u, P const & v) const
   {
     constexpr unsigned oaxis = axis ^ 1;
 
