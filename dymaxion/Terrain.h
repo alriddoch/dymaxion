@@ -51,10 +51,10 @@ class Terrain {
   typedef std::map<int, Segmentcolumn> Segmentstore;
 
   /// \brief STL map to store sparse array of Shader pointers.
-  typedef std::map<int, const Shader *> Shaderstore;
+  typedef std::map<int, Shader const *> Shaderstore;
 
   /// \brief STL map to store terrain effectors.
-  typedef std::map<const Effector *, box> Effectorstore;
+  typedef std::map<Effector const *, box> Effectorstore;
 
   /// \brief value provided for no flags set.
   static const unsigned int DEFAULT = 0x0000;

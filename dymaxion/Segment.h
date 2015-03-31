@@ -24,7 +24,7 @@ namespace dymaxion {
 class Terrain;
 class Surface;
 class TerrainMod;
-typedef std::set<const TerrainMod *> ModList;
+typedef std::set<TerrainMod const *> ModList;
 class Area;
 
 // This class will need to be reference counted if we want the code to
@@ -47,7 +47,7 @@ class Segment {
   typedef std::map<int, Surface *> Surfacestore;
 
   /// STL multimap of pointers to Area objects affecting this segment.
-  typedef std::multimap<int, const Area *> Areastore;
+  typedef std::multimap<int, Area const *> Areastore;
  private:
   /// Distance between segments
   const unsigned int m_res;
@@ -161,7 +161,7 @@ class Segment {
   }
 
   /// \brief Accessor for buffer containing height points.
-  const float * getPoints() const
+  float const * getPoints() const
   {
     return m_points;
   }
@@ -173,7 +173,7 @@ class Segment {
   }
 
   /// \brief Accessor for buffer containing surface normals.
-  const float * getNormals() const
+  float const * getNormals() const
   {
     return m_normals;
   }
@@ -221,9 +221,9 @@ class Segment {
   /// \brief The 3d box covered by this segment
   box_type getBox() const;
 
-  int addMod(const TerrainMod *t);
-  int updateMod(const TerrainMod *t);
-  int removeMod(const TerrainMod *t);
+  int addMod(TerrainMod const *t);
+  int updateMod(TerrainMod const *t);
+  int removeMod(TerrainMod const *t);
   void clearMods();
 
   /// \brief Accessor for multimap of Area objects.
@@ -237,9 +237,9 @@ class Segment {
     return m_modList;
   }
 
-  int addArea(const Area * a);
-  int updateArea(const Area * a);
-  int removeArea(const Area * a);
+  int addArea(Area const * a);
+  int updateArea(Area const * a);
+  int removeArea(Area const * a);
 
  private:
   void checkMaxMin(float h);
@@ -252,7 +252,7 @@ class Segment {
   float qRMD(WFMath::MTRand & rng, float nn, float fn, float ff, float nf,
              float roughness, float falloff, float depth) const;
 
-  void applyMod(const TerrainMod *t);
+  void applyMod(TerrainMod const *t);
 
   void invalidateSurfaces();
 

@@ -37,7 +37,7 @@ void Area::setShape(ring const & p)
   boost::geometry::envelope(m_shape, m_box);
 }
 
-void Area::setShader(const Shader * shader) const
+void Area::setShader(Shader const * shader) const
 {
   m_shader = shader;
 }

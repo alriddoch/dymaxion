@@ -207,7 +207,7 @@ void AreaShader::shade(Surface & s) const
   }   // of areas in layer
 }
 
-void AreaShader::shadeArea(Surface & s, const Area * const ar) const
+void AreaShader::shadeArea(Surface & s, Area const * const ar) const
 {
   Area::ring const clipped = ar->clipToSegment(s.getSegment());
 

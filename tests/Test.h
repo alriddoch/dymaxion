@@ -15,7 +15,7 @@ namespace Test {
 class Test
 {
  public:
-  const char * name;
+  char const * name;
   std::function<void()> method;
 };
 
@@ -49,46 +49,46 @@ class Suite
   int run();
 
   template <typename V>
-  int assertTrue(const char * n, V const & val,
-                 const char * func, const char * file, int line);
+  int assertTrue(char const * n, V const & val,
+                 char const * func, char const * file, int line);
 
   template <typename L, typename R>
-  int assertEqual(const char * l, L const & lval,
-                  const char * r, R const & rval,
-                  const char * func, const char * file, int line);
+  int assertEqual(char const * l, L const & lval,
+                  char const * r, R const & rval,
+                  char const * func, char const * file, int line);
 
   template <typename L, typename R>
-  int assertNotEqual(const char * l, L const & lval,
-                     const char * r, R const & rval,
-                     const char * func, const char * file, int line);
+  int assertNotEqual(char const * l, L const & lval,
+                     char const * r, R const & rval,
+                     char const * func, char const * file, int line);
 
   template <typename L, typename R>
-  int assertGreater(const char * l, L const & lval,
-                    const char * r, R const & rval,
-                    const char * func, const char * file, int line);
+  int assertGreater(char const * l, L const & lval,
+                    char const * r, R const & rval,
+                    char const * func, char const * file, int line);
 
   template <typename L, typename R>
-  int assertNotGreater(const char * l, L const & lval,
-                       const char * r, R const & rval,
-                       const char * func, const char * file, int line);
+  int assertNotGreater(char const * l, L const & lval,
+                       char const * r, R const & rval,
+                       char const * func, char const * file, int line);
 
   template <typename L, typename R>
-  int assertLess(const char * l, L const & lval,
-                 const char * r, R const & rval,
-                 const char * func, const char * file, int line);
+  int assertLess(char const * l, L const & lval,
+                 char const * r, R const & rval,
+                 char const * func, char const * file, int line);
 
   template <typename L, typename R>
-  int assertNotLess(const char * l, L const & lval,
-                    const char * r, R const & rval,
-                    const char * func, const char * file, int line);
+  int assertNotLess(char const * l, L const & lval,
+                    char const * r, R const & rval,
+                    char const * func, char const * file, int line);
 
   template <typename T>
-  int assertNull(const char * n, const T * ptr,
-                 const char * func, const char * file, int line);
+  int assertNull(char const * n, T const * ptr,
+                 char const * func, char const * file, int line);
 
   template <typename T>
-  int assertNotNull(const char * n, const T * ptr,
-                    const char * func, const char * file, int line);
+  int assertNotNull(char const * n, T const * ptr,
+                    char const * func, char const * file, int line);
 
 };
 
@@ -145,8 +145,8 @@ int Suite::run()
 }
 
 template <typename V>
-int Suite::assertTrue(const char * n, V const & val,
-                      const char * func, const char * file, int line)
+int Suite::assertTrue(char const * n, V const & val,
+                      char const * func, char const * file, int line)
 {
   if (!val)
   {
@@ -158,9 +158,9 @@ int Suite::assertTrue(const char * n, V const & val,
 }
 
 template <typename L, typename R>
-int Suite::assertEqual(const char * l, L const & lval,
-                       const char * r, R const & rval,
-                       const char * func, const char * file, int line)
+int Suite::assertEqual(char const * l, L const & lval,
+                       char const * r, R const & rval,
+                       char const * func, char const * file, int line)
 {
   if (lval != rval)
   {
@@ -173,9 +173,9 @@ int Suite::assertEqual(const char * l, L const & lval,
 }
 
 template <typename L, typename R>
-int Suite::assertNotEqual(const char * l, L const & lval,
-                          const char * r, R const & rval,
-                          const char * func, const char * file, int line)
+int Suite::assertNotEqual(char const * l, L const & lval,
+                          char const * r, R const & rval,
+                          char const * func, char const * file, int line)
 {
   if (lval == rval)
   {
@@ -188,9 +188,9 @@ int Suite::assertNotEqual(const char * l, L const & lval,
 }
 
 template <typename L, typename R>
-int Suite::assertGreater(const char * l, L const & lval,
-                         const char * r, R const & rval,
-                         const char * func, const char * file, int line)
+int Suite::assertGreater(char const * l, L const & lval,
+                         char const * r, R const & rval,
+                         char const * func, char const * file, int line)
 {
   if (!(lval > rval))
   {
@@ -203,9 +203,9 @@ int Suite::assertGreater(const char * l, L const & lval,
 }
 
 template <typename L, typename R>
-int Suite::assertNotGreater(const char * l, L const & lval,
-                            const char * r, R const & rval,
-                            const char * func, const char * file, int line)
+int Suite::assertNotGreater(char const * l, L const & lval,
+                            char const * r, R const & rval,
+                            char const * func, char const * file, int line)
 {
   if (lval > rval)
   {
@@ -218,9 +218,9 @@ int Suite::assertNotGreater(const char * l, L const & lval,
 }
 
 template <typename L, typename R>
-int Suite::assertLess(const char * l, L const & lval,
-                      const char * r, R const & rval,
-                      const char * func, const char * file, int line)
+int Suite::assertLess(char const * l, L const & lval,
+                      char const * r, R const & rval,
+                      char const * func, char const * file, int line)
 {
   if (!(lval < rval))
   {
@@ -233,9 +233,9 @@ int Suite::assertLess(const char * l, L const & lval,
 }
 
 template <typename L, typename R>
-int Suite::assertNotLess(const char * l, L const & lval,
-                         const char * r, R const & rval,
-                         const char * func, const char * file, int line)
+int Suite::assertNotLess(char const * l, L const & lval,
+                         char const * r, R const & rval,
+                         char const * func, char const * file, int line)
 {
   if (lval < rval)
   {
@@ -248,8 +248,8 @@ int Suite::assertNotLess(const char * l, L const & lval,
 }
 
 template <typename T>
-int Suite::assertNull(const char * n, const T * ptr,
-                      const char * func, const char * file, int line)
+int Suite::assertNull(char const * n, T const * ptr,
+                      char const * func, char const * file, int line)
 {
   if (ptr != 0)
   {
@@ -261,8 +261,8 @@ int Suite::assertNull(const char * n, const T * ptr,
 }
 
 template <typename T>
-int Suite::assertNotNull(const char * n, const T * ptr,
-                         const char * func, const char * file, int line)
+int Suite::assertNotNull(char const * n, T const * ptr,
+                         char const * func, char const * file, int line)
 {
   if (ptr == 0)
   {

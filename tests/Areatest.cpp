@@ -19,7 +19,7 @@ void writePGMForSurface(std::string const & fileName, int sz, dymaxion::Surface 
   file << sz << ' ' << sz << " 255" << std::endl;
 
   // now just blast out the binary
-  file.write((const char *) s->getData(), sz * sz);
+  file.write((char const *) s->getData(), sz * sz);
   file.close();
 }
 

@@ -602,7 +602,7 @@ bool Segment::clipToSegment(rect_type const & bbox,
 ///
 /// Called from Terrain::addMod(). If this point data is already valid,
 /// the modification will be applied directly.
-int Segment::addMod(const TerrainMod *t)
+int Segment::addMod(TerrainMod const *t)
 {
   m_modList.insert(t);
   invalidate();
@@ -612,7 +612,7 @@ int Segment::addMod(const TerrainMod *t)
 /// \brief Update a TerrainMod in this Segment.
 ///
 /// Called from Terrain::removeMod().
-int Segment::updateMod(const TerrainMod * tm)
+int Segment::updateMod(TerrainMod const * tm)
 {
   // FIXME Are we really removing it?
   ModList::const_iterator I = m_modList.find(tm);
@@ -627,7 +627,7 @@ int Segment::updateMod(const TerrainMod * tm)
 /// \brief Remove a TerrainMod from this Segment.
 ///
 /// Called from Terrain::removeMod().
-int Segment::removeMod(const TerrainMod * tm)
+int Segment::removeMod(TerrainMod const * tm)
 {
   // FIXME Are we really removing it?
   ModList::iterator I = m_modList.find(tm);
@@ -658,7 +658,7 @@ void Segment::clearMods()
 ///
 /// Usually called from Segment::populate(). It is not normally necessary to
 /// call this function from the application.
-void Segment::applyMod(const TerrainMod *t)
+void Segment::applyMod(TerrainMod const *t)
 {
   unsigned int lx, hx, ly, hy;
   Effector::box const & bbox = t->bbox();
@@ -689,7 +689,7 @@ void Segment::applyMod(const TerrainMod *t)
 /// segment.
 /// @param ar the area to be added.
 /// @return zero if the area was added, non-zero otherwise
-int Segment::addArea(const Area * ar)
+int Segment::addArea(Area const * ar)
 {
   m_areas.insert(Areastore::value_type(ar->getLayer(), ar));
 
@@ -720,7 +720,7 @@ int Segment::addArea(const Area * ar)
   return 0;
 }
 
-int Segment::updateArea(const Area * area)
+int Segment::updateArea(Area const * area)
 {
   Areastore::iterator I = m_areas.lower_bound(area->getLayer());
   Areastore::iterator Iend = m_areas.upper_bound(area->getLayer());
@@ -736,7 +736,7 @@ int Segment::updateArea(const Area * area)
 }
 
 /// \brief Remove an area from those that affect this segment.
-int Segment::removeArea(const Area * area)
+int Segment::removeArea(Area const * area)
 {
   Areastore::iterator I = m_areas.lower_bound(area->getLayer());
   Areastore::iterator Iend = m_areas.upper_bound(area->getLayer());

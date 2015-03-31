@@ -73,7 +73,7 @@ class Area : public Effector
     return m_shape;
   }
 
-  const Shader * getShader() const
+  Shader const * getShader() const
   {
     return m_shader;
   }
@@ -104,7 +104,7 @@ class Area : public Effector
   /// The geometric shape.
   ring m_shape;
   /// Shader that shades this area
-  mutable const Shader * m_shader = 0;
+  mutable Shader const * m_shader = 0;
 };
 
 }

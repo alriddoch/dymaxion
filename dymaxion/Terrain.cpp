@@ -61,7 +61,7 @@ Terrain::~Terrain()
 ///
 /// As each shader is added, surfaces are added to all existing segments
 /// to store the result of the shader.
-void Terrain::addShader(const Shader * t, int id)
+void Terrain::addShader(Shader const * t, int id)
 {
   if (m_shaders.count(id))
   {
@@ -93,7 +93,7 @@ void Terrain::addShader(const Shader * t, int id)
 /// \brief remove a Shader from the list for this terrain.
 ///
 /// As each shader is removed, surfaces are removed from existing segments
-void Terrain::removeShader(const Shader * t, int id)
+void Terrain::removeShader(Shader const * t, int id)
 {
 
   m_shaders.erase(m_shaders.find(id));
@@ -345,7 +345,7 @@ Segment * Terrain::getSegment(int x, int y) const
 }
 
 /// \brief Add an effector to the terrain
-void Terrain::addEffector(const Effector * eff)
+void Terrain::addEffector(Effector const * eff)
 {
   //work out which segments are overlapped by this effector
   //note that the bbox is expanded by one grid unit because
@@ -372,7 +372,7 @@ void Terrain::addEffector(const Effector * eff)
   }   // of x loop
 }
 
-Terrain::box Terrain::updateEffector(const Effector * eff)
+Terrain::box Terrain::updateEffector(Effector const * eff)
 {
   Effectorstore::iterator I = m_effectors.find(eff);
 
@@ -460,7 +460,7 @@ Terrain::box Terrain::updateEffector(const Effector * eff)
 }
 
 /// \brief Remove an effector from the terrain
-void Terrain::removeEffector(const Effector * eff)
+void Terrain::removeEffector(Effector const * eff)
 {
   m_effectors.erase(eff);
 
@@ -491,17 +491,17 @@ void Terrain::removeEffector(const Effector * eff)
 /// for storing the TerrainMod objects, so the apropriate Segment objects
 /// are found and the TerrainMode is passed to each in turn.
 /// @param t reference to the TerrainMod object to be applied.
-void Terrain::addMod(const TerrainMod * mod)
+void Terrain::addMod(TerrainMod const * mod)
 {
   addEffector(mod);
 }
 
-Terrain::box Terrain::updateMod(const TerrainMod * mod)
+Terrain::box Terrain::updateMod(TerrainMod const * mod)
 {
   return updateEffector(mod);
 }
 
-void Terrain::removeMod(const TerrainMod * mod)
+void Terrain::removeMod(TerrainMod const * mod)
 {
   removeEffector(mod);
 }
@@ -510,7 +510,7 @@ void Terrain::removeMod(const TerrainMod * mod)
 ///
 /// Add a new Area object to the terrain, which defines a modification
 /// to the surface.
-void Terrain::addArea(const Area * area)
+void Terrain::addArea(Area const * area)
 {
   int layer = area->getLayer();
 
@@ -524,7 +524,7 @@ void Terrain::addArea(const Area * area)
 }
 
 /// \brief Apply changes to an area modifier to the terrain.
-Terrain::box Terrain::updateArea(const Area * area)
+Terrain::box Terrain::updateArea(Area const * area)
 {
   return updateEffector(area);
 }
@@ -533,7 +533,7 @@ Terrain::box Terrain::updateArea(const Area * area)
 ///
 /// Remove an existing Area object from the terrain, and mark all the
 /// affected terrain surfaces as invalid.
-void Terrain::removeArea(const Area * area)
+void Terrain::removeArea(Area const * area)
 {
   removeEffector(area);
 }
