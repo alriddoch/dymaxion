@@ -136,6 +136,76 @@ struct access<std::tuple<FloatT, FloatT>, 1>
 
 };
 
+template <class FloatT>
+struct tag<std::tuple<FloatT, FloatT, FloatT> >
+{
+  typedef point_tag type;
+};
+
+template <class FloatT>
+struct coordinate_type<std::tuple<FloatT, FloatT, FloatT> >
+{
+  typedef FloatT type;
+};
+
+template <class FloatT>
+struct coordinate_system<std::tuple<FloatT, FloatT, FloatT> >
+{
+  typedef cs::cartesian type;
+};
+
+template <class FloatT>
+struct dimension<std::tuple<FloatT, FloatT, FloatT> >
+  : boost::mpl::int_<3>
+{ };
+
+template <class FloatT>
+struct access<std::tuple<FloatT, FloatT, FloatT>, 0>
+{
+  static FloatT get(std::tuple<FloatT, FloatT, FloatT> const & p)
+  {
+    return std::get<0>(p);
+
+  };
+
+  static void set(std::tuple<FloatT, FloatT, FloatT> & p, FloatT const & value)
+  {
+    std::get<0>(p) = value;
+  }
+
+};
+
+template <class FloatT>
+struct access<std::tuple<FloatT, FloatT, FloatT>, 1>
+{
+  static FloatT get(std::tuple<FloatT, FloatT, FloatT> const & p)
+  {
+    return std::get<1>(p);
+
+  };
+
+  static void set(std::tuple<FloatT, FloatT, FloatT> & p, FloatT const & value)
+  {
+    std::get<1>(p) = value;
+  }
+};
+
+template <class FloatT>
+struct access<std::tuple<FloatT, FloatT, FloatT>, 2>
+{
+  static FloatT get(std::tuple<FloatT, FloatT, FloatT> const & p)
+  {
+    return std::get<2>(p);
+
+  };
+
+  static void set(std::tuple<FloatT, FloatT, FloatT> & p, FloatT const & value)
+  {
+    std::get<2>(p) = value;
+  }
+
+};
+
 }
 
 }
