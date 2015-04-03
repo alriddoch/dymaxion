@@ -37,7 +37,7 @@ libdymaxion_HEADERS = \
 	TerrainMod.h \
 	TerrainMod_impl.h \
 	BasePoint.h \
-	Segment.h \
+	Segment_impl.h Segment.h \
 	Buffer_impl.h Buffer.h \
 	Shader.h \
 	FillShader.h \

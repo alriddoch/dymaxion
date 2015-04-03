@@ -203,6 +203,10 @@ class Segment {
   void populateNormals();
   void populateSurfaces();
 
+  template <typename Vector>
+  void getHeightAndNormalAny(float x, float y, float &h,
+                             Vector & normal) const;
+
   /// \brief Accessor for the maximum height value in this Segment.
   float getMax() const
   {

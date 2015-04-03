@@ -2,10 +2,52 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2009 Alistair Riddoch
 
-#include <dymaxion/Segment.h>
+#include "Test.h"
+
+#include <dymaxion/Segment_impl.h>
+
+#include <dymaxion/tuple_traits.h>
 
 #include <wfmath/point.h>
 #include <wfmath/axisbox.h>
+
+class Segmenttest : public Test::Suite
+{
+ private:
+  dymaxion::Segment * s;
+ public:
+  Segmenttest();
+
+  void setup() override;
+  void teardown() override;
+
+  void test_getHeightAndNormalAny();
+};
+
+Segmenttest::Segmenttest()
+{
+  ADD_TEST(Segmenttest::test_getHeightAndNormalAny);
+}
+
+void Segmenttest::setup()
+{
+  s = new dymaxion::Segment(0, 0, 64);
+
+  s->populate();
+  s->populateNormals();
+}
+
+void Segmenttest::teardown()
+{
+  delete s;
+}
+
+void Segmenttest::test_getHeightAndNormalAny()
+{
+  std::tuple<float, float, float> normal;
+  float h;
+  s->getHeightAndNormalAny(0, 0, h, normal);
+}
 
 int main()
 {
@@ -32,7 +74,8 @@ int main()
                     dymaxion::Segment::point_type(100, 100)
                     ), lx, hx, ly, hy);
 
-  return 0;
+  Segmenttest t;
+  return t.run();
 }
 
 // stubs
