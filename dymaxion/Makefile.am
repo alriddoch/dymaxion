@@ -55,6 +55,7 @@ libdymaxion_HEADERS = \
 	Area.h \
 	AreaShader.h \
 	traits.h \
+	tuple_traits.h \
 	wfmath_traits.h
 
 noinst_HEADERS = Clip.h Edge.h Interp.h
