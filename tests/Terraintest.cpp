@@ -2,14 +2,51 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2003 Alistair Riddoch
 
-#include <dymaxion/Terrain.h>
+#include "Test.h"
+
+#include <dymaxion/Terrain_impl.h>
 #include <dymaxion/Segment.h>
 #include <dymaxion/FillShader.h>
+#include <dymaxion/tuple_traits.h>
 
 #include <wfmath/const.h>
 
 #include <iostream>
 #include <cstdlib>
+
+class Terraintest : public Test::Suite
+{
+ public:
+  Terraintest();
+
+  void setup() override;
+  void teardown() override;
+
+  void test_getHeightAndNormalAny();
+};
+
+Terraintest::Terraintest()
+{
+  ADD_TEST(Terraintest::test_getHeightAndNormalAny);
+}
+
+void Terraintest::setup()
+{
+}
+
+void Terraintest::teardown()
+{
+}
+
+void Terraintest::test_getHeightAndNormalAny()
+{
+  dymaxion::Terrain emptyTerrain(dymaxion::Terrain::DEFAULT, 8);
+
+  // TODO: This basically only tests things compile.
+  float height;
+  std::tuple<float, float, float> normal;
+  emptyTerrain.getHeightAndNormalAny(0, 0, height, normal);
+}
 
 int main()
 {
