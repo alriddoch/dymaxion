@@ -19,11 +19,11 @@ void Segment::getHeightAndNormalAny(float x, float y, float & n,
   getHeightAndNormal(x, y, n, inner_normal);
 
   std::get<0>(inner_normal) =
-      boost::geometry::traits::access<Vector, 0>::get(normal);
+    boost::geometry::traits::access<Vector, 0>::get(normal);
   std::get<1>(inner_normal) =
-      boost::geometry::traits::access<Vector, 1>::get(normal);
+    boost::geometry::traits::access<Vector, 1>::get(normal);
   std::get<2>(inner_normal) =
-      boost::geometry::traits::access<Vector, 1>::get(normal);
+    boost::geometry::traits::access<Vector, 1>::get(normal);
 }
 
 } // namespace dymaxion

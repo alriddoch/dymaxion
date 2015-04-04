@@ -188,6 +188,7 @@ struct access<std::tuple<FloatT, FloatT, FloatT>, 1>
   {
     std::get<1>(p) = value;
   }
+
 };
 
 template <class FloatT>

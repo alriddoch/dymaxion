@@ -18,13 +18,14 @@ bool Terrain::getHeightAndNormalAny(float x, float y, float & height,
   std::tuple<float, float, float> inner_normal;
   bool res = getHeightAndNormal(x, y, height, inner_normal);
 
-  if (res) {
+  if (res)
+  {
     std::get<0>(inner_normal) =
-        boost::geometry::traits::access<Vector, 0>::get(normal);
+      boost::geometry::traits::access<Vector, 0>::get(normal);
     std::get<1>(inner_normal) =
-        boost::geometry::traits::access<Vector, 1>::get(normal);
+      boost::geometry::traits::access<Vector, 1>::get(normal);
     std::get<2>(inner_normal) =
-        boost::geometry::traits::access<Vector, 1>::get(normal);
+      boost::geometry::traits::access<Vector, 1>::get(normal);
   }
   return res;
 }
