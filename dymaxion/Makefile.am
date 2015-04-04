@@ -32,7 +32,7 @@ libdymaxiondir = $(includedir)/dymaxion-0.3/dymaxion
 libdymaxion_HEADERS = \
 	dymaxion.h \
 	Matrix.h \
-	Terrain.h \
+	Terrain_impl.h Terrain.h \
 	Effector.h \
 	TerrainMod.h \
 	TerrainMod_impl.h \
