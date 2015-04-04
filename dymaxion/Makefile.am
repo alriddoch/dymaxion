@@ -25,7 +25,8 @@ libdymaxion_0_3_la_SOURCES = \
 	Plant.cpp \
 	Forest.cpp \
 	Area.cpp \
-	AreaShader.cpp
+	AreaShader.cpp \
+	tuple_vector.h
 
 libdymaxiondir = $(includedir)/dymaxion-0.3/dymaxion
 
