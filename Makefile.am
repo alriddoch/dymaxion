@@ -1,4 +1,4 @@
-SUBDIRS = dymaxion tests
+SUBDIRS = dymaxion
 
 ACLOCAL_AMFLAGS = -I m4
 
