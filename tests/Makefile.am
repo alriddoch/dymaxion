@@ -1,10 +1,8 @@
 TESTS = mercatortest Terraintest Shadertest TerrainModtest Intersecttest \
-        testPhys timeSeg Planttest Foresttest testQRNG Areatest Areatest1 \
-        TileShadertest ShaderFactorytest testWFMath Buffertest \
-        Segmenttest AreaShadertest BasePointtest DepthShadertest \
-        FillShadertest GrassShadertest ThresholdShadertest Matrixtest \
-        TerrainaddAreatest Segmentperf traitstest Edgetest Interptest \
-        Cliptest Effectortest
+        testPhys timeSeg Foresttest testQRNG Areatest \
+        TileShadertest ShaderFactorytest testWFMath \
+        AreaShadertest DepthShadertest \
+        FillShadertest GrassShadertest ThresholdShadertest
 
 AM_CPPFLAGS = -I$(top_srcdir)
 
@@ -42,17 +40,11 @@ testPhys_SOURCES = testPhys.cpp
 
 timeSeg_SOURCES = timeSeg.cpp util_timer.h util_timer.cpp
 
-Planttest_SOURCES = Planttest.cpp
-Planttest_LDADD = $(top_builddir)/dymaxion/Plant.lo
-
 Foresttest_SOURCES = Foresttest.cpp
 
 testQRNG_SOURCES = testQRNG.cpp
 
 Areatest_SOURCES = Areatest.cpp
-
-Areatest1_SOURCES = Areatest1.cpp
-Areatest1_LDADD = $(top_builddir)/dymaxion/Area.lo
 
 TileShadertest_SOURCES = TileShadertest.cpp
 
@@ -60,16 +52,7 @@ ShaderFactorytest_SOURCES = ShaderFactorytest.cpp
 
 testWFMath_SOURCES = testWFMath.cpp
 
-Buffertest_SOURCES = Buffertest.cpp
-Buffertest_LDADD = $(top_builddir)/dymaxion/Buffer.lo
-
-Segmenttest_SOURCES = Segmenttest.cpp
-Segmenttest_LDADD = $(top_builddir)/dymaxion/Segment.lo
-
 AreaShadertest_SOURCES = AreaShadertest.cpp
-
-BasePointtest_SOURCES = BasePointtest.cpp
-BasePointtest_LDADD = $(top_builddir)/dymaxion/BasePoint.lo
 
 DepthShadertest_SOURCES = DepthShadertest.cpp
 
@@ -78,28 +61,3 @@ FillShadertest_SOURCES = FillShadertest.cpp
 GrassShadertest_SOURCES = GrassShadertest.cpp
 
 ThresholdShadertest_SOURCES = ThresholdShadertest.cpp
-
-Matrixtest_SOURCES = Matrixtest.cpp
-Matrixtest_LDADD = $(top_builddir)/dymaxion/Matrix.lo
-
-TerrainaddAreatest_SOURCES = TerrainaddAreatest.cpp
-TerrainaddAreatest_LDADD = $(top_builddir)/dymaxion/Terrain.lo \
-                           $(top_builddir)/dymaxion/Segment.lo \
-                           $(top_builddir)/dymaxion/Area.lo
-
-Segmentperf_SOURCES = Segmentperf.cpp
-Segmentperf_LDADD = $(top_builddir)/dymaxion/Segment.lo
-
-traitstest_SOURCES = traitstest.cpp
-
-Edgetest_SOURCES = Edgetest.cpp
-Edgetest_LDADD =
-
-Interptest_SOURCES = Interptest.cpp
-Interptest_LDADD =
-
-Cliptest_SOURCES = Cliptest.cpp
-Cliptest_LDADD =
-
-Effectortest_SOURCES = Effectortest.cpp
-Effectortest_LDADD = $(top_builddir)/dymaxion/Effector.lo

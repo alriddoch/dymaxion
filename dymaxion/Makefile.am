@@ -60,3 +60,46 @@ libdymaxion_HEADERS = \
 	wfmath_traits.h
 
 noinst_HEADERS = Clip.h Edge.h Interp.h
+
+TESTS = Areatest BasePointtest Buffertest Cliptest Edgetest Effectortest \
+        Interptest Matrixtest Planttest Segmentperf Segmenttest \
+        TerrainaddAreatest traitstest
+
+check_PROGRAMS = $(TESTS)
+
+Areatest_SOURCES = Areatest.cpp
+Areatest_LDADD = Area.lo
+
+BasePointtest_SOURCES = BasePointtest.cpp
+BasePointtest_LDADD = BasePoint.lo
+
+Buffertest_SOURCES = Buffertest.cpp
+Buffertest_LDADD = Buffer.lo
+
+Cliptest_SOURCES = Cliptest.cpp
+
+Edgetest_SOURCES = Edgetest.cpp
+
+Effectortest_SOURCES = Effectortest.cpp
+Effectortest_LDADD = Effector.lo
+
+Interptest_SOURCES = Interptest.cpp
+
+Matrixtest_SOURCES = Matrixtest.cpp
+Matrixtest_LDADD = Matrix.lo
+
+Planttest_SOURCES = Planttest.cpp
+Planttest_LDADD = Plant.lo
+
+Segmentperf_SOURCES = Segmentperf.cpp
+Segmentperf_LDADD = Segment.lo
+
+Segmenttest_SOURCES = Segmenttest.cpp
+Segmenttest_LDADD = Segment.lo
+
+TerrainaddAreatest_SOURCES = TerrainaddAreatest.cpp
+TerrainaddAreatest_LDADD = $(top_builddir)/dymaxion/Terrain.lo \
+                           $(top_builddir)/dymaxion/Segment.lo \
+                           $(top_builddir)/dymaxion/Area.lo
+
+traitstest_SOURCES = traitstest.cpp

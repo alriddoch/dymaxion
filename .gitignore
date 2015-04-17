@@ -34,9 +34,9 @@ missing
 stamp-h1
 test-driver
 tests/mercatortest
-tests/*test
-tests/*.log
-tests/*.trs
+*test
+*.log
+*.trs
 tests/timeSeg
 tests/testPhys
 tests/testQRNG
