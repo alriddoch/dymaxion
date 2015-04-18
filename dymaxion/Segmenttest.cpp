@@ -22,6 +22,7 @@ class Segmenttest : public Test::Suite
   void teardown() override;
 
   void test_getHeightAndNormalAny();
+
 };
 
 Segmenttest::Segmenttest()

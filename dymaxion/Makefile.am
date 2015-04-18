@@ -5,61 +5,61 @@ lib_LTLIBRARIES = libdymaxion-0.3.la
 libdymaxion_0_3_la_LDFLAGS = -version-info @DYMAXION_VERSION_INFO@
 
 libdymaxion_0_3_la_SOURCES = \
-	dymaxion.cpp \
-	Matrix.cpp \
-	Terrain.cpp \
-	Effector.cpp \
-	TerrainMod.cpp \
-	BasePoint.cpp \
-	Buffer.cpp \
-	Segment.cpp \
-	Shader.cpp \
-	FillShader.cpp \
-	ThresholdShader.cpp \
-	DepthShader.cpp \
-	GrassShader.cpp \
-	TileShader.cpp \
-	ShaderFactory.cpp \
-	Intersect.cpp \
-	Surface.cpp \
-	Plant.cpp \
-	Forest.cpp \
 	Area.cpp \
 	AreaShader.cpp \
+	BasePoint.cpp \
+	Buffer.cpp \
+	Clip.h \
+	DepthShader.cpp \
+	dymaxion.cpp \
+	Edge.h \
+	Effector.cpp \
+	FillShader.cpp \
+	Forest.cpp \
+	GrassShader.cpp \
+	Interp.h
+	Intersect.cpp \
+	Matrix.cpp \
+	Plant.cpp \
+	Segment.cpp \
+	Shader.cpp \
+	ShaderFactory.cpp \
+	Surface.cpp \
+	Terrain.cpp \
+	TerrainMod.cpp \
+	ThresholdShader.cpp \
+	TileShader.cpp \
 	tuple_vector.h
 
 libdymaxiondir = $(includedir)/dymaxion-0.3/dymaxion
 
 libdymaxion_HEADERS = \
-	dymaxion.h \
-	Matrix.h \
-	Terrain_impl.h Terrain.h \
-	Effector.h \
-	TerrainMod.h \
-	TerrainMod_impl.h \
-	BasePoint.h \
-	Segment_impl.h Segment.h \
-	Buffer_impl.h Buffer.h \
-	Shader.h \
-	FillShader.h \
-	ThresholdShader.h \
-	DepthShader.h \
-	GrassShader.h \
-	TileShader.h \
-	ShaderFactory.h \
-	ShaderFactory_impl.h \
-	Intersect.h \
-	Surface.h \
-	Plant.h \
-	Forest.h \
-	RandCache.h \
 	Area.h \
 	AreaShader.h \
+	BasePoint.h \
+	Buffer_impl.h Buffer.h \
+	DepthShader.h \
+	dymaxion.h \
+	Effector.h \
+	FillShader.h \
+	Forest.h \
+	GrassShader.h \
+	Intersect.h \
+	Matrix.h \
+	Plant.h \
+	RandCache.h \
+	Segment_impl.h Segment.h \
+	Shader.h \
+	ShaderFactory_impl.h ShaderFactory.h \
+	Surface.h \
+	Terrain_impl.h Terrain.h \
+	TerrainMod.h \
+	TerrainMod_impl.h \
+	ThresholdShader.h \
+	TileShader.h \
 	traits.h \
 	tuple_traits.h \
 	wfmath_traits.h
-
-noinst_HEADERS = Clip.h Edge.h Interp.h
 
 TESTS = Areaintegration AreaShadertest Areatest BasePointtest Buffertest \
         Cliptest DepthShadertest Edgetest Effectortest FillShadertest \

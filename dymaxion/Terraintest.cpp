@@ -23,6 +23,7 @@ class Terraintest : public Test::Suite
   void teardown() override;
 
   void test_getHeightAndNormalAny();
+
 };
 
 Terraintest::Terraintest()
