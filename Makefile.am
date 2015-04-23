@@ -1,4 +1,4 @@
-SUBDIRS = dymaxion
+SUBDIRS = dymaxion math
 
 ACLOCAL_AMFLAGS = -I m4
 

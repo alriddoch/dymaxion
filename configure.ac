@@ -99,6 +99,7 @@ AC_SUBST(DYMAXION_REQUIRES)
 AC_CONFIG_FILES([
 	Makefile
 	dymaxion/Makefile
+	math/Makefile
 	dymaxion.spec
 	mingw32-dymaxion.spec
 	dymaxion-0.3.pc
