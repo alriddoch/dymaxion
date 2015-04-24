@@ -36,6 +36,8 @@ void vectortest::test_dot()
         b[] = { 0, 1};
 
   float c = vector2_dot(a, b);
+
+  ASSERT_EQUAL(c, 0);
 }
 
 int main()
