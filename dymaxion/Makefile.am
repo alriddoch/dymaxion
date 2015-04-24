@@ -17,7 +17,7 @@ libdymaxion_0_3_la_SOURCES = \
 	FillShader.cpp \
 	Forest.cpp \
 	GrassShader.cpp \
-	Interp.h
+	Interp.h \
 	Intersect.cpp \
 	Matrix.cpp \
 	Plant.cpp \
