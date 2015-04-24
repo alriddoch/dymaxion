@@ -1,3 +1,5 @@
+AM_CPPFLAGS = -I$(top_builddir) -I$(top_srcdir)
+
 noinst_LIBRARIES = libgeomath.a
 
 libgeomath_a_SOURCES = \

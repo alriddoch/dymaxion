@@ -2,7 +2,7 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2015 Alistair Riddoch
 
-#include "Test.h"
+#include "test/Test.h"
 
 #include <dymaxion/Effector.h>
 

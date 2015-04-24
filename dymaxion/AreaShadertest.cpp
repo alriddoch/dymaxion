@@ -2,7 +2,7 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2009 Alistair Riddoch
 
-#include "Test.h"
+#include "test/Test.h"
 
 #include <dymaxion/Terrain.h>
 #include <dymaxion/Area.h>

@@ -2,7 +2,7 @@
 // the GNU General Public License (See COPYING for details).
 // Copyright (C) 2014 Alistair Riddoch
 
-#include "Test.h"
+#include "test/Test.h"
 
 #include <dymaxion/Edge.h>
 #include <dymaxion/tuple_traits.h>
