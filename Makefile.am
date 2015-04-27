@@ -1,4 +1,4 @@
-SUBDIRS = dymaxion math
+SUBDIRS = dymaxion math melkor
 
 ACLOCAL_AMFLAGS = -I m4
 

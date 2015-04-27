@@ -100,6 +100,7 @@ AC_CONFIG_FILES([
 	Makefile
 	dymaxion/Makefile
 	math/Makefile
+	melkor/Makefile
 	dymaxion.spec
 	mingw32-dymaxion.spec
 	dymaxion-0.3.pc
